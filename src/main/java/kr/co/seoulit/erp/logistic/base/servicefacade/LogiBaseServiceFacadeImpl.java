@@ -3,6 +3,8 @@ package kr.co.seoulit.erp.logistic.base.servicefacade;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.seoulit.erp.logistic.base.applicationservice.WorkplaceApplicationService;
+import kr.co.seoulit.erp.logistic.base.to.WorkplaceInfoTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class LogiBaseServiceFacadeImpl implements LogiBaseServiceFacade {
 
 	@Autowired
 	private LogiCodeApplicationService codeAS;
+
+	@Autowired
+	private WorkplaceApplicationService wpAS;
 
 	@Override
 	public ArrayList<LogiCodeDetailTO> getDetailCodeList(String divisionCode) {
@@ -45,5 +50,34 @@ public class LogiBaseServiceFacadeImpl implements LogiBaseServiceFacade {
 
 		return codeAS.changeCodeUseCheckProcess(detailCodeList);
 	}
+
+
+
+	@Override
+	public ArrayList<WorkplaceInfoTO> getWorkplaceDetailList(String workplaceCode) {
+		return  wpAS.getWorkplaceDetailList(workplaceCode);
+	}
+
+	@Override
+	public ArrayList<WorkplaceInfoTO> getWorkplaceList() {
+		return  wpAS.getWorkplaceList();
+	}
+
+	@Override
+	public void deleteWorkplaceCode(String workplaceCode) {
+		wpAS.deleteWorkplaceCode(workplaceCode);
+	}
+
+	@Override
+	public void insertWorkplaceCode(WorkplaceInfoTO workplaceInfoTO) {
+		wpAS.insertWorkplace(workplaceInfoTO);
+	}
+
+	@Override
+	public void updateWorkplaceCode(WorkplaceInfoTO workplaceInfoTO) {
+		wpAS.updateWorkplaceCode(workplaceInfoTO);
+
+	}
+
 
 }
