@@ -2,11 +2,14 @@ package kr.co.seoulit.erp.logistic.production.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.seoulit.erp.logistic.production.servicefacade.MpsServiceFacade;
 import kr.co.seoulit.erp.sys.to.response.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.ModelMap;
@@ -22,17 +25,31 @@ import kr.co.seoulit.erp.logistic.production.to.SalesPlanInMpsAvailableTO;
 import static kr.co.seoulit.erp.sys.to.response.Response.success;
 
 @SuppressWarnings("unused")
+@Slf4j
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/logi/production/*")
 public class MpsController {
 
+	/**
+	 *
+	 * 23.5.10. ~ 1차 프로젝트
+	 * MPS/MRP 분리, 필드 주입 대신 생성자 주입
+	 * HttpServlet 제거, 스파게티 소스 의존성 제거, Controller에서의 비즈니스 로직 제거, ApplicationService 제거
+	 * JSON Type 응답
+	 *
+	 */
+
+	private final ProductionServiceFacade productionSF;
+	private final MpsServiceFacade mpsSF;
+	private final ModelMap modelMap = new ModelMap();
+
 	@Autowired
-	private ProductionServiceFacade productionSF;
+	public MpsController(ProductionServiceFacade productionSF, MpsServiceFacade mpsSF) {
+		this.productionSF = productionSF;
+		this.mpsSF = mpsSF;
+	}
 
-	private ModelMap modelMap = new ModelMap();
-
-	private Gson gson = new Gson();
 
 	@RequestMapping("/searchMpsInfo")
 	public Response searchMpsInfo(HttpServletRequest request, HttpServletResponse response) {
@@ -61,28 +78,18 @@ public class MpsController {
 		return success(modelMap);
 	}
 
+
 	@RequestMapping("/searchContractDetailInMpsAvailable")
-	@ResponseStatus(HttpStatus.OK)
-	public Response searchContractDetailListInMpsAvailable(HttpServletRequest request, HttpServletResponse response) {
+	@ResponseBody
+	public Map<String, Object> searchContractDetailListInMpsAvailable(@RequestParam String startDate,
+																	  @RequestParam String endDate,
+																	  @RequestParam String searchCondition) {
 
-		String searchCondition = request.getParameter("searchCondition");
-		String startDate = request.getParameter("startDate");
-		String endDate = request.getParameter("endDate");
-
-		try {
-
-			ArrayList<ContractDetailInMpsAvailableTO> contractDetailInMpsAvailableList = productionSF
-					.getContractDetailListInMpsAvailable(searchCondition, startDate, endDate);
-			// contractDate, 2019-07-01, 2019-07-31
-			modelMap.put("gridRowJson", contractDetailInMpsAvailableList);
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		return success(modelMap);
+		Map<String, Object> result = mpsSF.getContractDetailListInMpsAvailable(searchCondition, startDate, endDate);
+		log.info("result = {}", result);
+		return result;
 	}
+
 
 	@RequestMapping("/searchSalesPlanInMpsAvailable")
 	public ModelMap searchSalesPlanListInMpsAvailable(HttpServletRequest request, HttpServletResponse response) {

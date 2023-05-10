@@ -12,4 +12,5 @@ public class WarehouseTO extends BaseTO {
 	private String warehouseUseOrNot;
 	private String description;
 
+
 }
