@@ -35,16 +35,7 @@ public class MpsApplicationServiceImpl implements MpsApplicationService {
 		return mpsDAO.selectMpsList(param);
 	}
 
-	public ArrayList<ContractDetailInMpsAvailableTO> getContractDetailListInMpsAvailable(String searchCondition,
-			String startDate, String endDate) {
 
-		HashMap<String, String> param = new HashMap<>();
-		param.put("startDate", startDate);
-		param.put("endDate", endDate);
-		param.put("searchCondition", searchCondition);
-
-		return contractDetailDAO.selectContractDetailListInMpsAvailable(param);
-	}
 
 	public ArrayList<SalesPlanInMpsAvailableTO> getSalesPlanListInMpsAvailable(String searchCondition, String startDate,
 			String endDate) {

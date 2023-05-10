@@ -19,7 +19,7 @@ public interface ContractDetailDAO {
 	public int selectContractDetailCount(String contractNo);
 	/*
 	 * public void insertContractDetail(ContractDetailTO TO);
-	 * 
+	 *
 	 * public void updateContractDetail(ContractDetailTO TO);
 	 */
 
@@ -29,8 +29,7 @@ public interface ContractDetailDAO {
 
 	void updateContractDetail(ContractDetailTO bean);
 
-	public ArrayList<ContractDetailInMpsAvailableTO> selectContractDetailListInMpsAvailable(
-			HashMap<String, String> param);
+
 
 	public void changeMpsStatusOfContractDetail(HashMap<String, String> param);
 

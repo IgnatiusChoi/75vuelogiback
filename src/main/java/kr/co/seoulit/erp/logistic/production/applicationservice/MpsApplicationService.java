@@ -11,8 +11,6 @@ public interface MpsApplicationService {
 
 	public ArrayList<MpsTO> getMpsList(String startDate, String endDate, String includeMrpApply);
 
-	public ArrayList<ContractDetailInMpsAvailableTO> getContractDetailListInMpsAvailable(String searchCondition,
-			String startDate, String endDate);
 
 	public ArrayList<SalesPlanInMpsAvailableTO> getSalesPlanListInMpsAvailable(String searchCondition, String startDate,
 			String endDate);

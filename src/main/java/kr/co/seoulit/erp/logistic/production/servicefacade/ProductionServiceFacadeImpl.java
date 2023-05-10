@@ -2,7 +2,10 @@ package kr.co.seoulit.erp.logistic.production.servicefacade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+import kr.co.seoulit.erp.logistic.production.dao.MpsDAO;
+import kr.co.seoulit.erp.logistic.sales.dao.ContractDetailDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,18 +31,15 @@ public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 	@Autowired
 	private WorkOrderApplicationService workOrderAS;
 
+
+
 	@Override
 	public ArrayList<MpsTO> getMpsList(String startDate, String endDate, String includeMrpApply) {
 
 		return mpsAS.getMpsList(startDate, endDate, includeMrpApply);
 	}
 
-	@Override
-	public ArrayList<ContractDetailInMpsAvailableTO> getContractDetailListInMpsAvailable(String searchCondition,
-																						 String startDate, String endDate) {
 
-		return mpsAS.getContractDetailListInMpsAvailable(searchCondition, startDate, endDate);
-	}
 
 	@Override
 	public ArrayList<SalesPlanInMpsAvailableTO> getSalesPlanListInMpsAvailable(String searchCondition, String startDate,
