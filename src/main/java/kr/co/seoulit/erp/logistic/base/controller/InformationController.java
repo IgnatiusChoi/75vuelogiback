@@ -38,4 +38,25 @@ public class InformationController {
         }
         return modelMap;
     }
+
+    @Autowired
+    private DeptServiceFacade deptSF;
+
+    private ModelMap modelMap = new ModelMap();
+
+    @RequestMapping(value = "/base/getdeptInfo", method = RequestMethod.GET)
+    public ModelMap getDeptInfo() {
+        try {
+            ArrayList<DeptInfoTO> deptInfo = deptSF.getDeptInfo();
+            modelMap.put("deptInfo", deptInfo);
+            modelMap.put("errorCode", 1);
+            modelMap.put("errorMsg", "성공");
+
+        } catch (Exception e2) {
+            e2.printStackTrace();
+            modelMap.put("errorCode", -2);
+            modelMap.put("errorMsg", e2.getMessage());
+        }
+        return modelMap;
+    }
 }
