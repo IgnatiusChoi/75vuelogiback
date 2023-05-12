@@ -18,17 +18,6 @@ public interface ProductionServiceFacade {
 	public ArrayList<MpsTO> getMpsList(String startDate, String endDate, String includeMrpApply);
 
 
-	public ArrayList<SalesPlanInMpsAvailableTO> getSalesPlanListInMpsAvailable(String searchCondition, String startDate,
-																			   String endDate);
-
-	public HashMap<String, Object> convertContractDetailToMps(
-			ContractDetailInMpsAvailableTO contractDetailInMpsAvailableTO);
-
-	public HashMap<String, Object> convertSalesPlanToMps(
-			ArrayList<SalesPlanInMpsAvailableTO> contractDetailInMpsAvailableList);
-
-	public HashMap<String, Object> batchMpsListProcess(ArrayList<MpsTO> mpsTOList);
-
 	public ArrayList<MrpTO> searchMrpList(String mrpGatheringStatusCondition);
 
 	public ArrayList<MrpTO> searchMrpList(String dateSearchCondtion, String startDate, String endDate);

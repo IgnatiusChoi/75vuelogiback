@@ -41,36 +41,10 @@ public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 
 
 
-	@Override
-	public ArrayList<SalesPlanInMpsAvailableTO> getSalesPlanListInMpsAvailable(String searchCondition, String startDate,
-																			   String endDate) {
 
-		return mpsAS.getSalesPlanListInMpsAvailable(searchCondition, startDate, endDate);
 
-	}
 
-	@Override
-	public HashMap<String, Object> convertContractDetailToMps(
-			ContractDetailInMpsAvailableTO contractDetailInMpsAvailableTO) {
 
-		return mpsAS.convertContractDetailToMps(contractDetailInMpsAvailableTO);
-
-	}
-
-	@Override
-	public HashMap<String, Object> convertSalesPlanToMps(
-			ArrayList<SalesPlanInMpsAvailableTO> contractDetailInMpsAvailableList) {
-
-		return mpsAS.convertSalesPlanToMps(contractDetailInMpsAvailableList);
-
-	}
-
-	@Override
-	public HashMap<String, Object> batchMpsListProcess(ArrayList<MpsTO> mpsTOList) {
-
-		return mpsAS.batchMpsListProcess(mpsTOList);
-
-	}
 
 	@Override
 	public ArrayList<MrpTO> searchMrpList(String mrpGatheringStatusCondition) {

@@ -15,20 +15,6 @@ public interface MpsApplicationService {
 	public ArrayList<SalesPlanInMpsAvailableTO> getSalesPlanListInMpsAvailable(String searchCondition, String startDate,
 			String endDate);
 
-	public HashMap<String, Object> convertContractDetailToMps(
-			ContractDetailInMpsAvailableTO contractDetailInMpsAvailableTO);
 
-	public HashMap<String, Object> convertSalesPlanToMps(
-			ArrayList<SalesPlanInMpsAvailableTO> contractDetailInMpsAvailableList);
 
-	public HashMap<String, Object> batchMpsListProcess(ArrayList<MpsTO> mpsTOList);
-
-	// applicationService 내부 메서드
-	public String getNewMpsNo(String mpsPlanDate);
-
-	// applicationService 내부 메서드
-	public void changeMpsStatusInContractDetail(String mpsStatus, String contractDetailNo);
-
-	// applicationService 내부 메서드
-	public void changeMpsStatusInSalesPlan(String mpsStatus, String salesPlanNo);
 }
