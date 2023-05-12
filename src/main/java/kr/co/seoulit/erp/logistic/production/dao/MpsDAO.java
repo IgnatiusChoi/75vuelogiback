@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import kr.co.seoulit.erp.logistic.production.to.ContractDetailInMpsAvailableTO;
+import kr.co.seoulit.erp.logistic.sales.to.ContractDetailTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.seoulit.erp.logistic.production.to.MpsTO;
@@ -30,5 +31,9 @@ public interface MpsDAO {
 
 	public ArrayList<ContractDetailInMpsAvailableTO> selectContractDetailListInMpsAvailable(
 			String searchCondition, String startDate, String endDate);
+
+	public void changeMpsStatusOfContractDetail(HashMap<String, String> param);
+
+	public List<MpsTO> searchMpsList();
 
 }

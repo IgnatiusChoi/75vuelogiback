@@ -3,6 +3,7 @@
 
 <mapper namespace="kr.co.seoulit.erp.logistic.production.dao.MpsDAO">
 
+	<!-- MPS등록 가능한 수주 조회 -->
 	<resultMap id="contractDetailInMpsAvailableResult" type="contractDetailInMpsAvailableTO" >
 		<result property="contractNo" column="CONTRACT_NO" />
 		<result property="contractType" column="CONTRACT_TYPE" />
@@ -46,9 +47,40 @@
 		<if test='searchCondition == "dueDateOfContract"'>
 			AND TO_DATE(CD.DUE_DATE_OF_CONTRACT,'YYYY-MM-DD') BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
 		</if>
-
-
 	</select>
+	<!-- MPS등록 가능한 수주 조회 끝 -->
+
+	<!-- MPS등록 시 contract_detail에 processing status 'Y' 변경 -->
+	<update id="changeMpsStatusOfContractDetail" parameterType="map">
+		UPDATE CONTRACT_DETAIL
+		SET    PROCESSING_STATUS = #{mpsStatus:CHAR}
+		WHERE  CONTRACT_DETAIL_NO = #{contractDetailNo}
+	</update>
+	<!-- MPS등록 시 contract_detail에 processing status 'Y' 변경 끝 -->
+
+	<!-- 차트 데이터 용 MPS List 조회-->
+	<resultMap id="searchMpsList" type="mpsTO">
+		<result property="mpsPlanDate" column="MPS_PLAN_DATE"  />
+		<result property="mpsNo" column="MPS_NO"  />
+		<result property="contractDetailNo" column="CONTRACT_DETAIL_NO"  />
+		<result property="dueDateOfMps" column="DUE_DATE_OF_MPS"  />
+		<result property="salesPlanNo" column="SALES_PLAN_NO"  />
+		<result property="itemCode" column="ITEM_CODE"  />
+		<result property="itemName" column="ITEM_NAME"  />
+		<result property="mpsPlanAmount" column="MPS_PLAN_AMOUNT"  />
+		<result property="mrpApplyStatus" column="MRP_APPLY_STATUS"  />
+		<result property="description" column="DESCRIPTION"  />
+		<result property="unitOfMps" column="UNIT_OF_MPS"  />
+		<result property="mpsPlanClassification" column="MPS_PLAN_CLASSIFICATION"  />
+		<result property="scheduledEndDate" column="SCHEDULED_END_DATE"  />
+	</resultMap>
+
+	<select id="searchMpsList" resultMap="searchMpsList">
+		SELECT *
+		FROM MPS
+	</select>
+	<!-- 차트 데이터 용 MPS List 조회 끝 -->
+
 
 	<resultMap id="mpsList" type="mpsTO">
 		<result property="mpsPlanDate" column="MPS_PLAN_DATE"  />
@@ -77,7 +109,6 @@
 
 
 	</select>
-
 
 	<resultMap id="mpsNoResult" type="mpsTO" >
 		<result property="mpsNo" column="MPS_NO"/>
