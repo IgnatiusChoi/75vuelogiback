@@ -3,16 +3,14 @@ package kr.co.seoulit.erp.logistic.sales.applicationservice;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.seoulit.erp.logistic.sales.dao.*;
 import kr.co.seoulit.erp.logistic.sales.repository.EstimateDetailRepository;
 import kr.co.seoulit.erp.logistic.sales.to.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import kr.co.seoulit.erp.logistic.sales.dao.ContractDAO;
-import kr.co.seoulit.erp.logistic.sales.dao.ContractDetailDAO;
-import kr.co.seoulit.erp.logistic.sales.dao.EstimateDAO;
-import kr.co.seoulit.erp.logistic.sales.dao.EstimateDetailDAO;
-
+@Slf4j
 @Component
 public class ContractApplicationServiceImpl implements ContractApplicationService {
 
@@ -26,6 +24,8 @@ public class ContractApplicationServiceImpl implements ContractApplicationServic
 	private EstimateDetailDAO estimateDetailDAO;
 	@Autowired
 	private EstimateDetailRepository estimateDetailRepository;
+
+
 
 	public ArrayList<ContractInfoTO> getContractList(String startDate, String endDate) {
 
@@ -102,20 +102,14 @@ public class ContractApplicationServiceImpl implements ContractApplicationServic
 	@Override
 	public ArrayList<EstimateTO> getEstimateListInContractAvailable(String startDate, String endDate) {
 
-		ArrayList<EstimateTO> estimateListInContractAvailable = null;
 		HashMap<String, String> param = new HashMap<>();
 		param.put("startDate", startDate);
 		param.put("endDate", endDate);
-
-		estimateListInContractAvailable = contractDAO.selectEstimateListInContractAvailable(param);
-		// estimateListInContractAvailable = EstimateListInContractAvailable
-
+		ArrayList<EstimateTO> estimateListInContractAvailable = contractDAO.selectEstimateListInContractAvailable(param);
 		for (EstimateTO bean : estimateListInContractAvailable) {
-
 			bean.setEstimateDetailTOList(estimateDetailDAO.selectEstimateDetailList(bean.getEstimateNo()));
 
 		}
-
 		return estimateListInContractAvailable;
 	}
 
@@ -137,7 +131,7 @@ public class ContractApplicationServiceImpl implements ContractApplicationServic
 //************************* 2020.09.04 63기 양지훈 수정 시작 *************************
 //	description:	파라미터 변경
 //					주석 변경
-//					
+//
 	@Override
 	public HashMap<String, Object> addNewContract(String contractDate, String personCodeInCharge,
 			ContractTO workingContractBean, ArrayList<EstimateDetailTO> estimateDetailArray) {
@@ -179,6 +173,7 @@ public class ContractApplicationServiceImpl implements ContractApplicationServic
 
 		// ES ... 견적일련번호 , CO ... 수주일련번호
 		contractDetailDAO.procedureInsertContractDetail(param);
+		System.out.println("???");
 		/**/
 		return param;
 	}

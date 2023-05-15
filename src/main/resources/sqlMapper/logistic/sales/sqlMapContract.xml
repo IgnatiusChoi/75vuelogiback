@@ -32,8 +32,8 @@
 		<result property="deliveryCompletionStatus" column="DELIVERY_COMPLETION_STATUS" />
 <!-- 		<result property="contractDetailTOList" select="contractDetail.selectContractDetailList" column="{contractNo=CONTRACT_NO}" />  -->
 	</resultMap>
-	
-	
+
+
 	<resultMap id="estimateResult" type="estimateTO">
 	  <result property="contractStatus" column="CONTRACT_STATUS"/>
 	  <result property="customerCode" column="CUSTOMER_CODE"/>
@@ -44,17 +44,20 @@
 	  <result property="estimateRequester" column="ESTIMATE_REQUESTER"/>
 	  <result property="personCodeInCharge" column="PERSON_CODE_IN_CHARGE" />
 <!-- 	  <result property="estimateDetailTOList" -->
-<!--			resultMap="estimateDetail.estimateDetailResult" />  --> 
+<!--			resultMap="estimateDetail.estimateDetailResult" />  -->
 <!-- 	  <result property="estimateDetailTOList" select="estimateDetail.selectEstimateDetailList" column="{estimateNo=ESTIMATE_NO}" /> -->
 	</resultMap>
 
+
+	<!-- 수주등록 가능한 견적목록 조회
+	 납기일 정보 알수 없어 견적상세테이블과 join -->
 	<select id="selectEstimateListInContractAvailable" parameterType="map" resultMap="estimateResult">
-		SELECT CONTRACT_STATUS,CUSTOMER_CODE,DESCRIPTION,EFFECTIVE_DATE,ESTIMATE_DATE,ESTIMATE_NO,
-		ESTIMATE_REQUESTER,PERSON_CODE_IN_CHARGE
-		FROM ESTIMATE
-		WHERE CONTRACT_STATUS IS NULL
-		AND TO_DATE(EFFECTIVE_DATE,'YYYY-MM-DD') >= TO_DATE(SYSDATE,'YYYY-MM-DD')
-		AND TO_DATE(ESTIMATE_DATE, 'YYYY-MM-DD')
+		SELECT *
+		FROM ESTIMATE ES, ESTIMATE_DETAIL ED
+		WHERE ES.CONTRACT_STATUS IS NULL
+		AND ES.ESTIMATE_NO = ED.ESTIMATE_NO
+		AND TO_DATE(ES.EFFECTIVE_DATE,'YYYY-MM-DD') >= TO_DATE(SYSDATE,'YYYY-MM-DD')
+		AND TO_DATE(ES.ESTIMATE_DATE, 'YYYY-MM-DD')
 		BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
 	</select>
 
@@ -94,7 +97,7 @@
 		AND D.PROCESSING_STATUS IS NOT NULL
 		AND D.OPERATION_COMPLETED_STATUS IS NOT NULL
 	</select>
-	
+
 
 	<select id="selectDeliverableContractListByCustomer" parameterType="String" resultMap="contractInfoResult">
 
@@ -152,33 +155,33 @@
 
 	ESTIMATE_LIST AS ( SELECT * FROM ESTIMATE )
 
-	SELECT 
-		T1.CONTRACT_NO, 
-		T1.ESTIMATE_NO, 
-		T1.CONTRACT_TYPE, 
-		T2.DETAIL_CODE_NAME AS CONTRACT_TYPE_NAME, 
-		T1.CUSTOMER_CODE, 
+	SELECT
+		T1.CONTRACT_NO,
+		T1.ESTIMATE_NO,
+		T1.CONTRACT_TYPE,
+		T2.DETAIL_CODE_NAME AS CONTRACT_TYPE_NAME,
+		T1.CUSTOMER_CODE,
 		T3.DETAIL_CODE_NAME AS
-		CUSTOMER_NAME, 
-		E.ESTIMATE_DATE, 
+		CUSTOMER_NAME,
+		E.ESTIMATE_DATE,
 		T1.CONTRACT_DATE,
 		T1.CONTRACT_REQUESTER,
-		T1.PERSON_CODE_IN_CHARGE, 
+		T1.PERSON_CODE_IN_CHARGE,
 		T4.DETAIL_CODE_NAME AS EMP_NAME_IN_CHARGE,
-		T1.DESCRIPTION, 
-		T1.DELIVERY_COMPLETION_STATUS 
-	FROM 
-		CONTRACT_LIST T1 , 
-		CODE_DETAIL_LIST T2 , 
-		CODE_DETAIL_LIST T3, 
-		CODE_DETAIL_LIST T4, 
-		ESTIMATE_LIST E 
-	WHERE T1.CONTRACT_TYPE =T2.DETAIL_CODE 
+		T1.DESCRIPTION,
+		T1.DELIVERY_COMPLETION_STATUS
+	FROM
+		CONTRACT_LIST T1 ,
+		CODE_DETAIL_LIST T2 ,
+		CODE_DETAIL_LIST T3,
+		CODE_DETAIL_LIST T4,
+		ESTIMATE_LIST E
+	WHERE T1.CONTRACT_TYPE =T2.DETAIL_CODE
 	AND T1.CUSTOMER_CODE = T3.DETAIL_CODE
-	AND T1.PERSON_CODE_IN_CHARGE = T4.DETAIL_CODE 
+	AND T1.PERSON_CODE_IN_CHARGE = T4.DETAIL_CODE
 	AND T1.ESTIMATE_NO =E.ESTIMATE_NO
 	</select>
-	
+
 	<select id="selectContractDetailList" parameterType="map" resultMap="contractInfoResult">
 
 	SELECT * FROM CONTRACT_DETAIL WHERE CONTRACT_NO=#{contractNo}
@@ -188,17 +191,17 @@
 
 		WITH CODE_DETAIL_LIST AS
 					( SELECT DETAIL_CODE, DETAIL_CODE_NAME FROM CODE_DETAIL ) ,
-					
+
 					CONTRACT_LIST AS ( SELECT * FROM CONTRACT WHERE CUSTOMER_CODE = #{customerCode} ) ,
-					
+
 					ESTIMATE_LIST AS ( SELECT * FROM ESTIMATE )
-					
-					SELECT T1.CONTRACT_NO, T1.ESTIMATE_NO, 
+
+					SELECT T1.CONTRACT_NO, T1.ESTIMATE_NO,
 					T1.CONTRACT_TYPE, T2.DETAIL_CODE_NAME AS CONTRACT_TYPE_NAME,
 					T1.CUSTOMER_CODE, T3.DETAIL_CODE_NAME AS CUSTOMER_NAME,
-					E.ESTIMATE_DATE, T1.CONTRACT_DATE, T1.CONTRACT_REQUESTER, 
+					E.ESTIMATE_DATE, T1.CONTRACT_DATE, T1.CONTRACT_REQUESTER,
 					T1.PERSON_CODE_IN_CHARGE, T4.DETAIL_CODE_NAME AS EMP_NAME_IN_CHARGE,
-					T1.DESCRIPTION FROM CONTRACT_LIST T1 , 
+					T1.DESCRIPTION FROM CONTRACT_LIST T1 ,
 					CODE_DETAIL_LIST T2 , CODE_DETAIL_LIST T3, CODE_DETAIL_LIST T4, ESTIMATE_LIST E
 					WHERE T1.CONTRACT_TYPE = T2.DETAIL_CODE	AND T1.CUSTOMER_CODE = T3.DETAIL_CODE
 					AND T1.PERSON_CODE_IN_CHARGE = T4.DETAIL_CODE AND T1.ESTIMATE_NO = E.ESTIMATE_NO
@@ -215,14 +218,14 @@
 		( CONTRACT_NO, ESTIMATE_NO, CONTRACT_TYPE, CUSTOMER_CODE,
 		CONTRACT_DATE, CONTRACT_REQUESTER, PERSON_CODE_IN_CHARGE, DESCRIPTION
 		)
-		values ( 
-		#{contractNo:VARCHAR} , 
+		values (
+		#{contractNo:VARCHAR} ,
 		#{estimateNo:VARCHAR} ,
 		#{contractType:VARCHAR} ,
-		#{customerCode:VARCHAR}, 
-		#{contractDate:VARCHAR} , 
+		#{customerCode:VARCHAR},
+		#{contractDate:VARCHAR} ,
 		#{contractRequester:NVARCHAR} ,
-		#{personCodeInCharge:VARCHAR} , 
+		#{personCodeInCharge:VARCHAR} ,
 		#{description:NVARCHAR} )
 	</insert>
 
@@ -237,5 +240,5 @@
 		DESCRIPTION = #{description:NVARCHAR}
 		WHERE CONTRACT_NO = #{contractNo}
 	</update>
-	
+
 </mapper>
