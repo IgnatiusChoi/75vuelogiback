@@ -54,23 +54,25 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
 
     /*****************************
                 MPS 등록
+    (batchMpsListProcess - "INSERT")
+    (processing status -> "Y")
      *****************************/
     @Override
     public HashMap<String, Object> convertContractDetailToMps(ContractDetailInMpsAvailableTO contractDetailInMpsAvailableTO) {
 
-        // MPS 에 등록할 수주상세 Bean 의 정보를 새로운 MPS Bean 에 세팅, status : "INSERT"
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        MpsTO convertValue = objectMapper.convertValue(contractDetailInMpsAvailableTO, MpsTO.class);
-        convertValue.setStatus("INSERT");
-        log.info("convertValue = {}", convertValue);
+        contractDetailInMpsAvailableTO.setPlanClassification("수주");
 
-        HashMap<String, Object> resultMap = batchMpsListProcess(convertValue);// batchMpsListProcess 메소드 호출
+        /**
+         * contractDetailInMpsAvailableTO -> MpsTO 객체 변환 : 생성자 방식
+         */
+        MpsTO mpsTO = new MpsTO(contractDetailInMpsAvailableTO);
+        mpsTO.setStatus("INSERT");
+        log.info("객체 변환 = {}", mpsTO);
 
+        HashMap<String, Object> resultMap = batchMpsListProcess(mpsTO);// batchMpsListProcess 메소드 호출
 
         return resultMap;
     }
-
 
     public String getNewMpsNo(String mpsPlanDate) {
 
@@ -98,11 +100,24 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
 
         return newEstimateNo.toString();
     }
+    public void changeMpsStatusInContractDetail(String contractDetailNo, String mpsStatus) {
+
+        HashMap<String, String> param = new HashMap<>();
+        param.put("contractDetailNo",contractDetailNo);
+        param.put("mpsStatus", mpsStatus);
+
+        mpsDAO.changeMpsStatusOfContractDetail(param);
+    }
+
+    /*****************************
+              MPS 등록 끝
+     *****************************/
 
     public HashMap<String, Object> batchMpsListProcess(MpsTO mpsTo) {
 
         HashMap<String, Object> resultMap = null;
         ArrayList<String> batchList = new ArrayList<>();
+        log.info("mpsTo!!!! = {}", mpsTo);
 
         switch (mpsTo.getStatus()) {
 
@@ -113,26 +128,18 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
                 // MPS TO 에 새로운 판매계획일련번호 세팅
                 mpsTo.setMpsNo(newMpsNo);
 
-                // MPS TO Insert 비동기 처리
-                CompletableFuture<Void> insertMpsFuture = CompletableFuture.runAsync(() -> {
-                    mpsDAO.insertMps(mpsTo);
-                });
+                // MPS TO Insert
+                mpsDAO.insertMps(mpsTo);
 
-                // Insert 작업이 완료된 후 실행되는 작업 정의
-                CompletableFuture<Void> afterInsertFuture = insertMpsFuture.thenRun(() -> {
-                    // 생성된 새로운 MPS 번호를 ArrayList 에 추가
-                    batchList.add(newMpsNo);
+                // 생성된 새로운 MPS 번호를 ArrayList 에 추가
+                batchList.add(newMpsNo);
 
-                    // MPS TO 의 수주상세번호가 존재하면, 수주상세 테이블에서 해당 번호의 MPS 적용상태를 'Y' 로 변경
-                    if (mpsTo.getContractDetailNo() != null) {
-                        changeMpsStatusInContractDetail(mpsTo.getContractDetailNo(), "Y");
-                    }
+                // MPS TO 의 수주상세번호가 존재하면, 수주상세 테이블에서 해당 번호의 MPS 적용상태를 'Y' 로 변경
+                if (mpsTo.getContractDetailNo() != null) {
+                    changeMpsStatusInContractDetail(mpsTo.getContractDetailNo(), "Y");
+                }
 
-                    resultMap.put("INSERT", batchList);
-                });
-
-                // 작업 완료 대기
-                afterInsertFuture.join();
+                resultMap.put("INSERT", batchList);
                 break;
 
             case "UPDATE":
@@ -152,19 +159,11 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
         return resultMap;
     }
 
-    public void changeMpsStatusInContractDetail(String contractDetailNo, String mpsStatus) {
 
-        HashMap<String, String> param = new HashMap<>();
-        param.put("contractDetailNo",contractDetailNo);
-        param.put("mpsStatus", mpsStatus);
-
-        mpsDAO.changeMpsStatusOfContractDetail(param);
-    }
 
     /*****************************
-              MPS 등록 끝
+             MPS 테이블 조회
      *****************************/
-
     @Override
     public HashMap<String, Object> searchMpsList() {
         List<MpsTO> result = mpsDAO.searchMpsList();

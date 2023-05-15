@@ -2,6 +2,7 @@ package kr.co.seoulit.erp.logistic.sales.to;
 
 import java.util.ArrayList;
 
+
 import javax.persistence.Transient;
 
 import kr.co.seoulit.common.to.BaseTO;

@@ -126,6 +126,7 @@ public class MrpController {
 		System.out.println("		@ batchList: " + batchList);
 		System.out.println("		@ params: " + mrpRegisterDate);
 
+
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // 파라미터Map에서 TO에 들어있지 않는 변수가 있어도
 																					// 무시함.

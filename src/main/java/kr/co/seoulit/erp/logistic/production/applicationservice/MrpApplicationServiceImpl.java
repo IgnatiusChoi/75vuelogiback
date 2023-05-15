@@ -81,6 +81,8 @@ public class MrpApplicationServiceImpl implements MrpApplicationService {
 		resultMap.put("errorMsg", param.get("ERROR_MSG"));
 		System.out.println("�씠嫄곕뒗        ");
 		System.out.println(resultMap.get("gridRowJson"));
+		System.out.println(resultMap.get("errorCode"));
+		System.out.println(resultMap.get("errorMsg"));
 		return resultMap;
 
 	}

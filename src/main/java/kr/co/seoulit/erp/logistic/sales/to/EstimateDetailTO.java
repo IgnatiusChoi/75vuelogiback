@@ -14,8 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.annotation.EnableMBeanExport;
 
-@Setter
-@Getter
+@Data
 @Entity
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "ESTIMATE_DETAIL")
