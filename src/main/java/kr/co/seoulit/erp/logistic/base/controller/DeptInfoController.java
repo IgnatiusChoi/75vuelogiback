@@ -1,8 +1,7 @@
 package kr.co.seoulit.erp.logistic.base.controller;
 
-import kr.co.seoulit.erp.logistic.base.servicefacade.CompanyServiceFacade;
-import kr.co.seoulit.erp.logistic.base.to.CompanyInfoTO;
-
+import kr.co.seoulit.erp.logistic.base.servicefacade.DeptInfoServiceFacade;
+import kr.co.seoulit.erp.logistic.base.to.DeptInfoTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,18 +14,18 @@ import java.util.ArrayList;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/logi/*")
-public class InformationController {
+public class DeptInfoController {
 
     @Autowired
-    private CompanyServiceFacade companySF;
+    private DeptInfoServiceFacade deptSF;
 
     private ModelMap modelMap = new ModelMap();
 
-    @RequestMapping(value = "/base/getcompanyInfo", method = RequestMethod.GET)
-    public ModelMap getCompanyInfo(){
+    @RequestMapping(value = "/base/getdeptInfo", method = RequestMethod.GET)
+    public ModelMap getDeptInfo() {
         try {
-            ArrayList<CompanyInfoTO> companyInfo = companySF.getCompanyInfo();
-            modelMap.put("companyInfo", companyInfo);
+            ArrayList<DeptInfoTO> deptInfo = deptSF.getDeptInfo();
+            modelMap.put("deptInfo", deptInfo);
             modelMap.put("errorCode", 1);
             modelMap.put("errorMsg", "성공");
 
@@ -34,7 +33,6 @@ public class InformationController {
             e2.printStackTrace();
             modelMap.put("errorCode", -2);
             modelMap.put("errorMsg", e2.getMessage());
-
         }
         return modelMap;
     }
