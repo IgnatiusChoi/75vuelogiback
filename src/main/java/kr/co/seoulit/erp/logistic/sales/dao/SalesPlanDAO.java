@@ -26,4 +26,5 @@ public interface SalesPlanDAO {
 
 	public ArrayList<SalesPlanTO> selectSalesPlanList(HashMap<String, String> param);
 
+	public ArrayList<SalesPlanTO> getSalesPlan();
 }
