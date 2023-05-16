@@ -41,7 +41,7 @@ public interface SalesServiceFacade {
 //	description:	파라미터 타입 & 이름 변경
 
 	public HashMap<String, Object> addNewContract(String contractDate, String personCodeInCharge,
-			ContractTO workingContractTO, ArrayList<EstimateDetailTO> estimateDetailTO);
+												  ContractTO workingContractTO, ArrayList<EstimateDetailTO> estimateDetailTO);
 
 	public HashMap<String, Object> batchContractDetailListProcess(ArrayList<ContractDetailTO> contractDetailTOList);
 
@@ -59,4 +59,8 @@ public interface SalesServiceFacade {
 	public ArrayList<DeliveryInfoTO> getDeliveryInfoList();
 
 	public Map<String, ArrayList<DeliveryInfoTO>> deliverUpdate(Map<String, ArrayList<DeliveryInfoTO>> deliverUpdate);
+
+	public ArrayList<SalesPlanTO> getSalesPlan();
+
+
 }

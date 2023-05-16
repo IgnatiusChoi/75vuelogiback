@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.seoulit.erp.hr.company.to.CompanyTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import kr.co.seoulit.erp.logistic.sales.applicationservice.ContractApplicationService;
@@ -97,7 +99,7 @@ public class SalesServiceFacadeImpl implements SalesServiceFacade {
 
 	@Override
 	public HashMap<String, Object> addNewContract(String contractDate, String personCodeInCharge,
-			ContractTO workingContractTO, ArrayList<EstimateDetailTO> estimateDetailArray) {
+												  ContractTO workingContractTO, ArrayList<EstimateDetailTO> estimateDetailArray) {
 
 		return contractAS.addNewContract(contractDate, personCodeInCharge, workingContractTO, estimateDetailArray);
 	}
@@ -125,7 +127,7 @@ public class SalesServiceFacadeImpl implements SalesServiceFacade {
 
 	@Override
 	public void batchSalesPlanListProcess(SalesPlanTO salesPlanTOList) {
-
+		System.out.println("batchSalesPlanListProcess ="+salesPlanTOList);
 		salesPlanAS.batchSalesPlanListProcess(salesPlanTOList);
 	}
 
@@ -154,4 +156,24 @@ public class SalesServiceFacadeImpl implements SalesServiceFacade {
 		return deliveryAS.deliverUpdate(deliverUpdate);
 	}
 
+	@Override
+	public ArrayList<SalesPlanTO> getSalesPlan() {
+
+		ArrayList<SalesPlanTO> SalesPlan = null;
+
+		try {
+
+			SalesPlan = salesPlanAS.getSalesPlan();
+
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+		return SalesPlan;
+	}
 }
+
+
+
+
