@@ -15,7 +15,7 @@ public class WorkOrderInfoTO {
 	private String unitOfMrp;
 	private String requiredAmount;
 	private String workSiteCode;
-	private String workStieName;
+	private String workSiteName;
 	private String productionProcessCode;
 	private String productionProcessName;
 	private String inspectionStatus;
