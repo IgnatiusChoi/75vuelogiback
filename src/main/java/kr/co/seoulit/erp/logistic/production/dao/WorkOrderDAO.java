@@ -31,4 +31,8 @@ public interface WorkOrderDAO {
 
 	public void updateWorkCompletionStatus(HashMap<String, Object> param);
 
+	public ArrayList<WorkOrderInfoTO> selectWorkOrderInfoListStatus();
+
+	public ArrayList<WorkSiteLogTO> selectProductionProcessCode(HashMap<String, String> map);
+
 }

@@ -4,14 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import kr.co.seoulit.erp.logistic.production.to.ContractDetailInMpsAvailableTO;
-import kr.co.seoulit.erp.logistic.production.to.MpsTO;
-import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
-import kr.co.seoulit.erp.logistic.production.to.MrpTO;
-import kr.co.seoulit.erp.logistic.production.to.ProductionPerformanceInfoTO;
-import kr.co.seoulit.erp.logistic.production.to.SalesPlanInMpsAvailableTO;
-import kr.co.seoulit.erp.logistic.production.to.WorkOrderInfoTO;
-import kr.co.seoulit.erp.logistic.production.to.WorkSiteSimulationTO;
+import kr.co.seoulit.erp.logistic.production.to.*;
 
 public interface ProductionServiceFacade {
 
@@ -51,5 +44,11 @@ public interface ProductionServiceFacade {
 	public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo);
 
 	public HashMap<String, Object> workSiteLogList(String workSiteLogDate);
+
+	public ArrayList<WorkOrderInfoTO> getWorkOrderInfoListStatus();
+
+//	public HashMap<String, Object> getWorkOrderableInfoList();
+
+	public ArrayList<WorkSiteLogTO> getProductionProcessCode(HashMap<String, String> map);
 
 }

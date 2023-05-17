@@ -3,6 +3,7 @@ package kr.co.seoulit.erp.logistic.sales.applicationservice;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.seoulit.erp.hr.company.to.CompanyTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,32 +46,32 @@ public class SalesPlanApplicationServiceImpl implements SalesPlanApplicationServ
 	public void batchSalesPlanListProcess(SalesPlanTO salesPlanTOList) {
 
 		System.out.println("@@@@@@@@@@@@@@@@@@@" + salesPlanTOList);
-		HashMap<String, Object> resultMap = new HashMap<>();
+		salesPlanDAO.insertSalesPlan(salesPlanTOList);
+		/*		HashMap<String, Object> resultMap = new HashMap<>();*/
 
-		ArrayList<String> insertList = new ArrayList<>();
-		ArrayList<String> updateList = new ArrayList<>();
+		/*	ArrayList<String> insertList = new ArrayList<>();*/
+		/*ArrayList<String> updateList = new ArrayList<>();
 		ArrayList<String> deleteList = new ArrayList<>();
-		System.out.println("####::" + salesPlanTOList.getStatus());
+		System.out.println("####::" + salesPlanTOList.getStatus());*/
 
-		String status = salesPlanTOList.getStatus();
+		/*String status = salesPlanTOList.getStatus();
 
 		switch (status) {
 
-		case "INSERT":
+		case "INSERT":*/
 
-			// 새로운 판매계획일련번호 생성
-			String newSalesPlanNo = getNewSalesPlanNo(salesPlanTOList.getSalesPlanDate());
+		// 새로운 판매계획일련번호 생성
+		/*String newSalesPlanNo = getNewSalesPlanNo(salesPlanTOList.getSalesPlanDate());*/
 
-			// Bean 에 새로운 판매계획일련번호 세팅
-			salesPlanTOList.setSalesPlanNo(newSalesPlanNo);
+		// Bean 에 새로운 판매계획일련번호 세팅
+		/*salesPlanTOList.setSalesPlanNo(newSalesPlanNo);*/
 
-			salesPlanDAO.insertSalesPlan(salesPlanTOList);
 
-			insertList.add(newSalesPlanNo);
 
-			break;
+		/*insertList.add(newSalesPlanNo);*/
 
-		case "UPDATE":
+
+		/*case "UPDATE":
 
 			salesPlanDAO.updateSalesPlan(salesPlanTOList);
 
@@ -86,8 +87,14 @@ public class SalesPlanApplicationServiceImpl implements SalesPlanApplicationServ
 
 			break;
 
-		}
+		}*/
 
 	}
+	public ArrayList<SalesPlanTO> getSalesPlan() {
+
+		return salesPlanDAO.getSalesPlan();
+
+	}
+
 
 }
