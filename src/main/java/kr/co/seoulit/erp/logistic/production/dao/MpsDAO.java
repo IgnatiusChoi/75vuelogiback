@@ -9,6 +9,7 @@ import kr.co.seoulit.erp.logistic.sales.to.ContractDetailTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.seoulit.erp.logistic.production.to.MpsTO;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface MpsDAO {
@@ -29,7 +30,9 @@ public interface MpsDAO {
  	 */
 
 	public ArrayList<ContractDetailInMpsAvailableTO> selectContractDetailListInMpsAvailable(
-			String searchCondition, String startDate, String endDate);
+			@Param("searchCondition") String searchCondition,
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate);
 
 	public void changeMpsStatusOfContractDetail(HashMap<String, String> param);
 

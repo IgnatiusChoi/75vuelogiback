@@ -20,7 +20,7 @@
 		<result property="description" column="DESCRIPTION" />
 	</resultMap>
 
-	<select id="selectContractDetailListInMpsAvailable" resultMap="contractDetailInMpsAvailableResult" >
+	<select id="selectContractDetailListInMpsAvailable" parameterType="String" resultMap="contractDetailInMpsAvailableResult" >
 		select
 		C.CONTRACT_NO,
 		C.CONTRACT_TYPE,
