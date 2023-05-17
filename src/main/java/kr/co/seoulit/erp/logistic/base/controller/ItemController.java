@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.seoulit.erp.logistic.base.servicefacade.ItemServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,21 @@ public class ItemController {
 
 	@Autowired
 	private LogisticsInfoServiceFacade logisticsSF;
+	@Autowired
+	private ItemServiceFacade itemSF;
 
 	private ModelMap modelMap = new ModelMap();
+
+	@RequestMapping(value = "/searchItemList", method = RequestMethod.GET)
+	public Map<String, Object> searchItemList(){
+		Map<String, Object> result=itemSF.searchItemList();
+		return result;
+	}
+	@RequestMapping(value = "/searchItemGroupList", method = RequestMethod.GET)
+	public Map<String, Object> searchItemGroupList(){
+		Map<String, Object> result=itemSF.searchItemGroupList();
+		return result;
+	}
 
 	@RequestMapping(value = "/searchItem", method = RequestMethod.GET)
 	public ModelMap searchItem(@RequestParam String searchCondition, @RequestParam String minPrice,
@@ -87,7 +101,8 @@ public class ItemController {
 		return modelMap;
 	}
 
-	@GetMapping("/getStandardUnitPrice")
+
+		@GetMapping("/getStandardUnitPrice")
 	public ModelMap getStandardUnitPrice(@RequestParam String itemCode) {
 		System.out.println("itemCode = " + itemCode);
 
