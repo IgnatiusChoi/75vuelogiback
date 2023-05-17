@@ -2,7 +2,8 @@ package kr.co.seoulit.erp.logistic.production.servicefacade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+
+
 
 import kr.co.seoulit.erp.logistic.production.dao.MpsDAO;
 import kr.co.seoulit.erp.logistic.production.dao.WorkOrderDAO;
@@ -11,34 +12,26 @@ import kr.co.seoulit.erp.logistic.sales.dao.ContractDetailDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.co.seoulit.erp.logistic.production.applicationservice.MpsApplicationService;
 import kr.co.seoulit.erp.logistic.production.applicationservice.MrpApplicationService;
 import kr.co.seoulit.erp.logistic.production.applicationservice.WorkOrderApplicationService;
+
+import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
+import kr.co.seoulit.erp.logistic.production.to.MrpTO;
+import kr.co.seoulit.erp.logistic.production.to.ProductionPerformanceInfoTO;
+import kr.co.seoulit.erp.logistic.production.to.WorkOrderInfoTO;
+import kr.co.seoulit.erp.logistic.production.to.WorkSiteSimulationTO;
+
 
 @Service
 public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 
-	@Autowired
-	private MpsApplicationService mpsAS;
+
 	@Autowired
 	private MrpApplicationService mrpAS;
 	@Autowired
 	private WorkOrderApplicationService workOrderAS;
 	@Autowired
 	private WorkOrderDAO workOrderDAO;
-
-
-
-	@Override
-	public ArrayList<MpsTO> getMpsList(String startDate, String endDate, String includeMrpApply) {
-
-		return mpsAS.getMpsList(startDate, endDate, includeMrpApply);
-	}
-
-
-
-
-
 
 
 
@@ -68,17 +61,7 @@ public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 		return mrpAS.searchMrpGatheringList(dateSearchCondtion, startDate, endDate);
 	}
 
-	@Override
-	public HashMap<String, Object> openMrp(ArrayList<String> mpsNoArr) {
 
-		return mrpAS.openMrp(mpsNoArr);
-	}
-
-	@Override
-	public HashMap<String, Object> registerMrp(String mrpRegisterDate, ArrayList<MrpTO> newMrpList) {
-
-		return mrpAS.registerMrp(mrpRegisterDate, newMrpList);
-	}
 
 	@Override
 	public HashMap<String, Object> batchMrpListProcess(ArrayList<MrpTO> mrpTOList) {

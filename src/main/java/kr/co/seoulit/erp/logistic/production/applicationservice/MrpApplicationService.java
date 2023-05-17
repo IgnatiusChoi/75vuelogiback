@@ -17,9 +17,7 @@ public interface MrpApplicationService {
 	public ArrayList<MrpGatheringTO> searchMrpGatheringList(String dateSearchCondtion, String startDate,
 			String endDate);
 
-	public HashMap<String, Object> openMrp(ArrayList<String> mpsNoArr);
 
-	public HashMap<String, Object> registerMrp(String mrpRegisterDate, ArrayList<MrpTO> newMrpList);
 
 	public HashMap<String, Object> batchMrpListProcess(ArrayList<MrpTO> mrpTOList);
 
