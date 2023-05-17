@@ -10,11 +10,13 @@ import kr.co.seoulit.erp.logistic.production.to.OpenMrpTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.seoulit.erp.logistic.production.to.MrpTO;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface MrpDAO {
 
-	public List<MpsTO> getMpsList(String startDate, String endDate);
+	public List<MpsTO> getMpsList(@Param("startDate") String startDate,
+								  @Param("endDate") String endDate);
 
 	public void updateMps(MpsTO mpsTO);
 

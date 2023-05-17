@@ -34,8 +34,10 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
     @Override
     public Map<String, Object> getContractDetailListInMpsAvailable(String searchCondition, String startDate, String endDate) {
 
+
         ArrayList<ContractDetailInMpsAvailableTO> resultList
                 = mpsDAO.selectContractDetailListInMpsAvailable(searchCondition, startDate, endDate);
+
         try {
             modelMap.put("gridRowJson", resultList);
             modelMap.put("errorCode", 1);

@@ -59,7 +59,9 @@ public class MpsController {
 	public Map<String, Object> searchContractDetailListInMpsAvailable(@RequestParam String startDate,
 																	  @RequestParam String endDate,
 																	  @RequestParam String searchCondition) {
+
 		Map<String, Object> result = mpsSF.getContractDetailListInMpsAvailable(searchCondition, startDate, endDate);
+
 
 		return result;
 	}
