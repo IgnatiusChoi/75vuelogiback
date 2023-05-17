@@ -21,9 +21,8 @@ public interface MpsDAO {
 
 	public void deleteMps(MpsTO TO);
 
-	public ArrayList<MpsTO> selectMpsList(HashMap<String, String> param);
 
-	public void changeMrpApplyStatus(HashMap<String, String> param);
+
 
 	/**
 	 * ContractDetailDAO 에서 MpsDAO로 이동

@@ -2,9 +2,14 @@ package kr.co.seoulit.erp.logistic.production.controller;
 
 import java.util.*;
 
+import kr.co.seoulit.erp.logistic.production.servicefacade.MpsServiceFacade;
+import kr.co.seoulit.erp.logistic.production.servicefacade.MrpServiceFacade;
+import kr.co.seoulit.erp.logistic.production.to.MpsTO;
 import kr.co.seoulit.erp.sys.to.response.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,31 +26,77 @@ import kr.co.seoulit.erp.logistic.production.to.MrpTO;
 
 import static kr.co.seoulit.erp.sys.to.response.Response.success;
 
+@Slf4j
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/logi/logistics/production/*", produces = "application/json")
 public class MrpController {
 
-	@Autowired
-	private ProductionServiceFacade productionSF;
-
-	private ModelMap modelMap = new ModelMap();
-
 	private static Gson gson = new GsonBuilder().serializeNulls().create();
+
+	private final MrpServiceFacade mrpSF;
+	private final ProductionServiceFacade productionSF;
+	private final ModelMap modelMap = new ModelMap();
+
+	@Autowired
+	public MrpController(ProductionServiceFacade productionSF, MrpServiceFacade mrpSF) {
+		this.productionSF = productionSF;
+		this.mrpSF = mrpSF;
+	}
+
+	/*****************************
+			 MPS 테이블 조회
+	 *****************************/
+	@RequestMapping("/searchMpsInfo")
+	public Map<String, List<MpsTO>> getMpsList(@RequestParam String startDate,
+											   @RequestParam String endDate) {
+
+		Map<String, List<MpsTO>> mpsList = mrpSF.getMpsList(startDate, endDate);
+		return mpsList;
+	}
+
+	/*****************************
+			    MPS 수정
+	 *****************************/
+	@RequestMapping(value="/updateMps", method = RequestMethod.POST)
+	public void updateMps(@RequestBody MpsTO mpsTO) {
+		mrpSF.updateMps(mpsTO);
+	}
+
+	/*****************************
+	          MRP 모의전개
+	 *****************************/
+	@RequestMapping("/openMrp")
+	public HashMap<String, Object> openMrp(@RequestParam String mpsNo) {
+		HashMap<String, Object> map = mrpSF.openMrp(mpsNo);
+		return map;
+	}
+
+	/*****************************
+	 			MRP 등록
+	 *****************************/
+	@RequestMapping(value = "/registerMrp", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public ResponseEntity<HashMap<String, Object>> registerMrp(@RequestBody Map<String, Object> params) {
+
+		String mrpRegisterDate = params.get("mrpRegisterDate").toString();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		ArrayList<MrpTO> newMrpList = mapper.convertValue(params.get("batchList"),
+				TypeFactory.defaultInstance().constructCollectionType(List.class, MrpTO.class));
+		HashMap<String, Object> resultMap = mrpSF.registerMrp(mrpRegisterDate, newMrpList);
+
+		return new ResponseEntity<>(resultMap, HttpStatus.OK);
+	}
+
+
 
 	@RequestMapping("/getMrpList")
 	public ModelMap getMrpList(@RequestParam(required = false) String mrpGatheringStatusCondition,
 			@RequestParam(required = false) String dateSearchCondition,
 			@RequestParam(required = false) String mrpStartDate, @RequestParam(required = false) String mrpEndDate,
-			@RequestParam(required = false) String mrpGatheringNo) {// (HttpServletRequest request, HttpServletResponse
-																	// response) {
+			@RequestParam(required = false) String mrpGatheringNo) {
 
-		// String mrpGatheringStatusCondition =
-		// request.getParameter("mrpGatheringStatusCondition");
-		// String dateSearchCondition = request.getParameter("dateSearchCondition");
-		// String mrpStartDate = request.getParameter("mrpStartDate");
-		// String mrpEndDate = request.getParameter("mrpEndDate");
-		// String mrpGatheringNo = request.getParameter("mrpGatheringNo");
 		System.out.println("mrpGatheringStatusCondition: " + mrpGatheringStatusCondition);
 		System.out.println("dateSearchCondition: " + dateSearchCondition);
 		System.out.println("mrpStartDate: " + mrpStartDate);
@@ -84,76 +135,6 @@ public class MrpController {
 		}
 		return modelMap;
 	}
-
-	@RequestMapping("/openMrp")
-	public ModelMap/* HashMap<String, Object> */ openMrp(@RequestParam String mpsNoListStr) {// (HttpServletRequest
-																								// request,
-																								// HttpServletResponse
-																								// response) {
-		System.out.println("mpsNoListStr   " + mpsNoListStr);
-
-//		String mpsNoListStr = request.getParameter("mpsNoList");
-		/*
-		 * ArrayList<String> mpsNoArr = gson.fromJson((mpsNoListStr), new
-		 * TypeToken<ArrayList<String>>() { }.getType()); HashMap<String, Object>
-		 * resultMap = new HashMap<>();
-		 */
-		ArrayList<String> mpsNoArr = new ArrayList<>();
-		HashMap<String, Object> resultMap = new HashMap<>();
-		mpsNoArr.add(0, mpsNoListStr);
-		try {
-			System.out.println("mpsNoListStr   4" + mpsNoListStr);
-			resultMap = productionSF.openMrp(mpsNoArr);
-			modelMap.put("gridRowJson", resultMap.get("gridRowJson"));
-		} catch (Exception e2) {
-
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		// return null;
-		return modelMap;
-
-	}
-
-	@RequestMapping(value = "/registerMrp", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	public Response registerMrp(@RequestBody Map<String, Object> params) {// @RequestBody Map<String, Object> params
-
-		String batchList = params.get("batchList").toString();
-		String mrpRegisterDate = params.get("mrpRegisterDate").toString();
-		System.out.println("		@ batchList: " + batchList);
-		System.out.println("		@ params: " + mrpRegisterDate);
-
-
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // 파라미터Map에서 TO에 들어있지 않는 변수가 있어도
-																					// 무시함.
-		ArrayList<MrpTO> newMrpList = mapper.convertValue(params.get("batchList"),
-				TypeFactory.defaultInstance().constructCollectionType(List.class, MrpTO.class));
-
-		System.out.println("data");
-		for (MrpTO to : newMrpList) {
-			System.out.println(to.getOrderDate());
-			System.out.println(to.getRequiredDate());
-		}
-
-		try {
-			HashMap<String, Object> resultMap = productionSF.registerMrp(mrpRegisterDate, newMrpList);
-			modelMap.put("result", resultMap);
-			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "�꽦怨�");
-
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		return success(modelMap);
-	}
-
 	@RequestMapping(value = "/getMrpGatheringList")
 	@SuppressWarnings("unchecked")
 	public ModelMap getMrpGatheringList(@RequestParam String mpsNoList) {
