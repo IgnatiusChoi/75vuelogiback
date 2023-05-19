@@ -28,4 +28,5 @@ public interface LogisticsInfoServiceFacade {
 
 	public HashMap<String, Object> batchWarehouseInfoProcess(ArrayList<WarehouseTO> warehouseList);
 
+
 }

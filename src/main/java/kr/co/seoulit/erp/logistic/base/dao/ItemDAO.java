@@ -3,6 +3,7 @@ package kr.co.seoulit.erp.logistic.base.dao;
 import java.util.ArrayList;
 import java.util.Map;
 
+import kr.co.seoulit.erp.logistic.base.to.ItemGroupTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.seoulit.erp.logistic.base.to.ItemInfoTO;
@@ -27,4 +28,7 @@ public interface ItemDAO {
 
 	public ArrayList<ItemInfoTO> selectOptionItemList();
 
+	public ArrayList<ItemTO> searchItemList();
+
+	public ArrayList<ItemGroupTO> searchItemGroupList();
 }

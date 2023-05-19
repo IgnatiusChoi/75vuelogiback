@@ -4,30 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import kr.co.seoulit.erp.logistic.production.to.ContractDetailInMpsAvailableTO;
-import kr.co.seoulit.erp.logistic.production.to.MpsTO;
-import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
-import kr.co.seoulit.erp.logistic.production.to.MrpTO;
-import kr.co.seoulit.erp.logistic.production.to.ProductionPerformanceInfoTO;
-import kr.co.seoulit.erp.logistic.production.to.SalesPlanInMpsAvailableTO;
-import kr.co.seoulit.erp.logistic.production.to.WorkOrderInfoTO;
-import kr.co.seoulit.erp.logistic.production.to.WorkSiteSimulationTO;
+import kr.co.seoulit.erp.logistic.production.to.*;
 
 public interface ProductionServiceFacade {
 
-	public ArrayList<MpsTO> getMpsList(String startDate, String endDate, String includeMrpApply);
-
-
-	public ArrayList<SalesPlanInMpsAvailableTO> getSalesPlanListInMpsAvailable(String searchCondition, String startDate,
-																			   String endDate);
-
-	public HashMap<String, Object> convertContractDetailToMps(
-			ContractDetailInMpsAvailableTO contractDetailInMpsAvailableTO);
-
-	public HashMap<String, Object> convertSalesPlanToMps(
-			ArrayList<SalesPlanInMpsAvailableTO> contractDetailInMpsAvailableList);
-
-	public HashMap<String, Object> batchMpsListProcess(ArrayList<MpsTO> mpsTOList);
 
 	public ArrayList<MrpTO> searchMrpList(String mrpGatheringStatusCondition);
 
@@ -38,9 +18,6 @@ public interface ProductionServiceFacade {
 	public ArrayList<MrpGatheringTO> searchMrpGatheringList(String dateSearchCondtion, String startDate,
 															String endDate);
 
-	public HashMap<String, Object> openMrp(ArrayList<String> mpsNoArr);
-
-	public HashMap<String, Object> registerMrp(String mrpRegisterDate, ArrayList<MrpTO> newMrpList);
 
 	public HashMap<String, Object> batchMrpListProcess(ArrayList<MrpTO> mrpTOList);
 
@@ -67,5 +44,11 @@ public interface ProductionServiceFacade {
 	public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo);
 
 	public HashMap<String, Object> workSiteLogList(String workSiteLogDate);
+
+	public ArrayList<WorkOrderInfoTO> getWorkOrderInfoListStatus();
+
+//	public HashMap<String, Object> getWorkOrderableInfoList();
+
+	public ArrayList<WorkSiteLogTO> getProductionProcessCode(HashMap<String, String> map);
 
 }
