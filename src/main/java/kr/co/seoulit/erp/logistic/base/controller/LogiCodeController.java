@@ -7,14 +7,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import kr.co.seoulit.erp.logistic.base.servicefacade.LogiBaseServiceFacade;
 import kr.co.seoulit.erp.logistic.base.to.LogiCodeDetailTO;
@@ -70,15 +66,18 @@ public class LogiCodeController {
 		return modelMap;
 	}
 
-	@RequestMapping(value = "/batchListProcess", method = RequestMethod.POST)
-	public ModelMap batchListProcess(@RequestBody Map<String, ArrayList<LogiCodeTO>> batchList) {
+	@PostMapping("/batchListProcess")
+	public ModelMap batchListProcess(@RequestBody Map<String, Object> params) {
 
-		System.out.println("aa");
-		ArrayList<LogiCodeTO> codeList = batchList.get("codeList");
+		System.out.println(params.get("status"));
+		ObjectMapper mapper = new ObjectMapper();
+//		ArrayList<String, LogiCodeTO> codeList = batchList.get("batchList");
+		LogiCodeTO codeData =  mapper.convertValue(params, LogiCodeTO.class);
+		System.out.println(codeData);
 		HashMap<String, Object> resultMap = null;
 
 		try {
-			resultMap = baseSF.batchCodeListProcess(codeList);
+			resultMap = baseSF.batchCodeListProcess(codeData);
 			modelMap.put("result", resultMap);
 			modelMap.put("errorCode", 1);
 			modelMap.put("errorMsg", "성공");

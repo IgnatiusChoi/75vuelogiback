@@ -2,6 +2,7 @@ package kr.co.seoulit.erp.logistic.base.applicationservice;
 
 import kr.co.seoulit.erp.logistic.base.dao.ClientDAO;
 import kr.co.seoulit.erp.logistic.base.to.ClientTO;
+import kr.co.seoulit.erp.logistic.base.to.FinancialTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,21 @@ public class ClientApplicationServiceImpl implements ClientApplicationService{
     @Override
     public ArrayList<ClientTO> searchClientList() {
         return clientDAO.searchClientList();
+    }
+
+    @Override
+    public ArrayList<ClientTO> searchClientDetailList(String customerCode) {
+        return clientDAO.searchClientDetailList(customerCode);
+    }
+
+    @Override
+    public ArrayList<FinancialTO> searchFinanceList() {
+        return clientDAO.searchFinanceList();
+    }
+
+    @Override
+    public ArrayList<FinancialTO> searchFinanceDetailList(String Code) {
+        return clientDAO.searchFinanceDetailList(Code);
     }
 
     @Override

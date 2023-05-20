@@ -4,25 +4,51 @@
 <mapper namespace="kr.co.seoulit.erp.logistic.base.dao.ClientDAO">
 
     <resultMap id="ClientResult" type="ClientTO">
+        <result property="customerCode" column="CUSTOMER_CODE"  />
+        <result property="workplaceCode" column="WORKPLACE_CODE"  />
+        <result property="customerName" column="CUSTOMER_NAME"  />
+        <result property="customerType" column="CUSTOMER_TYPE"  />
+        <result property="customerCeo" column="CUSTOMER_CEO"  />
+        <result property="businessLicenseNumber" column="BUSINESS_LICENSE_NUMBER"  />
         <result property="socialSecurityNumber" column="SOCIAL_SECURITY_NUMBER"  />
         <result property="customerBasicAddress" column="CUSTOMER_BASIC_ADDRESS"  />
         <result property="customerBusinessConditions" column="CUSTOMER_BUSINESS_CONDITIONS"  />
         <result property="customerZipCode" column="CUSTOMER_ZIP_CODE"  />
         <result property="customerDetailAddress" column="CUSTOMER_DETAIL_ADDRESS"  />
-        <result property="customerType" column="CUSTOMER_TYPE"  />
         <result property="customerNote" column="CUSTOMER_NOTE"  />
-        <result property="businessLicenseNumber" column="BUSINESS_LICENSE_NUMBER"  />
-        <result property="customerCeo" column="CUSTOMER_CEO"  />
-        <result property="customerName" column="CUSTOMER_NAME"  />
         <result property="customerBusinessItems" column="CUSTOMER_BUSINESS_ITEMS"  />
-        <result property="workplaceCode" column="WORKPLACE_CODE"  />
         <result property="customerTelNumber" column="CUSTOMER_TEL_NUMBER"  />
-        <result property="customerCode" column="CUSTOMER_CODE"  />
         <result property="customerFaxNumber" column="CUSTOMER_FAX_NUMBER"  />
     </resultMap>
+    <resultMap id="FinanceResult" type="FinancialTO">
+        <result property="accountAssociatesCode" column="ACCOUNT_ASSOCIATES_CODE"  />
+        <result property="workplaceCode" column="WORKPLACE_CODE"  />
+        <result property="accountAssociatesName" column="ACCOUNT_ASSOCIATES_NAME"  />
+        <result property="accountAssociatesType" column="ACCOUNT_ASSOCIATES_TYPE"  />
+        <result property="accountNumber" column="ACCOUNT_NUMBER"  />
+        <result property="accountOpenPlace" column="ACCOUNT_OPEN_PLACE"  />
+        <result property="cardNumber" column="CARD_NUMBER"  />
+        <result property="cardType" column="CARD_TYPE"  />
+        <result property="cardMemberName" column="CARD_MEMBER_NAME"  />
+        <result property="cardOpenPlace" column="CARD_OPEN_PLACE"  />
+        <result property="businessLicenseNumber" column="BUSINESS_LICENSE_NUMBER"  />
+        <result property="financialInstituteCode" column="FINANCIAL_INSTITUTE_CODE"  />
+        <result property="financialInstituteName" column="FINANCIAL_INSTITUTE_NAME"  />
+        <result property="divisionCodeNo" column="DIVISION_CODE_NO"  />
+    </resultMap>
+
 
     <select id="searchClientList" parameterType="ClientTO" resultMap="ClientResult">
         SELECT * FROM CUSTOMER
+    </select>
+    <select id="searchClientDetailList" parameterType="ClientTO" resultMap="ClientResult">
+        SELECT * FROM CUSTOMER WHERE CUSTOMER_CODE = #{customerCode:VARCHAR}
+    </select>
+    <select id="searchFinanceList" parameterType="FinancialTO" resultMap="FinanceResult">
+        select * from FINANCIAL_ACCOUNT_ASSOCIATES
+    </select>
+    <select id="searchFinanceDetailList" parameterType="FinancialTO" resultMap="FinanceResult">
+        SELECT * FROM FINANCIAL_ACCOUNT_ASSOCIATES WHERE ACCOUNT_ASSOCIATES_CODE = #{accountAssociatesCode:VARCHAR}
     </select>
 
     <insert id="insertClient" parameterType="ClientTO" >
