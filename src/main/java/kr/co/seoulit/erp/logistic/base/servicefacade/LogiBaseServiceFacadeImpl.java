@@ -34,9 +34,9 @@ public class LogiBaseServiceFacadeImpl implements LogiBaseServiceFacade {
 	}
 
 	@Override
-	public HashMap<String, Object> batchCodeListProcess(ArrayList<LogiCodeTO> codeList) {
+	public HashMap<String, Object> batchCodeListProcess(LogiCodeTO codeData) {
 
-		return codeAS.batchCodeListProcess(codeList);
+		return codeAS.batchCodeListProcess(codeData);
 	}
 
 	@Override

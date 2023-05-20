@@ -14,7 +14,7 @@ public interface LogiBaseServiceFacade {
 
 	public ArrayList<LogiCodeTO> getCodeList();
 
-	public HashMap<String, Object> batchCodeListProcess(ArrayList<LogiCodeTO> codeList);
+	public HashMap<String, Object> batchCodeListProcess(LogiCodeTO codeData);
 
 	public HashMap<String, Object> batchDetailCodeListProcess(ArrayList<LogiCodeDetailTO> detailCodeList);
 
