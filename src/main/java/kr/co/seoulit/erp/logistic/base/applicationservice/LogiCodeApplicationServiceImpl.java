@@ -51,54 +51,54 @@ public class LogiCodeApplicationServiceImpl implements LogiCodeApplicationServic
 	}
 
 	@Override
-	public HashMap<String, Object> batchCodeListProcess(ArrayList<LogiCodeTO> codeList) {
+	public HashMap<String, Object> batchCodeListProcess(LogiCodeTO codeData) {
 		HashMap<String, Object> resultMap = new HashMap<>();
 
-		ArrayList<LogiCodeTO> insertList = new ArrayList<>();
-		ArrayList<String> updateList = new ArrayList<>();
-		ArrayList<String> deleteList = new ArrayList<>();
+//		ArrayList<LogiCodeTO> insertList = new ArrayList<>();
+//		ArrayList<String> updateList = new ArrayList<>();
+//		ArrayList<String> deleteList = new ArrayList<>();
 
-		for (LogiCodeTO bean : codeList) {
+//		for (LogiCodeTO bean : codeData) {
 
-			String status = bean.getStatus();
+			String status = codeData.getStatus();
 
 			switch (status) {
 
 			case "INSERT":
-				String codeType = bean.getCodeType();
+				String codeType = codeData.getCodeType();
 				String divisionCodeNo = createDivisionCodeNo(codeType);
-				bean.setDivisionCodeNo(divisionCodeNo);
-				bean.setStatus("normal");
-				codeDAO.insertCode(bean);
-				insertList.add(bean);
+				codeData.setDivisionCodeNo(divisionCodeNo);
+				codeData.setStatus("normal");
+				codeDAO.insertCode(codeData);
+//				insertList.add(bean);
 
 				break;
 
 			case "UPDATE":
 
-				codeDAO.updateCode(bean);
+				codeDAO.updateCode(codeData);
 
-				updateList.add(bean.getDivisionCodeNo());
+//				updateList.add(codeData.getDivisionCodeNo());
 
 				break;
 
 			case "DELETE":
 
-				codeDAO.deleteCode(bean);
+				codeDAO.deleteCode(codeData);
 
-				deleteList.add(bean.getDivisionCodeNo());
+//				deleteList.add(codeData.getDivisionCodeNo());
 
 				break;
 
 			}
 
-		}
+//		}
 
-		resultMap.put("INSERT", insertList);
-		resultMap.put("UPDATE", updateList);
-		resultMap.put("DELETE", deleteList);
+//		resultMap.put("INSERT", insertList);
+//		resultMap.put("UPDATE", updateList);
+//		resultMap.put("DELETE", deleteList);
 
-		return resultMap;
+		return null;
 
 	}
 
