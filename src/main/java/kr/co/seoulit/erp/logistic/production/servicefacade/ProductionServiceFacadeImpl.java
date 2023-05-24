@@ -2,30 +2,30 @@ package kr.co.seoulit.erp.logistic.production.servicefacade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-import kr.co.seoulit.erp.logistic.production.dao.MpsDAO;
+
 import kr.co.seoulit.erp.logistic.production.dao.WorkOrderDAO;
 import kr.co.seoulit.erp.logistic.production.to.*;
-import kr.co.seoulit.erp.logistic.sales.dao.ContractDetailDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.co.seoulit.erp.logistic.production.applicationservice.MpsApplicationService;
-import kr.co.seoulit.erp.logistic.production.applicationservice.MrpApplicationService;
 import kr.co.seoulit.erp.logistic.production.applicationservice.WorkOrderApplicationService;
+
+import kr.co.seoulit.erp.logistic.production.to.ProductionPerformanceInfoTO;
+import kr.co.seoulit.erp.logistic.production.to.WorkOrderInfoTO;
+import kr.co.seoulit.erp.logistic.production.to.WorkSiteSimulationTO;
+
 
 @Service
 public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 
-	@Autowired
-	private MpsApplicationService mpsAS;
-	@Autowired
-	private MrpApplicationService mrpAS;
+
+
 	@Autowired
 	private WorkOrderApplicationService workOrderAS;
 	@Autowired
 	private WorkOrderDAO workOrderDAO;
+
 
 
 
@@ -127,6 +127,7 @@ public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 		return mrpAS.searchMrpList(mrpGatheringStatusCondition);
 
 	}
+
 
 	@Override
 	public ArrayList<MrpTO> searchMrpList(String dateSearchCondtion, String startDate, String endDate) {

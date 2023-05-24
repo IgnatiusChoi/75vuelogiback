@@ -34,49 +34,22 @@ public class MpsController {
 
 	/**
 	 *
-	 * 23.5.10. ~ 1차 프로젝트
+	 * 75기 23.5.10. ~  1차 프로젝트
 	 * MPS/MRP 분리, 필드 주입 대신 생성자 주입
 	 * HttpServlet 제거, 스파게티 소스 의존성 제거, Controller에서의 비즈니스 로직 제거, ApplicationService 제거
-	 * JSON Type 응답, salesPlan으로 조회 로직 제거
+	 * JSON Type 응답, salesPlan으로 조회 로직 제거(판매계획은 향후 구현 필요)
 	 *
 	 */
 
-	private final ProductionServiceFacade productionSF;
 	private final MpsServiceFacade mpsSF;
 	private final ModelMap modelMap = new ModelMap();
 
 	@Autowired
-	public MpsController(ProductionServiceFacade productionSF, MpsServiceFacade mpsSF) {
-		this.productionSF = productionSF;
+	public MpsController(MpsServiceFacade mpsSF) {
 		this.mpsSF = mpsSF;
 	}
 
-	@RequestMapping("/searchMpsInfo")
-	public Response searchMpsInfo(HttpServletRequest request, HttpServletResponse response) {
 
-		String startDate = request.getParameter("startDate");
-		String endDate = request.getParameter("endDate");
-		String includeMrpApply = request.getParameter("includeMrpApply");
-		System.out.println("넘어온 시작날짜::::::::" + startDate);
-		System.out.println("넘어온 종료날짜::::::::" + endDate);
-		System.out.println("넘어온 ???::::::::" + includeMrpApply);
-
-		try {
-
-			ArrayList<MpsTO> mpsTOList = productionSF.getMpsList(startDate, endDate, includeMrpApply);
-
-			modelMap.put("gridRowJson", mpsTOList);
-			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "�꽦怨�");
-
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		return success(modelMap);
-	}
 
 	/*****************************
 		 MPS 등록가능 수주 조회
@@ -86,7 +59,9 @@ public class MpsController {
 	public Map<String, Object> searchContractDetailListInMpsAvailable(@RequestParam String startDate,
 																	  @RequestParam String endDate,
 																	  @RequestParam String searchCondition) {
+
 		Map<String, Object> result = mpsSF.getContractDetailListInMpsAvailable(searchCondition, startDate, endDate);
+
 
 		return result;
 	}
@@ -97,14 +72,14 @@ public class MpsController {
 	@RequestMapping(value = "/convertContractDetailToMps", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> convertContractDetailToMps(@RequestBody ContractDetailInMpsAvailableTO contract) {
-			log.info("contract11 = {}", contract);
+
 			HashMap<String, Object> resultMap = mpsSF.convertContractDetailToMps(contract);
-			log.info("resultMap = {}", resultMap);
+
 			return resultMap;
 	}
 
 	/*****************************
-			 MPS 테이블 조회
+	     차트용 MPS 테이블 조회
 	 *****************************/
 	@RequestMapping(value = "/searchMpsList", method = RequestMethod.GET)
 	@ResponseBody

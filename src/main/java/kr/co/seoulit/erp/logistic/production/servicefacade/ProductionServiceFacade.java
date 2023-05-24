@@ -8,6 +8,7 @@ import kr.co.seoulit.erp.logistic.production.to.*;
 
 public interface ProductionServiceFacade {
 
+
 	public HashMap<String, Object> getWorkOrderableMrpList();
 	public HashMap<String, Object> getWorkOrderSimulationList(String mrpNo,String mrpGatheringNo);
 	public HashMap<String, Object> workOrder(String mrpGatheringNo, String workPlaceCode, String productionProcess);
@@ -59,6 +60,11 @@ public interface ProductionServiceFacade {
 
 	public HashMap<String, Object> registerMrpGathering(String mrpGatheringRegisterDate,
 														ArrayList<MrpGatheringTO> newMrpGatheringList, HashMap<String, String> mrpNoAndItemCodeMap);
+
+
+
+
+	public HashMap<String, Object> getWorkOrderableMrpList();
 
 
 

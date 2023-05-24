@@ -34,8 +34,10 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
     @Override
     public Map<String, Object> getContractDetailListInMpsAvailable(String searchCondition, String startDate, String endDate) {
 
+
         ArrayList<ContractDetailInMpsAvailableTO> resultList
                 = mpsDAO.selectContractDetailListInMpsAvailable(searchCondition, startDate, endDate);
+
         try {
             modelMap.put("gridRowJson", resultList);
             modelMap.put("errorCode", 1);
@@ -61,13 +63,11 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
     public HashMap<String, Object> convertContractDetailToMps(ContractDetailInMpsAvailableTO contractDetailInMpsAvailableTO) {
 
         contractDetailInMpsAvailableTO.setPlanClassification("수주");
-
         /**
          * contractDetailInMpsAvailableTO -> MpsTO 객체 변환 : 생성자 방식
          */
         MpsTO mpsTO = new MpsTO(contractDetailInMpsAvailableTO);
         mpsTO.setStatus("INSERT");
-        log.info("객체 변환 = {}", mpsTO);
 
         HashMap<String, Object> resultMap = batchMpsListProcess(mpsTO);// batchMpsListProcess 메소드 호출
 
@@ -84,14 +84,13 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
         for (MpsTO bean : mpsTOlist) {
             String mpsNo = bean.getMpsNo();
 
-            // MPS 일련번호에서 마지막 2자리만 가져오기
             int no = Integer.parseInt(mpsNo.substring(mpsNo.length() - 2, mpsNo.length()));
             intSet.add(no);
         }
         if (intSet.isEmpty()) {
             i = 1;
         } else {
-            i = intSet.pollLast() + 1; // 가장 높은 번호 + 1
+            i = intSet.pollLast() + 1;
         }
         newEstimateNo = new StringBuffer();
         newEstimateNo.append("PS");
@@ -117,7 +116,6 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
 
         HashMap<String, Object> resultMap = null;
         ArrayList<String> batchList = new ArrayList<>();
-        log.info("mpsTo!!!! = {}", mpsTo);
 
         switch (mpsTo.getStatus()) {
 
@@ -160,9 +158,8 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
     }
 
 
-
     /*****************************
-             MPS 테이블 조회
+          차트용 MPS 테이블 조회
      *****************************/
     @Override
     public HashMap<String, Object> searchMpsList() {
