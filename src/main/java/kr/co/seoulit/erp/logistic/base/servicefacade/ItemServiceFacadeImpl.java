@@ -49,4 +49,48 @@ public class ItemServiceFacadeImpl implements ItemServiceFacade{
         }
         return modelMap;
     }
+
+    @Override
+    public Map<String, Object> batchListProcess(ItemTO batchList) {
+        System.out.println(batchList.getItemCode());
+        String status=batchList.getStatus();
+        System.out.println(status);
+
+        switch(status){
+
+            case "INSERT":
+                itemDAO.insertItem(batchList);
+                break;
+
+            case "UPDATE":
+                itemDAO.updateItem(batchList);
+                break;
+
+            case "DELETE":
+                itemDAO.deleteItem(batchList);
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> itemGroupBatchListProcess(ItemGroupTO batchList) {
+        System.out.println(batchList.getItemGroupCode());
+        String status=batchList.getStatus();
+        System.out.println(status);
+
+        switch(status){
+
+            case "INSERT":
+                itemDAO.insertItemGroup(batchList);
+                break;
+
+            case "UPDATE":
+                itemDAO.updateItemGroup(batchList);
+                break;
+
+            case "DELETE":
+                itemDAO.deleteItemGroup(batchList);
+        }
+        return null;
+    }
 }

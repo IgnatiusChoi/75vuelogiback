@@ -78,6 +78,29 @@
 	<delete id="deleteItem" parameterType="itemTO">
 		DELETE FROM ITEM WHERE ITEM_CODE = #{itemCode}
 	</delete>
+
+	<insert id="insertItemGroup" parameterType="ItemGroupTO">
+		Insert into ITEM_GROUP
+		( ITEM_GROUP_CODE, ITEM_GROUP_NAME, DESCRIPTION )
+		values ( #{itemGroupCode} ,
+				 #{itemGroupName} ,
+				 #{description}
+			   )
+	</insert>
+
+	<update id="updateItemGroup" parameterType="ItemGroupTO">
+		UPDATE ITEM_GROUP SET
+							  ITEM_GROUP_NAME = #{itemGroupName} ,
+							  DESCRIPTION = #{description}
+
+
+		WHERE ITEM_GROUP_CODE = #{itemGroupCode}
+	</update>
+
+	<delete id="deleteItemGroup" parameterType="ItemGroupTO">
+		DELETE FROM ITEM_GROUP WHERE ITEM_GROUP_CODE = #{itemGroupCode}
+	</delete>
+
 <!--  이하는 현재 어떻게 사용 보류중	-->
 	<select id="selectItemList" parameterType="map" resultMap="itemInfoResult">
 	WITH ITEM_WITH_CODE_USE_CHECK AS
