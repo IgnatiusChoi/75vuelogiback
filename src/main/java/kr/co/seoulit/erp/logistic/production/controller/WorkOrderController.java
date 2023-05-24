@@ -23,7 +23,6 @@ public class WorkOrderController {
 
 	@Autowired
 	private WorkOrderServiceFacade workOrderSF;
-	private ProductionServiceFacade productionSF;
 	private ModelMap modelMap = new ModelMap();
 
 
