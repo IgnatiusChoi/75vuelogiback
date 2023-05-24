@@ -20,7 +20,6 @@ public class WorkSiteController {
 
     @Autowired
     private WorkSiteServiceFacade workSiteSF;
-    private ProductionServiceFacade productionSF;
     private ModelMap modelMap = new ModelMap();
 
 
