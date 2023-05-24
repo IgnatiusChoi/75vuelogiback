@@ -1,0 +1,13 @@
+# IntelliJ project files
+.idea
+.idea/*.xml
+*.iml
+out/
+gen
+build/
+
+# Gradle
+.gradle
+build/
+.gradletasknamecache
+hs_err_pid7992.log
