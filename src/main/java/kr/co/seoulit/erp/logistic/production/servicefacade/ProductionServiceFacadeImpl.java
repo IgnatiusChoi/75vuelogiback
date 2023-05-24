@@ -30,9 +30,34 @@ public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 
 
 	@Override
-	public ArrayList<MpsTO> getMpsList(String startDate, String endDate, String includeMrpApply) {
+	public HashMap<String, Object> getWorkOrderableMrpList() {
 
-		return mpsAS.getMpsList(startDate, endDate, includeMrpApply);
+		return workOrderAS.getWorkOrderableMrpList();
+
+	}
+
+	@Override
+	public HashMap<String, Object> getWorkOrderSimulationList(String mrpNo,String mrpGatheringNo) {
+
+		return workOrderAS.getWorkOrderSimulationList(mrpNo,mrpGatheringNo);
+	}
+
+	@Override
+	public HashMap<String, Object> workOrder(String mrpGatheringNo, String workPlaceCode, String productionProcess) {
+
+		return workOrderAS.workOrder(mrpGatheringNo, workPlaceCode, productionProcess);
+	}
+
+	@Override
+	public ArrayList<WorkOrderInfoTO> getWorkOrderInfoListStatus() {
+		return workOrderDAO.selectWorkOrderInfoListStatus();
+	}
+
+	@Override
+	public ArrayList<ProductionPerformanceInfoTO> getProductionPerformanceInfoList() {
+
+		return workOrderAS.getProductionPerformanceInfoList();
+
 	}
 
 
@@ -41,6 +66,60 @@ public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 
 
 
+
+
+
+
+
+	@Override
+	public ArrayList<WorkOrderInfoTO> getWorkOrderInfoList() {
+
+		return workOrderAS.getWorkOrderInfoList();
+
+	}
+
+	@Override
+	public HashMap<String, Object> workOrderCompletion(String workOrderNo, String actualCompletionAmount) {
+
+		return workOrderAS.workOrderCompletion(workOrderNo, actualCompletionAmount);
+
+	}
+
+	@Override
+	public HashMap<String, Object> showWorkSiteSituation(String workSiteCourse, String workOrderNo,
+														 String itemClassIfication) {
+
+		return workOrderAS.showWorkSiteSituation(workSiteCourse, workOrderNo, itemClassIfication);
+
+	}
+
+	@Override
+	public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo) {
+
+		workOrderAS.workCompletion(workOrderInfo);
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public ArrayList<MpsTO> getMpsList(String startDate, String endDate, String includeMrpApply) {
+
+		return mpsAS.getMpsList(startDate, endDate, includeMrpApply);
+	}
 
 	@Override
 	public ArrayList<MrpTO> searchMrpList(String mrpGatheringStatusCondition) {
@@ -100,72 +179,11 @@ public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 
 	}
 
-	@Override
-	public HashMap<String, Object> getWorkOrderableMrpList() {
-
-		return workOrderAS.getWorkOrderableMrpList();
-
-	}
-
-	@Override
-	public HashMap<String, Object> getWorkOrderSimulationList(String mrpNo,String mrpGatheringNo) {
-
-		return workOrderAS.getWorkOrderSimulationList(mrpNo,mrpGatheringNo);
-
-	}
-
-	@Override
-	public HashMap<String, Object> workOrder(String mrpGatheringNo, String workPlaceCode, String productionProcess) {
-
-		return workOrderAS.workOrder(mrpGatheringNo, workPlaceCode, productionProcess);
-
-	}
-
-	@Override
-	public ArrayList<WorkOrderInfoTO> getWorkOrderInfoList() {
-
-		return workOrderAS.getWorkOrderInfoList();
-
-	}
-
-	@Override
-	public HashMap<String, Object> workOrderCompletion(String workOrderNo, String actualCompletionAmount) {
-
-		return workOrderAS.workOrderCompletion(workOrderNo, actualCompletionAmount);
-
-	}
-
-	@Override
-	public ArrayList<ProductionPerformanceInfoTO> getProductionPerformanceInfoList() {
-
-		return workOrderAS.getProductionPerformanceInfoList();
-
-	}
-
-	@Override
-	public HashMap<String, Object> showWorkSiteSituation(String workSiteCourse, String workOrderNo,
-														 String itemClassIfication) {
-
-		return workOrderAS.showWorkSiteSituation(workSiteCourse, workOrderNo, itemClassIfication);
-
-	}
-
-	@Override
-	public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo) {
-
-		workOrderAS.workCompletion(workOrderInfo);
-
-	}
 
 	@Override
 	public HashMap<String, Object> workSiteLogList(String workSiteLogDate) {
 
 		return workOrderAS.workSiteLogList(workSiteLogDate);
-	}
-
-	@Override
-	public ArrayList<WorkOrderInfoTO> getWorkOrderInfoListStatus() {
-		return workOrderDAO.selectWorkOrderInfoListStatus();
 	}
 
 

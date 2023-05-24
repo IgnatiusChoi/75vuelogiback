@@ -8,13 +8,16 @@ import org.apache.ibatis.annotations.Mapper;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Mapper
-public interface WorkPlaceDAO {
+public interface WorkSiteDAO {
 
     public ArrayList<WorkSiteTO> selectWorkSiteList();
+    public ArrayList<WorkSiteLogTO> selectProductionProcessCode(HashMap<String, String> map);
 
-    public void insertWorkPlaceList(WorkSiteLogTO newWorkPlaceList);
+//    public void insertWorkPlaceList(WorkSiteLogTO newWorkPlaceList);
 
-    public void deleteWorkPlaceList(WorkSiteLogTO newWorkPlaceList);
+//    public void deleteWorkPlaceList(WorkSiteLogTO newWorkPlaceList);
 }
+
