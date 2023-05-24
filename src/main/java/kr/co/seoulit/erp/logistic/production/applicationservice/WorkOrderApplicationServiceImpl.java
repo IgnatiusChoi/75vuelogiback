@@ -20,6 +20,102 @@ public class WorkOrderApplicationServiceImpl implements WorkOrderApplicationServ
 	@Autowired
 	private WorkOrderDAO workOrderDAO;
 
+
+
+
+
+
+    @Override
+    public ArrayList<WorkOrderInfoTO> getWorkOrderInfoList() {
+
+        return workOrderDAO.selectWorkOrderInfoList();
+
+    }
+
+    @Override
+    public HashMap<String, Object> workOrderCompletion(String workOrderNo, String actualCompletionAmount) {
+
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("workOrderNo", workOrderNo);
+        param.put("actualCompletionAmount", actualCompletionAmount);
+
+        workOrderDAO.workOrderCompletion(param);
+
+        return param;
+    }
+
+    @Override
+    public HashMap<String, Object> showWorkSiteSituation(String workSiteCourse, String workOrderNo,
+                                                         String itemClassIfication) {
+
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("workSiteCourse", workSiteCourse);
+        param.put("workOrderNo", workOrderNo);
+        param.put("itemClassIfication", itemClassIfication);
+
+        workOrderDAO.selectWorkSiteSituation(param);
+
+        return param;
+    }
+
+    @Override
+    public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo) {
+
+        ArrayList<WorkSiteSimulationTO> test = workOrderInfo.get("workOrderInfo");
+        StringBuilder sb = new StringBuilder();
+//            List<TotalTrialBalanceBean> test=(List<TotalTrialBalanceBean>) param.get("RESULT");
+        int aa = 0;
+        String workOrderNo = "";
+        String parentItemCode = "";
+        String itemCode = "";
+        StringBuilder test22 = new StringBuilder();
+        for (WorkSiteSimulationTO testBean : test) {
+            // System.out.println(aa+""+testBean);
+            workOrderNo = testBean.getWorkOrderNo();
+            parentItemCode = testBean.getParentItemCode();
+            sb.append(testBean.getItemCode());
+            itemCode += testBean.getItemCode() + ", ";
+            aa++;
+        }
+        System.out.println(workOrderNo);
+        System.out.println(parentItemCode);
+        System.out.println("리스트테스트" + test22);
+        System.out.println("리스트테스트111" + itemCode);
+//            String itemCodeList=itemCodeListArr.toString().replace("[", "").replace("]", "");
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("workOrderNo", workOrderNo);
+        param.put("itemCode", parentItemCode);
+        param.put("itemCodeList", itemCode);
+
+        workOrderDAO.updateWorkCompletionStatus(param);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	@Override
 	public HashMap<String, Object> getWorkOrderableMrpList() {
 		HashMap<String, Object> result = new HashMap<>();
@@ -75,77 +171,47 @@ public class WorkOrderApplicationServiceImpl implements WorkOrderApplicationServ
 	}
 
 	@Override
-	public ArrayList<WorkOrderInfoTO> getWorkOrderInfoList() {
-
-		return workOrderDAO.selectWorkOrderInfoList();
-
-	}
-
-	@Override
-	public HashMap<String, Object> workOrderCompletion(String workOrderNo, String actualCompletionAmount) {
-
-		HashMap<String, Object> param = new HashMap<>();
-		param.put("workOrderNo", workOrderNo);
-		param.put("actualCompletionAmount", actualCompletionAmount);
-
-		workOrderDAO.workOrderCompletion(param);
-
-		return param;
-	}
-
-	@Override
 	public ArrayList<ProductionPerformanceInfoTO> getProductionPerformanceInfoList() {
 
 		return workOrderDAO.selectProductionPerformanceInfoList();
 
 	}
 
-	@Override
-	public HashMap<String, Object> showWorkSiteSituation(String workSiteCourse, String workOrderNo,
-														 String itemClassIfication) {
 
-		HashMap<String, Object> param = new HashMap<>();
-		param.put("workSiteCourse", workSiteCourse);
-		param.put("workOrderNo", workOrderNo);
-		param.put("itemClassIfication", itemClassIfication);
 
-		workOrderDAO.selectWorkSiteSituation(param);
 
-		return param;
-	}
 
-	@Override
-	public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo) {
 
-		ArrayList<WorkSiteSimulationTO> test = workOrderInfo.get("workOrderInfo");
-		StringBuilder sb = new StringBuilder();
-//            List<TotalTrialBalanceBean> test=(List<TotalTrialBalanceBean>) param.get("RESULT");
-		int aa = 0;
-		String workOrderNo = "";
-		String parentItemCode = "";
-		String itemCode = "";
-		StringBuilder test22 = new StringBuilder();
-		for (WorkSiteSimulationTO testBean : test) {
-			// System.out.println(aa+""+testBean);
-			workOrderNo = testBean.getWorkOrderNo();
-			parentItemCode = testBean.getParentItemCode();
-			sb.append(testBean.getItemCode());
-			itemCode += testBean.getItemCode() + ", ";
-			aa++;
-		}
-		System.out.println(workOrderNo);
-		System.out.println(parentItemCode);
-		System.out.println("리스트테스트" + test22);
-		System.out.println("리스트테스트111" + itemCode);
-//            String itemCodeList=itemCodeListArr.toString().replace("[", "").replace("]", "");
-		HashMap<String, Object> param = new HashMap<>();
-		param.put("workOrderNo", workOrderNo);
-		param.put("itemCode", parentItemCode);
-		param.put("itemCodeList", itemCode);
 
-		workOrderDAO.updateWorkCompletionStatus(param);
 
-	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	@Override
 	public HashMap<String, Object> workSiteLogList(String workSiteLogDate) {
