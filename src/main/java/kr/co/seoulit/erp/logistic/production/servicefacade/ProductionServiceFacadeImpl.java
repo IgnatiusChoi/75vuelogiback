@@ -4,19 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-
-import kr.co.seoulit.erp.logistic.production.dao.MpsDAO;
 import kr.co.seoulit.erp.logistic.production.dao.WorkOrderDAO;
 import kr.co.seoulit.erp.logistic.production.to.*;
-import kr.co.seoulit.erp.logistic.sales.dao.ContractDetailDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.co.seoulit.erp.logistic.production.applicationservice.MrpApplicationService;
 import kr.co.seoulit.erp.logistic.production.applicationservice.WorkOrderApplicationService;
 
-import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
-import kr.co.seoulit.erp.logistic.production.to.MrpTO;
 import kr.co.seoulit.erp.logistic.production.to.ProductionPerformanceInfoTO;
 import kr.co.seoulit.erp.logistic.production.to.WorkOrderInfoTO;
 import kr.co.seoulit.erp.logistic.production.to.WorkSiteSimulationTO;
@@ -26,62 +20,12 @@ import kr.co.seoulit.erp.logistic.production.to.WorkSiteSimulationTO;
 public class ProductionServiceFacadeImpl implements ProductionServiceFacade {
 
 
-	@Autowired
-	private MrpApplicationService mrpAS;
+
 	@Autowired
 	private WorkOrderApplicationService workOrderAS;
 	@Autowired
 	private WorkOrderDAO workOrderDAO;
 
-
-
-	@Override
-	public ArrayList<MrpTO> searchMrpList(String mrpGatheringStatusCondition) {
-
-		return mrpAS.searchMrpList(mrpGatheringStatusCondition);
-
-	}
-
-	@Override
-	public ArrayList<MrpTO> searchMrpList(String dateSearchCondtion, String startDate, String endDate) {
-
-		return mrpAS.searchMrpList(dateSearchCondtion, startDate, endDate);
-	}
-
-	@Override
-	public ArrayList<MrpTO> searchMrpListAsMrpGatheringNo(String mrpGatheringNo) {
-
-		return mrpAS.searchMrpListAsMrpGatheringNo(mrpGatheringNo);
-	}
-
-	@Override
-	public ArrayList<MrpGatheringTO> searchMrpGatheringList(String dateSearchCondtion, String startDate,
-															String endDate) {
-
-		return mrpAS.searchMrpGatheringList(dateSearchCondtion, startDate, endDate);
-	}
-
-
-
-	@Override
-	public HashMap<String, Object> batchMrpListProcess(ArrayList<MrpTO> mrpTOList) {
-
-		return mrpAS.batchMrpListProcess(mrpTOList);
-	}
-
-	@Override
-	public ArrayList<MrpGatheringTO> getMrpGathering(String mrpNoArr) {
-
-		return mrpAS.getMrpGathering(mrpNoArr);
-	}
-
-	@Override
-	public HashMap<String, Object> registerMrpGathering(String mrpGatheringRegisterDate,
-														ArrayList<MrpGatheringTO> newMrpGatheringList, HashMap<String, String> mrpNoAndItemCodeMap) {
-
-		return mrpAS.registerMrpGathering(mrpGatheringRegisterDate, newMrpGatheringList, mrpNoAndItemCodeMap);
-
-	}
 
 	@Override
 	public HashMap<String, Object> getWorkOrderableMrpList() {

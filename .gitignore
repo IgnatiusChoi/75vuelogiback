@@ -1,0 +1,12 @@
+# IntelliJ project files
+.idea
+.idea/*.xml
+*.iml
+out/
+gen
+build/
+
+# Gradle
+.gradle
+build/
+.gradletasknamecache
