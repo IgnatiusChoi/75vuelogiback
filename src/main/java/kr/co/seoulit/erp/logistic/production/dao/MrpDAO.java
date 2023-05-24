@@ -21,9 +21,6 @@ public interface MrpDAO {
 	public void updateMps(MpsTO mpsTO);
 
 
-
-
-
 	public ArrayList<MrpTO> selectMrpListAll(String mrpGatheringStatusCondition);
 
 	public ArrayList<MrpTO> selectMrpListAsMrpGatheringNo(String mrpGatheringNo);

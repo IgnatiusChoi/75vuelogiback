@@ -9,22 +9,6 @@ import kr.co.seoulit.erp.logistic.production.to.*;
 public interface ProductionServiceFacade {
 
 
-	public ArrayList<MrpTO> searchMrpList(String mrpGatheringStatusCondition);
-
-	public ArrayList<MrpTO> searchMrpList(String dateSearchCondtion, String startDate, String endDate);
-
-	public ArrayList<MrpTO> searchMrpListAsMrpGatheringNo(String mrpGatheringNo);
-
-	public ArrayList<MrpGatheringTO> searchMrpGatheringList(String dateSearchCondtion, String startDate,
-															String endDate);
-
-
-	public HashMap<String, Object> batchMrpListProcess(ArrayList<MrpTO> mrpTOList);
-
-	public ArrayList<MrpGatheringTO> getMrpGathering(String mrpNoArr);
-
-	public HashMap<String, Object> registerMrpGathering(String mrpGatheringRegisterDate,
-														ArrayList<MrpGatheringTO> newMrpGatheringList, HashMap<String, String> mrpNoAndItemCodeMap);
 
 	public HashMap<String, Object> getWorkOrderableMrpList();
 
