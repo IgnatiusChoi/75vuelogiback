@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import kr.co.seoulit.erp.logistic.production.servicefacade.ProductionServiceFacade;
 import kr.co.seoulit.erp.logistic.production.to.ProductionPerformanceInfoTO;
 import kr.co.seoulit.erp.logistic.production.to.WorkOrderInfoTO;
 import kr.co.seoulit.erp.logistic.production.to.WorkSiteSimulationTO;
