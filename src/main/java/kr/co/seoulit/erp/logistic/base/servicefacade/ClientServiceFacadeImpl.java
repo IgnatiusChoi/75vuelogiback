@@ -43,10 +43,31 @@ public class ClientServiceFacadeImpl implements ClientServiceFacade{
     }
 
     @Override
+    public ArrayList<ClientTO> updateClient(ClientTO clientdata) {
+        return clientAS.updateClient(clientdata);
+    }
+
+    @Override
     public ArrayList<ClientTO> deleteClient(ClientTO clientdata) {
         ArrayList<ClientTO> result = clientAS.deleteClient(clientdata);
         return result;
     }
 
-    ;
+    @Override
+    public ArrayList<FinancialTO> insertFinance(FinancialTO clientdata) {
+        ArrayList<FinancialTO> result = clientAS.insertFinance(clientdata);
+        return result;
+    }
+
+    @Override
+    public ArrayList<FinancialTO> updateFinance(FinancialTO clientdata) {
+        return clientAS.updateFinance(clientdata);
+    }
+
+    @Override
+    public ArrayList<FinancialTO> deleteFinance(FinancialTO clientdata) {
+        ArrayList<FinancialTO> result = clientAS.deleteFinance(clientdata);
+        return result;
+    }
+
 }

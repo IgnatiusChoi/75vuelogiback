@@ -68,5 +68,60 @@
             CUSTOMER_CODE = #{customerCode}
     </delete>
 
+    <update id="updateClient" parameterType="ClientTO">
+        UPDATE CUSTOMER SET
+            customer_Code = #{customerCode:VARCHAR}
+                           , workplace_Code = #{workplaceCode:VARCHAR}
+                           , customer_Name = #{customerName:VARCHAR}
+                           , customer_Type = #{customerType:VARCHAR}
+                           , customer_Ceo = #{customerCeo:VARCHAR}
+                           , business_License_Number = #{businessLicenseNumber:VARCHAR}
+                           , social_Security_Number = #{socialSecurityNumber:VARCHAR}
+                           , customer_Business_Conditions = #{customerBusinessConditions:VARCHAR}
+                           , customer_Business_Items = #{customerBusinessItems:VARCHAR}
+                           , customer_Zip_Code = #{customerZipCode:VARCHAR}
+                           , customer_Basic_Address = #{customerBasicAddress:VARCHAR}
+                           , customer_Detail_Address = #{customerDetailAddress:VARCHAR}
+                           , customer_Tel_Number = #{customerTelNumber:VARCHAR}
+                           , customer_Fax_Number = #{customerFaxNumber:VARCHAR}
+                           , customer_Note = #{customerNote:VARCHAR}
+        WHERE customer_Code = #{customerCode}
+    </update>
+
+    <insert id="insertFinance" parameterType="FinancialTO" >
+        Insert into FINANCIAL_ACCOUNT_ASSOCIATES
+        ( ACCOUNT_ASSOCIATES_CODE, WORKPLACE_CODE, ACCOUNT_ASSOCIATES_NAME, ACCOUNT_ASSOCIATES_TYPE,
+          ACCOUNT_NUMBER, ACCOUNT_OPEN_PLACE, CARD_NUMBER, CARD_TYPE,
+          CARD_MEMBER_NAME, CARD_OPEN_PLACE, BUSINESS_LICENSE_NUMBER, FINANCIAL_INSTITUTE_CODE,
+          FINANCIAL_INSTITUTE_NAME, DIVISION_CODE_NO)
+        values ( #{accountAssociatesCode:VARCHAR},#{workplaceCode:VARCHAR},#{accountAssociatesName:VARCHAR},#{accountAssociatesType:VARCHAR},
+                 #{accountNumber:VARCHAR},#{accountOpenPlace:VARCHAR},#{cardNumber:VARCHAR},#{cardType:VARCHAR},
+                 #{cardMemberName:VARCHAR},#{cardOpenPlace:VARCHAR},#{businessLicenseNumber:VARCHAR},#{financialInstituteCode:VARCHAR},
+                 #{financialInstituteName:VARCHAR},#{divisionCodeNo:VARCHAR} )
+    </insert>
+
+    <delete id="deleteFinance" parameterType="FinancialTO">
+        DELETE FROM FINANCIAL_ACCOUNT_ASSOCIATES WHERE
+            ACCOUNT_ASSOCIATES_CODE = #{accountAssociatesCode}
+    </delete>
+
+    <update id="updateFinance" parameterType="FinancialTO">
+        UPDATE FINANCIAL_ACCOUNT_ASSOCIATES SET
+            ACCOUNT_ASSOCIATES_CODE = #{accountAssociatesCode:VARCHAR}
+                          , WORKPLACE_CODE = #{workplaceCode:VARCHAR}
+                          , ACCOUNT_ASSOCIATES_NAME = #{accountAssociatesName:VARCHAR}
+                          , ACCOUNT_ASSOCIATES_TYPE = #{accountAssociatesType:VARCHAR}
+                          , ACCOUNT_NUMBER = #{accountNumber:VARCHAR}
+                          , ACCOUNT_OPEN_PLACE = #{accountOpenPlace:VARCHAR}
+                          , CARD_NUMBER = #{cardNumber:VARCHAR}
+                          , CARD_TYPE = #{cardType:VARCHAR}
+                          , CARD_MEMBER_NAME = #{cardMemberName:VARCHAR}
+                          , CARD_OPEN_PLACE = #{cardOpenPlace:VARCHAR}
+                          , BUSINESS_LICENSE_NUMBER = #{businessLicenseNumber:VARCHAR}
+                          , FINANCIAL_INSTITUTE_CODE = #{financialInstituteCode:VARCHAR}
+                          , FINANCIAL_INSTITUTE_NAME = #{financialInstituteName:VARCHAR}
+                          , DIVISION_CODE_NO = #{divisionCodeNo:VARCHAR}
+        WHERE ACCOUNT_ASSOCIATES_CODE = #{accountAssociatesCode}
+    </update>
 
 </mapper>

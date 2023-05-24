@@ -13,6 +13,11 @@ public interface ClientDAO {
     public ArrayList<FinancialTO> searchFinanceList();
     public ArrayList<FinancialTO> searchFinanceDetailList(String Code);
     public int insertClient(ClientTO clientdata);
+    public boolean updateClient(ClientTO clientdata);
 
     public int deleteClient(ClientTO clientdata);
+    public int insertFinance(FinancialTO clientdata);
+    public boolean updateFinance(FinancialTO clientdata);
+
+    public int deleteFinance(FinancialTO clientdata);
 }
