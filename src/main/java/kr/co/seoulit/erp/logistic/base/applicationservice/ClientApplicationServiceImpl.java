@@ -41,8 +41,32 @@ public class ClientApplicationServiceImpl implements ClientApplicationService{
     }
 
     @Override
+    public ArrayList<ClientTO> updateClient(ClientTO clientdata) {
+        clientDAO.updateClient(clientdata);
+        return null;
+    }
+
+    @Override
     public ArrayList<ClientTO> deleteClient(ClientTO clientdata) {
         clientDAO.deleteClient(clientdata);
+        return null;
+    }
+
+    @Override
+    public ArrayList<FinancialTO> insertFinance(FinancialTO clientdata) {
+        clientDAO.insertFinance(clientdata);
+        return null;
+    }
+
+    @Override
+    public ArrayList<FinancialTO> updateFinance(FinancialTO clientdata) {
+        clientDAO.updateFinance(clientdata);
+        return null;
+    }
+
+    @Override
+    public ArrayList<FinancialTO> deleteFinance(FinancialTO clientdata) {
+        clientDAO.deleteFinance(clientdata);
         return null;
     }
 }

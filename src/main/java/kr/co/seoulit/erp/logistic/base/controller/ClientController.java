@@ -122,5 +122,75 @@ public class ClientController {
         }
         return modelMap;
     }
+    @PostMapping("/base/updateClient")
+    public ModelMap updateClient(@RequestBody Map<String, Object> data){
+        ObjectMapper mapper = new ObjectMapper();
+        ClientTO clientdata=mapper.convertValue(data,ClientTO.class);
+        System.out.println(clientdata);
+        try {
+            ClientSF.updateClient(clientdata);
+            modelMap.put("errorCode", 1);
+            modelMap.put("errorMsg", "성공");
 
+        } catch (Exception e2) {
+            e2.printStackTrace();
+            modelMap.put("errorCode", -2);
+            modelMap.put("errorMsg", e2.getMessage());
+
+        }
+        return modelMap;
+    }
+
+    @PostMapping("/base/insertFinance")
+    public ModelMap insertFinance(@RequestBody Map<String, Object> data){
+        ObjectMapper mapper = new ObjectMapper();
+        FinancialTO clientdata=mapper.convertValue(data,FinancialTO.class);
+        System.out.println(clientdata);
+        try {
+            ClientSF.insertFinance(clientdata);
+            modelMap.put("errorCode", 1);
+            modelMap.put("errorMsg", "성공");
+
+        } catch (Exception e2) {
+            e2.printStackTrace();
+            modelMap.put("errorCode", -2);
+            modelMap.put("errorMsg", e2.getMessage());
+
+        }
+        return modelMap;
+    }
+    @PostMapping("/base/deleteFinance")
+    public ModelMap deleteFinance(@RequestBody FinancialTO data){
+        System.out.println(data);
+        try {
+            ClientSF.deleteFinance(data);
+            modelMap.put("errorCode", 1);
+            modelMap.put("errorMsg", "성공");
+
+        } catch (Exception e2) {
+            e2.printStackTrace();
+            modelMap.put("errorCode", -2);
+            modelMap.put("errorMsg", e2.getMessage());
+
+        }
+        return modelMap;
+    }
+    @PostMapping("/base/updateFinance")
+    public ModelMap updateFinance(@RequestBody Map<String, Object> data){
+        ObjectMapper mapper = new ObjectMapper();
+        FinancialTO clientdata=mapper.convertValue(data,FinancialTO.class);
+        System.out.println(clientdata);
+        try {
+            ClientSF.updateFinance(clientdata);
+            modelMap.put("errorCode", 1);
+            modelMap.put("errorMsg", "성공");
+
+        } catch (Exception e2) {
+            e2.printStackTrace();
+            modelMap.put("errorCode", -2);
+            modelMap.put("errorMsg", e2.getMessage());
+
+        }
+        return modelMap;
+    }
 }

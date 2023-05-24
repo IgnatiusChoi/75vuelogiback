@@ -12,5 +12,11 @@ public interface ClientApplicationService {
     public ArrayList<FinancialTO> searchFinanceList();
     public ArrayList<FinancialTO> searchFinanceDetailList(String Code);
     public ArrayList<ClientTO> insertClient(ClientTO clientdata);
+    public ArrayList<ClientTO> updateClient(ClientTO clientdata);
+
     public ArrayList<ClientTO> deleteClient(ClientTO clientdata);
+    public ArrayList<FinancialTO> insertFinance(FinancialTO clientdata);
+    public ArrayList<FinancialTO> updateFinance(FinancialTO clientdata);
+
+    public ArrayList<FinancialTO> deleteFinance(FinancialTO clientdata);
 }
