@@ -66,7 +66,7 @@ public class MrpGatheringServiceFacadeImpl implements MrpGatheringServiceFacade{
         ArrayList<MrpGatheringTO> mrpGatheringList = mrpGatheringDAO.getMrpGathering(mrpNoList);
 
 
-        try{
+        try {
             resultMap.put("gridRowJson", mrpGatheringList);
             resultMap.put("errorCode", 1);
             resultMap.put("errorMsg", "�꽦怨�");
@@ -164,25 +164,16 @@ public class MrpGatheringServiceFacadeImpl implements MrpGatheringServiceFacade{
         param.put("endDate", endDate);
 
         ArrayList<MrpGatheringTO> mrpGatheringResult = mrpGatheringDAO.selectMrpGatheringList(param);
+        ArrayList<MrpTO> result = new ArrayList<>();
 
-        try {
-            resultMap.put("gridRowJson", mrpGatheringResult);
-            resultMap.put("errorCode", 1);
-            resultMap.put("errorMsg", "정상");
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            resultMap.put("errorCode", -2);
-            resultMap.put("errorMsg", e2.getMessage());
+
+        for (MrpGatheringTO bean : mrpGatheringResult) {
+            ArrayList<MrpTO> mrpTOList = mrpDAO.selectMrpListAsMrpGatheringNo(bean.getMrpGatheringNo());
+            bean.setMrpTOList(mrpTOList);
+            result.addAll(mrpTOList);
         }
 
-//        ArrayList<MrpTO> result = new ArrayList<>();
-//        for (MrpGatheringTO bean : mrpGatheringResult) {
-//            ArrayList<MrpTO> mrpTOList = mrpDAO.selectMrpListAsMrpGatheringNo(bean.getMrpGatheringNo());
-//            bean.setMrpTOList(mrpTOList);
-//            result.addAll(mrpTOList);
-//        }
-
-        return resultMap;
+        return putMrpResultMap(result);
     }
 
 

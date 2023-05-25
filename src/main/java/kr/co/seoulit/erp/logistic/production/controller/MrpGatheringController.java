@@ -108,16 +108,32 @@ public class MrpGatheringController {
     }
 
 
+
     /*****************************
-          소요량 취합 결과 조회
+             소요량 취합 조회
      *****************************/
-    @RequestMapping(value = "/searchMrpGathering", method = RequestMethod.GET)
-    public ResponseEntity<HashMap<String, Object>> searchMrpGathering(@RequestParam String searchDateCondition, @RequestParam String startDate,
-                                       @RequestParam String endDate) {
-
-            HashMap<String, Object> mrpGatheringList
-                    = mrpGatheringSF.searchMrpGatheringList(searchDateCondition, startDate, endDate);
-
-        return  new ResponseEntity<>(mrpGatheringList, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/searchMrpGathering", method = RequestMethod.GET)
+//    public ModelMap searchMrpGathering(@RequestParam String searchDateCondition, @RequestParam String startDate,
+//                                       @RequestParam String endDate) {
+//
+//        System.out.println("searchDateCondition              " + searchDateCondition);
+//        System.out.println("startDate              " + startDate);
+//        System.out.println("endDate              " + endDate);
+//        try {
+//
+//            ArrayList<MrpGatheringTO> mrpGatheringList = mrpGatheringSF.searchMrpGatheringList(searchDateCondition,
+//                    startDate, endDate);
+//
+//            modelMap.put("gridRowJson", mrpGatheringList);
+//            modelMap.put("errorCode", 1);
+//            modelMap.put("errorMsg", "�꽦怨�");
+//
+//        } catch (Exception e2) {
+//            e2.printStackTrace();
+//            modelMap.put("errorCode", -2);
+//            modelMap.put("errorMsg", e2.getMessage());
+//
+//        }
+//        return modelMap;
+//    }
 }
