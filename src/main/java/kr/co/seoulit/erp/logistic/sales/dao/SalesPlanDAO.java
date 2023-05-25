@@ -29,4 +29,5 @@ public interface SalesPlanDAO {
 	public ArrayList<SalesPlanTO> getSalesPlan();
 
 	public void updateSalesPlan(SalesPlanTO salesPlanTOList);
+
 }

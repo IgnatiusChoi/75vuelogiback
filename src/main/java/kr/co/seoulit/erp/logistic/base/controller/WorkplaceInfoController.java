@@ -26,7 +26,6 @@ public class WorkplaceInfoController {
 
         modelMap = new ModelMap();
         modelMap.put("workplaceInfo", workplaceDetailList);
-        System.out.println("modelMap = " + modelMap);
         return modelMap;
     }
 
@@ -34,7 +33,6 @@ public class WorkplaceInfoController {
     @RequestMapping(value = "/workplaceList", method = RequestMethod.GET)
     public ModelMap getWorkplaceList() {
         ArrayList<WorkplaceInfoTO> workplaceList = logiBaseServiceFacade.getWorkplaceList();
-        System.out.println("workplaceList = " + workplaceList);
         modelMap = new ModelMap();
         modelMap.put("workplaceList", workplaceList);
         return modelMap;
@@ -43,21 +41,18 @@ public class WorkplaceInfoController {
     @ResponseBody
     @RequestMapping(value = "/workplace", method = RequestMethod.POST)
     public void insertWorkplaceCode(@RequestBody WorkplaceInfoTO workplaceInfoTO) {
-        System.out.println("workplaceInfoTO = " + workplaceInfoTO);
         logiBaseServiceFacade.insertWorkplaceCode(workplaceInfoTO);
     }
 
     @ResponseBody
     @RequestMapping(value = "/workplaceCode", method = RequestMethod.DELETE)
     public void deleteWorkplaceCode(@RequestParam String workplaceCode) {
-        System.out.println("workplaceCode = " + workplaceCode);
         logiBaseServiceFacade.deleteWorkplaceCode(workplaceCode);
     }
 
     @ResponseBody
     @RequestMapping(value = "/workplaceupdate", method = RequestMethod.POST)
     public void updateWorkplaceCode(@RequestBody WorkplaceInfoTO workplaceInfoTO) {
-        System.out.println("workplaceCode = " + workplaceInfoTO);
         logiBaseServiceFacade.updateWorkplaceCode(workplaceInfoTO);
     }
 

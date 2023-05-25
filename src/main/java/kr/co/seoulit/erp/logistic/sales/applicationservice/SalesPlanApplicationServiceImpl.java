@@ -101,5 +101,4 @@ public class SalesPlanApplicationServiceImpl implements SalesPlanApplicationServ
 		salesPlanDAO.updateSalesPlan( salesPlanTOList);
 	}
 
-
 }

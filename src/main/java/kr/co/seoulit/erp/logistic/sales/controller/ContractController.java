@@ -8,6 +8,7 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.JsonObject;
 import kr.co.seoulit.erp.logistic.sales.to.*;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -25,6 +26,8 @@ import com.google.gson.GsonBuilder;
 
 import kr.co.seoulit.erp.logistic.sales.servicefacade.SalesServiceFacade;
 
+
+@Slf4j
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/logi/sales/*", produces = "application/json")
@@ -83,6 +86,8 @@ public class ContractController {
 			@RequestParam String endDate) {
 		ArrayList<EstimateTO> estimateListInContractAvailable = salesSF.getEstimateListInContractAvailable(startDate,
 				endDate);
+
+		log.info("estimateListInContractAvailable = {}", estimateListInContractAvailable);
 		HashMap<String, Object> resultMap = new HashMap<>();
 		resultMap.put("gridRowJson", estimateListInContractAvailable);
 		resultMap.put("errorCode", 1);
@@ -114,7 +119,9 @@ public class ContractController {
 		}
 		ContractTO workingContractTO = gson.fromJson(batchList, ContractTO.class);
 		HashMap<String, Object> resultMap = new HashMap<>();
+		System.out.println("뭐여");
 		resultMap = salesSF.addNewContract(contractDate, personCodeInCharge, workingContractTO, estimateDetailArray);
+		System.out.println("수주등록 완");
 		return resultMap;
 		//return null;
 	}

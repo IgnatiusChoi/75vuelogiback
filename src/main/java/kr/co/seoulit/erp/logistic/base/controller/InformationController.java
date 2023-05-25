@@ -38,4 +38,5 @@ public class InformationController {
         }
         return modelMap;
     }
+
 }

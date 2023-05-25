@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
 <mapper namespace="kr.co.seoulit.erp.logistic.base.dao.ItemDAO">
-	
+
 	<resultMap id="itemInfoResult" type="itemInfoTO">
 		<result property="itemCode" column="ITEM_CODE"  />
 		<result property="itemName" column="ITEM_NAME"  />
@@ -15,7 +15,29 @@
 		<result property="codeUseCheck" column="CODE_USE_CHECK"  />
 		<result property="description" column="DESCRIPTION"  />
 	</resultMap>
-	
+	<resultMap id="itemResult" type="itemTO">
+		<result property="itemCode" column="ITEM_CODE"  />
+		<result property="itemName" column="ITEM_NAME"  />
+		<result property="itemGroupCode" column="ITEM_GROUP_CODE"  />
+		<result property="itemClassification" column="ITEM_CLASSIFICATION"  />
+		<result property="unitOfStock" column="UNIT_OF_STOCK"  />
+		<result property="lossRate" column="LOSS_RATE"  />
+		<result property="leadTime" column="LEAD_TIME"  />
+		<result property="standardUnitPrice" column="STANDARD_UNIT_PRICE"  />
+		<result property="description" column="DESCRIPTION"  />
+	</resultMap>
+	<resultMap id="itemGroupResult" type="itemGroupTO">
+		<result property="itemGroupCode" column="ITEM_GROUP_CODE"  />
+		<result property="description" column="DESCRIPTION"  />
+		<result property="itemGroupName" column="ITEM_GROUP_NAME"  />
+	</resultMap>
+
+	<select id="searchItemList" parameterType="ItemTO" resultMap="itemResult">
+		SELECT * FROM ITEM
+	</select>
+	<select id="searchItemGroupList" parameterType="ItemGroupTO" resultMap="itemGroupResult">
+		SELECT * FROM ITEM_GROUP
+	</select>
 	<select id="selectAllItemList" resultMap="itemInfoResult">
 	SELECT I.ITEM_CODE, I.ITEM_NAME, I.ITEM_GROUP_CODE, I.ITEM_CLASSIFICATION,
     I.UNIT_OF_STOCK, I.LOSS_RATE, I.LEAD_TIME, I.STANDARD_UNIT_PRICE, I.DESCRIPTION,
@@ -23,7 +45,63 @@
 	FROM ITEM I, CODE_DETAIL C
 	WHERE I.ITEM_CODE = C.DETAIL_CODE (+)
 	</select>
-	
+
+	<insert id="insertItem" parameterType="itemTO">
+		Insert into ITEM
+		( ITEM_CODE, ITEM_NAME, ITEM_GROUP_CODE, ITEM_CLASSIFICATION, UNIT_OF_STOCK, LOSS_RATE, LEAD_TIME, STANDARD_UNIT_PRICE, DESCRIPTION)
+		values ( #{itemCode} ,
+				 #{itemName} ,
+				 #{itemGroupCode} ,
+				 #{itemClassification} ,
+				 #{unitOfStock} ,
+				 #{lossRate} ,
+				 #{leadTime} ,
+				 #{standardUnitPrice} ,
+				 #{description}
+			   )
+	</insert>
+
+	<update id="updateItem" parameterType="itemTO">
+		UPDATE ITEM SET
+						ITEM_NAME = #{itemName} ,
+						ITEM_GROUP_CODE = #{itemGroupCode} ,
+						ITEM_CLASSIFICATION = #{itemClassification} ,
+						UNIT_OF_STOCK = #{unitOfStock} ,
+						LOSS_RATE = #{lossRate} ,
+						LEAD_TIME = #{leadTime} ,
+						STANDARD_UNIT_PRICE = #{standardUnitPrice} ,
+						DESCRIPTION = #{description}
+
+		WHERE ITEM_CODE = #{itemCode}
+	</update>
+
+	<delete id="deleteItem" parameterType="itemTO">
+		DELETE FROM ITEM WHERE ITEM_CODE = #{itemCode}
+	</delete>
+
+	<insert id="insertItemGroup" parameterType="ItemGroupTO">
+		Insert into ITEM_GROUP
+		( ITEM_GROUP_CODE, ITEM_GROUP_NAME, DESCRIPTION )
+		values ( #{itemGroupCode} ,
+				 #{itemGroupName} ,
+				 #{description}
+			   )
+	</insert>
+
+	<update id="updateItemGroup" parameterType="ItemGroupTO">
+		UPDATE ITEM_GROUP SET
+							  ITEM_GROUP_NAME = #{itemGroupName} ,
+							  DESCRIPTION = #{description}
+
+
+		WHERE ITEM_GROUP_CODE = #{itemGroupCode}
+	</update>
+
+	<delete id="deleteItemGroup" parameterType="ItemGroupTO">
+		DELETE FROM ITEM_GROUP WHERE ITEM_GROUP_CODE = #{itemGroupCode}
+	</delete>
+
+<!--  이하는 현재 어떻게 사용 보류중	-->
 	<select id="selectItemList" parameterType="map" resultMap="itemInfoResult">
 	WITH ITEM_WITH_CODE_USE_CHECK AS
 	( SELECT I.ITEM_CODE, I.ITEM_NAME, I.ITEM_GROUP_CODE, I.ITEM_CLASSIFICATION,
@@ -46,56 +124,23 @@
 			</when>
 			<otherwise></otherwise>
 		</choose>
-	
+
 	</select>
-	
-	<insert id="insertItem" parameterType="itemTO">
-	Insert into ITEM
-	( ITEM_CODE, ITEM_NAME, ITEM_GROUP_CODE, ITEM_CLASSIFICATION, UNIT_OF_STOCK, LOSS_RATE, LEAD_TIME, STANDARD_UNIT_PRICE, DESCRIPTION)
-	values ( #{itemCode} ,
-			 #{itemName} ,
-			 #{itemGroupCode} , 
-			 #{itemClassification} , 
-			 #{unitOfStock} , 
-			 #{lossRate} , 
-			 #{leadTime} , 
-			 #{standardUnitPrice} , 
-			 #{description} 
-			)
-	</insert>
-	
-	<update id="updateItem" parameterType="itemTO">
-		UPDATE ITEM SET
-		ITEM_NAME = #{itemName} , 
-		ITEM_GROUP_CODE = #{itemGroupCode} , 
-		ITEM_CLASSIFICATION = #{itemClassification} ,
-		UNIT_OF_STOCK = #{unitOfStock} , 
-		LOSS_RATE = #{lossRate} , 
-		LEAD_TIME = #{leadTime} ,
-		STANDARD_UNIT_PRICE = #{standardUnitPrice} , 
-		DESCRIPTION = #{description}
-		
-		WHERE ITEM_CODE = #{itemCode}
-	</update>
-	
-	<delete id="deleteItem" parameterType="itemTO">
-	DELETE FROM ITEM WHERE ITEM_CODE = #{itemCode}
-	</delete>
-	
+
 	<select id="getStandardUnitPrice" parameterType="String" resultType="int">
 	select standard_unit_price
 	from item
 	where item_code = #{itemCode}
 	</select>
-	
+
 	<select id="getStandardUnitPriceBox" parameterType="String" resultType="int">
 	select standard_unit_price
 	from item
 	where item_code = #{itemCode}
 	</select>
-	
+
 	<select id='selectOptionItemList' resultMap="itemInfoResult">
 		SELECT ITEM_CODE , ITEM_NAME FROM item WHERE item_classification = 'IT-MA'
 	</select>
-	
+
 </mapper>

@@ -16,5 +16,6 @@ public interface SalesPlanApplicationService {
 	public ArrayList<SalesPlanTO> getSalesPlan();
 
 	public  void UpdateSalesPlan(SalesPlanTO salesPlanTOList);
+
 }
 

@@ -17,4 +17,6 @@ public interface DeliveryApplicationService {
 
 	public Map<String, ArrayList<DeliveryInfoTO>> deliverUpdate(Map<String, ArrayList<DeliveryInfoTO>> deliverUpdate);
 
+
+
 }
