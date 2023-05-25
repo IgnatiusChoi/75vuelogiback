@@ -172,6 +172,10 @@ public class SalesServiceFacadeImpl implements SalesServiceFacade {
 
 		return SalesPlan;
 	}
+	@Override
+	public void UpdateSalesPlanListProcess(SalesPlanTO salesPlanTOList){
+		salesPlanAS.UpdateSalesPlan(salesPlanTOList);
+	}
 }
 
 

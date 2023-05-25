@@ -9,11 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import kr.co.seoulit.erp.logistic.sales.servicefacade.SalesServiceFacade;
 import kr.co.seoulit.erp.logistic.sales.to.ContractInfoTO;
@@ -111,17 +107,18 @@ public class DeliveryController {
 		return modelMap;
 	}
 
+
 	/********************* 납품 2020-12-03 이숭규 **********************/
-	@RequestMapping("/deliver")
-	public HashMap<String, String> deliver(@RequestParam String contractDetailNo) {
+	@RequestMapping(value = "delivery",method = RequestMethod.POST)
+	public HashMap<String, String> deliver(@RequestBody DeliveryInfoTO contractDetailNo) {
+		System.out.println("들어온 파라메터"+contractDetailNo.getContractDetailNo());
 
 		HashMap<String, Object> resultMap = new HashMap<>(); // object 그대로 받으면 한글 깨짐
 
 		HashMap<String, String> resultMap2 = new HashMap<>();
-
 		try {
 
-			resultMap = salesSF.deliver(contractDetailNo);
+			resultMap = salesSF.deliver(contractDetailNo.getContractDetailNo());
 
 			resultMap2.put("errorCode", resultMap.get("errorCode") + "");
 			resultMap2.put("errorMsg", (String) resultMap.get("errorMsg"));

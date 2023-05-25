@@ -96,5 +96,10 @@ public class SalesPlanApplicationServiceImpl implements SalesPlanApplicationServ
 
 	}
 
+	public  void UpdateSalesPlan(SalesPlanTO salesPlanTOList){
+
+		salesPlanDAO.updateSalesPlan( salesPlanTOList);
+	}
+
 
 }
