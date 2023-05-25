@@ -16,7 +16,7 @@ public interface SalesPlanDAO {
 
 	public void insertSalesPlan(SalesPlanTO TO);
 
-	public void updateSalesPlan(SalesPlanTO TO);
+
 
 	public void deleteSalesPlan(SalesPlanTO TO);
 
@@ -27,4 +27,7 @@ public interface SalesPlanDAO {
 	public ArrayList<SalesPlanTO> selectSalesPlanList(HashMap<String, String> param);
 
 	public ArrayList<SalesPlanTO> getSalesPlan();
+
+	public void updateSalesPlan(SalesPlanTO salesPlanTOList);
+
 }

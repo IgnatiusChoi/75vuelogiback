@@ -1,29 +1,24 @@
 package kr.co.seoulit.erp.logistic.sales.controller;
 
+import kr.co.seoulit.erp.account.slip.to.SlipBean;
+import kr.co.seoulit.erp.logistic.sales.servicefacade.SalesServiceFacade;
+import kr.co.seoulit.erp.logistic.sales.to.SalesPlanTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
-import kr.co.seoulit.erp.hr.company.to.CompanyTO;
-import kr.co.seoulit.erp.logistic.sales.to.EstimateDetailTO;
-import kr.co.seoulit.erp.logistic.sales.to.EstimateTO;
-import kr.co.seoulit.erp.logistic.sales.to.logisticExelTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import kr.co.seoulit.erp.logistic.sales.servicefacade.SalesServiceFacade;
-import kr.co.seoulit.erp.logistic.sales.to.SalesPlanTO;
+
 
 @CrossOrigin("*")
 @RestController
@@ -66,8 +61,9 @@ public class SalesPlanController {
 	}
 
 	@RequestMapping(value = "/Selectsalesplane", method = RequestMethod.GET)
-	public ModelMap Selectsalesplane() {
 
+	public ModelMap Selectsalesplane() {
+		System.out.println("@@@@@????");
 		ArrayList<SalesPlanTO> salesplaneList = null;
 
 		try {
@@ -111,7 +107,12 @@ public class SalesPlanController {
 		return modelMap;
 	}
 
+	@PostMapping(value = "/UpdateSalesplan")
+	public ModelMap updatesalesplan(@RequestBody SalesPlanTO params) {
+		System.out.println("params.toString() = " + params);
+		salesSF.UpdateSalesPlanListProcess(params);
+
+		return modelMap;
+	}
 
 }
-
-
