@@ -27,7 +27,7 @@
 	</resultMap>
 
 	<select id="selectMrpGatheringList" parameterType="map" resultMap="mrpGatheringList">
-	SELECT * FROM MRP_GATHERING WHERE ( CASE #{dateSearchCondtion} WHEN 'claimDate' THEN
+	SELECT * FROM MRP_GATHERING WHERE ( CASE #{dateSearchCondition} WHEN 'claimDate' THEN
 	TO_DATE(CLAIM_DATE, 'YYYY-MM-DD') WHEN 'dueDate' THEN
 	TO_DATE(DUE_DATE, 'YYYY-MM-DD') END )
 	BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
