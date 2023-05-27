@@ -14,5 +14,8 @@ public interface SalesPlanApplicationService {
 	public void batchSalesPlanListProcess(SalesPlanTO salesPlanTOList);
 
 	public ArrayList<SalesPlanTO> getSalesPlan();
+
+	public  void UpdateSalesPlan(SalesPlanTO salesPlanTOList);
+
 }
 

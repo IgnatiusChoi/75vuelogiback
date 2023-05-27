@@ -62,5 +62,7 @@ public interface SalesServiceFacade {
 
 	public ArrayList<SalesPlanTO> getSalesPlan();
 
+	public void UpdateSalesPlanListProcess(SalesPlanTO salesPlanTOList);
+
 
 }

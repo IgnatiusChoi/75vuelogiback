@@ -2,26 +2,18 @@ package kr.co.seoulit.erp.logistic.production.controller;
 
 import java.util.*;
 
-import kr.co.seoulit.erp.logistic.production.servicefacade.MpsServiceFacade;
 import kr.co.seoulit.erp.logistic.production.servicefacade.MrpServiceFacade;
 import kr.co.seoulit.erp.logistic.production.to.MpsTO;
-import kr.co.seoulit.erp.sys.to.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
-import kr.co.seoulit.erp.logistic.production.servicefacade.ProductionServiceFacade;
-import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
 import kr.co.seoulit.erp.logistic.production.to.MrpTO;
 
 import static kr.co.seoulit.erp.sys.to.response.Response.success;

@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.seoulit.erp.logistic.base.servicefacade.ItemServiceFacade;
+import kr.co.seoulit.erp.logistic.base.to.ItemGroupTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -20,129 +22,33 @@ import kr.co.seoulit.erp.logistic.base.to.ItemTO;
 @RestController
 @RequestMapping("/logi/base/*")
 public class ItemController {
-
+	// 75기 3조 물류 최영현 수정
+	// 주요 수정내용 : search조건 간략화 및 status를 이용한 batchlistprocess작업 일원화, applicationservice삭제는 충돌되는 사항이 있어 임시보류
 	@Autowired
 	private LogisticsInfoServiceFacade logisticsSF;
+	@Autowired
+	private ItemServiceFacade itemSF;
 
 	private ModelMap modelMap = new ModelMap();
 
-	@RequestMapping(value = "/searchItem", method = RequestMethod.GET)
-	public ModelMap searchItem(@RequestParam String searchCondition, @RequestParam String minPrice,
-			@RequestParam String maxPrice, @RequestParam String itemClassification,
-			@RequestParam String itemGroupCode) {
-
-		System.out.println(searchCondition);
-		System.out.println(minPrice);
-		System.out.println(maxPrice);
-		System.out.println(itemClassification);
-		System.out.println(itemGroupCode);
-		ArrayList<ItemInfoTO> itemInfoList = null;
-		String[] paramArray = null;
-
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("searchCondition", searchCondition);
-		params.put("minPrice", minPrice);
-		params.put("maxPrice", maxPrice);
-		params.put("itemClassification", itemClassification);
-		params.put("itemGroupCode", itemGroupCode);
-
-		try {
-
-			switch (searchCondition) {
-
-			case "ALL":
-
-				paramArray = null;
-				break;
-
-			case "ITEM_CLASSIFICATION":
-
-				paramArray = new String[] { itemClassification };
-				break;
-
-			case "ITEM_GROUP_CODE":
-
-				paramArray = new String[] { itemGroupCode };
-				break;
-
-			case "STANDARD_UNIT_PRICE":
-
-				paramArray = new String[] { minPrice, maxPrice };
-				break;
-
-			}
-
-			itemInfoList = logisticsSF.getItemInfoList(params);
-
-			modelMap.put("gridRowJson", itemInfoList);
-			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "성공");
-
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		return modelMap;
+	@RequestMapping(value = "/searchItemList", method = RequestMethod.GET)
+	public Map<String, Object> searchItemList(){
+		Map<String, Object> result=itemSF.searchItemList();
+		return result;
 	}
-
-	@GetMapping("/getStandardUnitPrice")
-	public ModelMap getStandardUnitPrice(@RequestParam String itemCode) {
-		System.out.println("itemCode = " + itemCode);
-
-		int price = 0;
-
-		try {
-			price = logisticsSF.getStandardUnitPrice(itemCode);
-
-			modelMap.put("gridRowJson", price);
-			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "성공");
-
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		return modelMap;
+	@RequestMapping(value = "/searchItemGroupList", method = RequestMethod.GET)
+	public Map<String, Object> searchItemGroupList(){
+		Map<String, Object> result=itemSF.searchItemGroupList();
+		return result;
 	}
-
-	@RequestMapping(value = "/batchItemListProcess", method = RequestMethod.POST)
-	public ModelMap batchListProcess(@RequestBody Map<String, ArrayList<ItemTO>> batchList) {
-
-		ArrayList<ItemTO> itemTOList = batchList.get("batchList");
-
-		try {
-			HashMap<String, Object> resultMap = logisticsSF.batchItemListProcess(itemTOList);
-			modelMap.put("result", resultMap);
-			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "성공");
-
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		return modelMap;
+	@PostMapping("/itemBatchListProcess")
+	public Map<String, Object> batchListProcess(@RequestBody ItemTO batchList) {
+		Map<String, Object> result=itemSF.batchListProcess(batchList);
+		return result;
 	}
-
-	@RequestMapping("/getOptionItemList")
-	public HashMap<String, Object> getOptionItemList(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String, Object> resultMap = new HashMap<>();
-		try {
-			resultMap.put("gridRowJson", logisticsSF.getOptionItemList());
-			resultMap.put("errorCode", 1);
-			resultMap.put("errorMsg", "성공");
-
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			resultMap.put("errorCode", -2);
-			resultMap.put("errorMsg", e2.getMessage());
-		}
-		return resultMap;
+	@PostMapping("/itemGroupBatchListProcess")
+	public Map<String, Object> itemGroupBatchListProcess(@RequestBody ItemGroupTO batchList) {
+		Map<String, Object> result=itemSF.itemGroupBatchListProcess(batchList);
+		return result;
 	}
-
 }

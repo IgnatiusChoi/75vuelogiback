@@ -21,5 +21,5 @@ public class WorkOrderInfoTO {
 	private String inspectionStatus;
 	private String productionStatus;
 	private String completionStatus;
-
+	private String actualCompletionAmount;
 }
