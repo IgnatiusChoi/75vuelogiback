@@ -4,6 +4,8 @@ import kr.co.seoulit.common.to.BaseTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Entity;
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ContractDetailInMpsAvailableTO extends BaseTO{
