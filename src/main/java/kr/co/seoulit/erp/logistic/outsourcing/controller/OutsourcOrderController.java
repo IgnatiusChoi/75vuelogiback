@@ -21,7 +21,7 @@ public class OutsourcOrderController {
 	private ModelMap modelMap = new ModelMap();
 
 	@GetMapping(value = "searchOderableList")
-	public HashMap<String, Object> searchOderableList(
+	public HashMap<String, Object> searchOrderableList(
 			@RequestParam String searchDateCondition,
 			@RequestParam String startDate,
 			@RequestParam String endDate) {
@@ -48,7 +48,7 @@ public class OutsourcOrderController {
 	}
 
 	@GetMapping(value = "searchOutsourcInfoList2")
-	public HashMap<String, Object> searchOutsourcInfoList(){
+	public HashMap<String, Object> searchOutsourceInfoList(){
 
 		HashMap<String, Object> resultMap = new HashMap<>();
 		try {
