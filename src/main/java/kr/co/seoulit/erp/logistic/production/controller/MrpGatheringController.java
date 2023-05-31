@@ -3,20 +3,15 @@ package kr.co.seoulit.erp.logistic.production.controller;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
-import kr.co.seoulit.erp.logistic.production.servicefacade.MrpServiceFacade;
+
+import kr.co.seoulit.erp.logistic.production.domain.MrpGathering;
 import kr.co.seoulit.erp.logistic.production.servicefacade.MrpGatheringServiceFacade;
+
 import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
-import kr.co.seoulit.erp.logistic.production.to.MrpTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,10 +25,7 @@ import java.util.Map;
 @RequestMapping(value = "/logi/logistics/production/mrpGathering/*", produces = "application/json")
 public class MrpGatheringController {
 
-    private static Gson gson = new GsonBuilder().serializeNulls().create();
-
     private final MrpGatheringServiceFacade mrpGatheringSF;
-    private final ModelMap modelMap = new ModelMap();
 
     @Autowired
     public MrpGatheringController(MrpGatheringServiceFacade mrpGatheringSF) {
@@ -108,32 +100,17 @@ public class MrpGatheringController {
     }
 
 
-
     /*****************************
-             소요량 취합 조회
+     소요량 취합 조회 (JPA)
      *****************************/
-//    @RequestMapping(value = "/searchMrpGathering", method = RequestMethod.GET)
-//    public ModelMap searchMrpGathering(@RequestParam String searchDateCondition, @RequestParam String startDate,
-//                                       @RequestParam String endDate) {
-//
-//        System.out.println("searchDateCondition              " + searchDateCondition);
-//        System.out.println("startDate              " + startDate);
-//        System.out.println("endDate              " + endDate);
-//        try {
-//
-//            ArrayList<MrpGatheringTO> mrpGatheringList = mrpGatheringSF.searchMrpGatheringList(searchDateCondition,
-//                    startDate, endDate);
-//
-//            modelMap.put("gridRowJson", mrpGatheringList);
-//            modelMap.put("errorCode", 1);
-//            modelMap.put("errorMsg", "�꽦怨�");
-//
-//        } catch (Exception e2) {
-//            e2.printStackTrace();
-//            modelMap.put("errorCode", -2);
-//            modelMap.put("errorMsg", e2.getMessage());
-//
-//        }
-//        return modelMap;
-//    }
+    @RequestMapping(value = "/searchMrpGathering", method = RequestMethod.GET)
+    public ResponseEntity<List<MrpGathering>> searchMrpGathering(@RequestParam String searchDateCondition,
+                                                                 @RequestParam String startDate,
+                                                                 @RequestParam String endDate) {
+
+        List<MrpGathering> result = mrpGatheringSF.searchMrpGatheringList(searchDateCondition,
+                startDate, endDate);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
