@@ -1,144 +1,71 @@
 package kr.co.seoulit.erp.logistic.base.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import kr.co.seoulit.erp.logistic.base.servicefacade.LogiBaseServiceFacade;
+import kr.co.seoulit.erp.logistic.base.servicefacade.LogiCodeServiceFacade;
 import kr.co.seoulit.erp.logistic.base.to.LogiCodeDetailTO;
 import kr.co.seoulit.erp.logistic.base.to.LogiCodeTO;
 
+@Api(description = "코드관리")
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/logi/base/*")
 public class LogiCodeController {
-
+	// 75기 최영현 수정, applicationservice 삭제 및 로직 단순화, 마지막 메서드는 일단 보류
 	@Autowired
-	private LogiBaseServiceFacade baseSF;
-
-	private ModelMap modelMap = new ModelMap();
-
+	private LogiCodeServiceFacade baseSF;
+	@ApiOperation(value = "코드 조회")
 	@RequestMapping(value = "/searchCodeList", method = RequestMethod.GET)
-	public ModelMap findCodeList(HttpServletRequest request, HttpServletResponse response) {
-
-		try {
-
-			ArrayList<LogiCodeTO> codeList = baseSF.getCodeList();
-
-			modelMap.put("codeList", codeList);
-			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "성공");
-
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-
-		return modelMap;
-
+	public ModelMap findCodeList() {
+		return baseSF.getCodeList();
 	}
-
-	@RequestMapping(value = "/codeList", method = RequestMethod.GET)
-	public ModelMap findDetailCodeList(@RequestParam String divisionCode) {
-
-		System.out.println(" @@@@@divisionCode:: " + divisionCode);
-		try {
-
-			ArrayList<LogiCodeDetailTO> detailCodeList = baseSF.getDetailCodeList(divisionCode);
-			modelMap.put("detailCodeList", detailCodeList);
-			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "성공");
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-		}
-		return modelMap;
-	}
-
+	@ApiOperation(value = "코드 추가,수정,삭제")
 	@PostMapping("/batchListProcess")
-	public ModelMap batchListProcess(@RequestBody Map<String, Object> params) {
-
-		System.out.println(params.get("status"));
-		ObjectMapper mapper = new ObjectMapper();
-//		ArrayList<String, LogiCodeTO> codeList = batchList.get("batchList");
-		LogiCodeTO codeData =  mapper.convertValue(params, LogiCodeTO.class);
-		System.out.println(codeData);
-		HashMap<String, Object> resultMap = null;
-
-		try {
-			resultMap = baseSF.batchCodeListProcess(codeData);
-			modelMap.put("result", resultMap);
-			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "성공");
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		return modelMap;
+	public void batchListProcess(@RequestBody @ApiParam(value = "코드JSON")LogiCodeTO params) {
+		baseSF.batchCodeListProcess(params);
 	}
-
+	@ApiOperation(value = "코드상세 조회(미구현)")
+	@RequestMapping(value = "/codeList", method = RequestMethod.GET)
+	public ModelMap findDetailCodeList(@RequestParam @ApiParam(value = "코드번호")String divisionCode) {
+		return baseSF.getDetailCodeList(divisionCode);
+	}
+	@ApiOperation(value = "코드상세 추가,수정,삭제(미구현)")
 	@RequestMapping(value = "/batchDetailListProcess", method = RequestMethod.POST)
-	public ModelMap batchDetailListProcess(@RequestBody Map<String, ArrayList<LogiCodeDetailTO>> batchList) {
-
-		ArrayList<LogiCodeDetailTO> detailCodeList = batchList.get("detailCodeList");
-		;
-		HashMap<String, Object> resultMap = null;
-
-		try {
-
-			resultMap = baseSF.batchDetailCodeListProcess(detailCodeList);
-			modelMap.put("result", resultMap);
-			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "성공");
-
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		return modelMap;
+	public void batchDetailListProcess(@RequestBody @ApiParam(value = "코드상세JSON")LogiCodeDetailTO batchList) {
+		baseSF.batchDetailCodeListProcess(batchList);
 	}
 
-	@RequestMapping(value = "/changeCodeUseCheckProcess", method = RequestMethod.GET)
-	public ModelMap changeCodeUseCheckProcess(HttpServletRequest request, HttpServletResponse response) {
-
-//		String batchList = request.getParameter("batchList");
-
-		try {
-
-//			ArrayList<LogiCodeDetailTO> detailCodeList = null;
-//			HashMap<String, Object> resultMap = null;
+//	@RequestMapping(value = "/changeCodeUseCheckProcess", method = RequestMethod.GET)
+//	public ModelMap changeCodeUseCheckProcess(HttpServletRequest request, HttpServletResponse response) {
 //
-//			detailCodeList = gson.fromJson(batchList, new TypeToken<ArrayList<CodeDetailTO>>() {
-//			}.getType());
+////		String batchList = request.getParameter("batchList");
 //
-//			resultMap = baseSF.changeCodeUseCheckProcess(detailCodeList);
+//		try {
 //
-//			modelMap.put("result", resultMap);
-//			modelMap.put("errorCode", 1);
-			modelMap.put("errorMsg", "성공");
-
-		} catch (Exception e2) {
-			e2.printStackTrace();
-			modelMap.put("errorCode", -2);
-			modelMap.put("errorMsg", e2.getMessage());
-
-		}
-		return modelMap;
-	}
+////			ArrayList<LogiCodeDetailTO> detailCodeList = null;
+////			HashMap<String, Object> resultMap = null;
+////
+////			detailCodeList = gson.fromJson(batchList, new TypeToken<ArrayList<CodeDetailTO>>() {
+////			}.getType());
+////
+////			resultMap = baseSF.changeCodeUseCheckProcess(detailCodeList);
+////
+////			modelMap.put("result", resultMap);
+////			modelMap.put("errorCode", 1);
+//			modelMap.put("errorMsg", "성공");
+//
+//		} catch (Exception e2) {
+//			e2.printStackTrace();
+//			modelMap.put("errorCode", -2);
+//			modelMap.put("errorMsg", e2.getMessage());
+//
+//		}
+//		return modelMap;
+//	}
 
 }

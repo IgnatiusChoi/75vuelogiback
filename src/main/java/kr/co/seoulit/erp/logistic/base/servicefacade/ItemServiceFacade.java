@@ -10,9 +10,9 @@ import java.util.Map;
 
 public interface ItemServiceFacade {
 
-    public Map<String, Object> searchItemList();
-    public Map<String, Object> searchItemGroupList();
-    public Map<String, Object> batchListProcess(ItemTO batchList);
-    public Map<String, Object> itemGroupBatchListProcess(ItemGroupTO batchList);
+    public ModelMap searchItemList();
+    public ModelMap searchItemGroupList();
+    public void batchListProcess(ItemTO batchList);
+    public void itemGroupBatchListProcess(ItemGroupTO batchList);
 
 }

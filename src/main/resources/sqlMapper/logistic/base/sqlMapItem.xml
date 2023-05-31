@@ -38,13 +38,6 @@
 	<select id="searchItemGroupList" parameterType="ItemGroupTO" resultMap="itemGroupResult">
 		SELECT * FROM ITEM_GROUP
 	</select>
-	<select id="selectAllItemList" resultMap="itemInfoResult">
-	SELECT I.ITEM_CODE, I.ITEM_NAME, I.ITEM_GROUP_CODE, I.ITEM_CLASSIFICATION,
-    I.UNIT_OF_STOCK, I.LOSS_RATE, I.LEAD_TIME, I.STANDARD_UNIT_PRICE, I.DESCRIPTION,
-    C.CODE_USE_CHECK
-	FROM ITEM I, CODE_DETAIL C
-	WHERE I.ITEM_CODE = C.DETAIL_CODE (+)
-	</select>
 
 	<insert id="insertItem" parameterType="itemTO">
 		Insert into ITEM
@@ -101,46 +94,5 @@
 		DELETE FROM ITEM_GROUP WHERE ITEM_GROUP_CODE = #{itemGroupCode}
 	</delete>
 
-<!--  이하는 현재 어떻게 사용 보류중	-->
-	<select id="selectItemList" parameterType="map" resultMap="itemInfoResult">
-	WITH ITEM_WITH_CODE_USE_CHECK AS
-	( SELECT I.ITEM_CODE, I.ITEM_NAME, I.ITEM_GROUP_CODE, I.ITEM_CLASSIFICATION,
-    I.UNIT_OF_STOCK, I.LOSS_RATE, I.LEAD_TIME, I.STANDARD_UNIT_PRICE, I.DESCRIPTION,
-    C.CODE_USE_CHECK
-	FROM ITEM I, CODE_DETAIL C
-	WHERE I.ITEM_CODE = C.DETAIL_CODE (+) )
-
-	SELECT * FROM ITEM_WITH_CODE_USE_CHECK
-	where 1=1
-		<choose>
-			<when test="searchCondition == 'ITEM_CLASSIFICATION'">
-			AND ITEM_CLASSIFICATION = #{itemClassification}
-			</when>
-			<when test="searchCondition == 'ITEM_GROUP_CODE'">
-			AND ITEM_GROUP_CODE = #{itemGroupCode}
-			</when>
-			<when test="searchCondition == 'STANDARD_UNIT_PRICE'">
-			AND STANDARD_UNIT_PRICE BETWEEN TO_NUMBER( #{minPrice} ) AND TO_NUMBER ( #{maxPrice} )
-			</when>
-			<otherwise></otherwise>
-		</choose>
-
-	</select>
-
-	<select id="getStandardUnitPrice" parameterType="String" resultType="int">
-	select standard_unit_price
-	from item
-	where item_code = #{itemCode}
-	</select>
-
-	<select id="getStandardUnitPriceBox" parameterType="String" resultType="int">
-	select standard_unit_price
-	from item
-	where item_code = #{itemCode}
-	</select>
-
-	<select id='selectOptionItemList' resultMap="itemInfoResult">
-		SELECT ITEM_CODE , ITEM_NAME FROM item WHERE item_classification = 'IT-MA'
-	</select>
 
 </mapper>

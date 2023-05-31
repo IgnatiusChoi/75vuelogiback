@@ -1,24 +1,23 @@
 package kr.co.seoulit.erp.logistic.base.servicefacade;
 
-
-import kr.co.seoulit.erp.logistic.base.domain.Department;
-import kr.co.seoulit.erp.logistic.base.repository.DepartmentRepository;
+import kr.co.seoulit.erp.logistic.base.domain.CompanyInfo;
+import kr.co.seoulit.erp.logistic.base.repository.CompanyInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
-import java.util.ArrayList;
 
 @Service
-public class DeptInfoServiceFacadeImpl implements DeptInfoServiceFacade {
-
+public class CompanyInfoServiceFacadeImpl implements CompanyInfoServiceFacade {
     @Autowired
-    private DepartmentRepository DRepository;
-    private ModelMap modelMap=new ModelMap();
-    public ModelMap getDeptInfo() {
+    private CompanyInfoRepository irepository;
+    private ModelMap modelMap = new ModelMap();
+
+    public ModelMap getCompanyInfo(){
+
         try {
-            Iterable<Department> deptInfo = DRepository.findAll();
-            modelMap.put("deptInfo", deptInfo);
+            Iterable<CompanyInfo> companyInfo = irepository.findAll();
+            modelMap.put("companyInfo", companyInfo);
             modelMap.put("errorCode", 1);
             modelMap.put("errorMsg", "성공");
 
@@ -26,9 +25,8 @@ public class DeptInfoServiceFacadeImpl implements DeptInfoServiceFacade {
             e2.printStackTrace();
             modelMap.put("errorCode", -2);
             modelMap.put("errorMsg", e2.getMessage());
+
         }
-
-
         return modelMap;
     }
 }
