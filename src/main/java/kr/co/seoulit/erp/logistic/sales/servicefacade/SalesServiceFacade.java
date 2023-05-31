@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.seoulit.erp.logistic.sales.entity.SalesPlan;
 import kr.co.seoulit.erp.logistic.sales.to.ContractDetailTO;
 import kr.co.seoulit.erp.logistic.sales.to.ContractInfoTO;
 import kr.co.seoulit.erp.logistic.sales.to.ContractTO;
@@ -13,6 +14,8 @@ import kr.co.seoulit.erp.logistic.sales.to.EstimateDetailTO;
 import kr.co.seoulit.erp.logistic.sales.to.EstimateTO;
 import kr.co.seoulit.erp.logistic.sales.to.SalesPlanTO;
 import kr.co.seoulit.erp.logistic.sales.to.logisticExelTO;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public interface SalesServiceFacade {
 
@@ -64,5 +67,10 @@ public interface SalesServiceFacade {
 
 	public void UpdateSalesPlanListProcess(SalesPlanTO salesPlanTOList);
 
+	public List<SalesPlan> findSalesPlan();
+
+	public  SalesPlan salesplansave(SalesPlan salesPlan);
+
+	public ModelMap jpaupdatesalesplan(@RequestBody SalesPlanTO salesPlan);
 
 }

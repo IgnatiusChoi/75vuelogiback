@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import kr.co.seoulit.erp.hr.company.to.CompanyTO;
+import kr.co.seoulit.erp.logistic.sales.entity.SalesPlan;
+import kr.co.seoulit.erp.logistic.sales.repository.SalesPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import kr.co.seoulit.erp.logistic.sales.to.EstimateDetailTO;
 import kr.co.seoulit.erp.logistic.sales.to.EstimateTO;
 import kr.co.seoulit.erp.logistic.sales.to.SalesPlanTO;
 import kr.co.seoulit.erp.logistic.sales.to.logisticExelTO;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class SalesServiceFacadeImpl implements SalesServiceFacade {
@@ -34,6 +38,8 @@ public class SalesServiceFacadeImpl implements SalesServiceFacade {
 	private SalesPlanApplicationService salesPlanAS;
 	@Autowired
 	private DeliveryApplicationService deliveryAS;
+	@Autowired
+	private SalesPlanRepository salesPlanRepository;
 
 
 	@Override
@@ -127,7 +133,7 @@ public class SalesServiceFacadeImpl implements SalesServiceFacade {
 
 	@Override
 	public void batchSalesPlanListProcess(SalesPlanTO salesPlanTOList) {
-		System.out.println("batchSalesPlanListProcess ="+salesPlanTOList);
+		System.out.println("batchSalesPlanListProcess =" + salesPlanTOList);
 		salesPlanAS.batchSalesPlanListProcess(salesPlanTOList);
 	}
 
@@ -172,11 +178,27 @@ public class SalesServiceFacadeImpl implements SalesServiceFacade {
 
 		return SalesPlan;
 	}
+
 	@Override
-	public void UpdateSalesPlanListProcess(SalesPlanTO salesPlanTOList){
+	public void UpdateSalesPlanListProcess(SalesPlanTO salesPlanTOList) {
 		salesPlanAS.UpdateSalesPlan(salesPlanTOList);
 	}
 
+	public List<SalesPlan> findSalesPlan() {
+		List<SalesPlan> all = salesPlanRepository.findAll();
+		return all;
+	}
+	@Override
+	public SalesPlan salesplansave(SalesPlan salesPlan) {
+		salesPlanRepository.save(salesPlan);
+		return salesPlan;
+	}
+
+	@Override
+	public ModelMap jpaupdatesalesplan(@RequestBody SalesPlanTO salesPlan){
+
+		return
+	}
 }
 
 

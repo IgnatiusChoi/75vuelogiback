@@ -1,6 +1,7 @@
 package kr.co.seoulit.erp.logistic.sales.controller;
 
 import kr.co.seoulit.erp.account.slip.to.SlipBean;
+import kr.co.seoulit.erp.logistic.sales.entity.SalesPlan;
 import kr.co.seoulit.erp.logistic.sales.servicefacade.SalesServiceFacade;
 import kr.co.seoulit.erp.logistic.sales.to.SalesPlanTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -115,4 +117,24 @@ public class SalesPlanController {
 		return modelMap;
 	}
 
+	@GetMapping(value = "/jpasalesplan")
+	public List<SalesPlan> findJPA() {
+		List<SalesPlan> modelMap = salesSF.findSalesPlan();
+		return modelMap;
+	}
+
+
+
+	@PostMapping(value = "/jpasalesplansave")
+	public void  jpasalesplansave(@RequestBody SalesPlan salesPlan){
+		salesSF.salesplansave(salesPlan);
+	}
+
+	@PostMapping(value ="/jpaupdatesalesplan")
+	public  ModelMap jpaupdatesalesplan(@RequestBody SalesPlanTO salesPlan) {
+		System.out.println("업데이트" + salesPlan);
+		return modelMap;
+	}
+
 }
+
