@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import kr.co.seoulit.erp.logistic.production.to.ContractDetailInMpsAvailableTO;
 
-import static kr.co.seoulit.erp.sys.to.response.Response.success;
-
 @SuppressWarnings("unused")
 @Slf4j
 @CrossOrigin("*")
@@ -87,7 +85,6 @@ public class MpsController {
 	@RequestMapping(value = "/convertSalesPlanToMps", method = RequestMethod.POST)
 	@ResponseBody
 	public void convertSalesPlanToMps(@RequestBody SalesPlan salesPlan) {
-		log.info("salesPlan = {}", salesPlan);
 		mpsSF.convertSalesPlanToMps(salesPlan);
 	}
 
@@ -104,28 +101,6 @@ public class MpsController {
 
 
 
-
-	/**
-	 *  ★ MPS 수립 로직 작성 ★
-	 *  MPS : 견적(수주)량 - 재고사용량 - 안전재고량 = (부족분)추가 생산
-	 *	!이때 손실율은 제외하고 계산하기로 함
-	 *
-	 *  완제품(IT-CI)의 경우 : 추가 생산량 x 리드타임 = ? x 1일(DK-01기준)
-	 *
-	 *  반제품(IT-SI)의 경우 : DK-01 기준
-	 *
-	 *  DK-01	DK-AP01	2일
-	 *  DK-01	DK-BC01	1일
-	 *  DK-01	DK-FC01	1일
-	 *  DK-01	MM-01	2일
-	 *
-	 *  원재료(IT-MA)의 경우 : DK-AP01 기준
-	 *
-	 *  DK-AP01	MC-KP01 5일
-	 *  DK-AP01	LN-01 	2일
-	 *  DK-AP01	JL-01 	2일
-	 *  DK-AP01	HA-01 	2일
-	 **/
 
 
 }

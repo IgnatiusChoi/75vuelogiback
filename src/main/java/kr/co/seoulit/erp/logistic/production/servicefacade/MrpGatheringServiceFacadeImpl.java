@@ -1,16 +1,18 @@
 package kr.co.seoulit.erp.logistic.production.servicefacade;
 
-import kr.co.seoulit.erp.logistic.production.dao.MpsDAO;
+
 import kr.co.seoulit.erp.logistic.production.dao.MrpDAO;
 import kr.co.seoulit.erp.logistic.production.dao.MrpGatheringDAO;
+import kr.co.seoulit.erp.logistic.production.domain.MrpGathering;
+import kr.co.seoulit.erp.logistic.production.repository.MrpGatheringRepository;
 import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
 import kr.co.seoulit.erp.logistic.production.to.MrpTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
 
 @Slf4j
@@ -20,14 +22,14 @@ public class MrpGatheringServiceFacadeImpl implements MrpGatheringServiceFacade{
     private final MrpDAO mrpDAO;
     private final MrpGatheringDAO mrpGatheringDAO;
     private final HashMap<String, Object> resultMap;
+    private final MrpGatheringRepository mrpGatheringRepository;
 
-    @Autowired
-    public MrpGatheringServiceFacadeImpl(MrpDAO mrpDAO, MrpGatheringDAO mrpGatheringDAO, HashMap<String, Object> resultMap) {
+    public MrpGatheringServiceFacadeImpl(MrpDAO mrpDAO, MrpGatheringDAO mrpGatheringDAO, HashMap<String, Object> resultMap, MrpGatheringRepository mrpGatheringRepository) {
         this.mrpDAO = mrpDAO;
         this.mrpGatheringDAO = mrpGatheringDAO;
         this.resultMap = resultMap;
+        this.mrpGatheringRepository = mrpGatheringRepository;
     }
-
 
     /*****************************
      품목별 조달계획 디폴트 테이블 + ?
@@ -150,33 +152,15 @@ public class MrpGatheringServiceFacadeImpl implements MrpGatheringServiceFacade{
     }
 
 
-
-
     /*****************************
             소요량 취합 조회
      *****************************/
-    public HashMap<String, Object> searchMrpGatheringList(String dateSearchCondition, String startDate,
-                                                          String endDate) {
+    public List<MrpGathering> searchMrpGatheringList(String dateSearchCondition,
+                                                     String startDate,
+                                                     String endDate) {
 
-        HashMap<String, String> param = new HashMap<>();
-        param.put("dateSearchCondition", dateSearchCondition);
-        param.put("startDate", startDate);
-        param.put("endDate", endDate);
-
-        ArrayList<MrpGatheringTO> mrpGatheringResult = mrpGatheringDAO.selectMrpGatheringList(param);
-        ArrayList<MrpTO> result = new ArrayList<>();
-
-
-        for (MrpGatheringTO bean : mrpGatheringResult) {
-            ArrayList<MrpTO> mrpTOList = mrpDAO.selectMrpListAsMrpGatheringNo(bean.getMrpGatheringNo());
-            bean.setMrpTOList(mrpTOList);
-            result.addAll(mrpTOList);
-        }
-
-        return putMrpResultMap(result);
+        return mrpGatheringRepository.searchMrpGatheringList(dateSearchCondition, startDate, endDate);
     }
-
-
 
 
 

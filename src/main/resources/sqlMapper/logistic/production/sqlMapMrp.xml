@@ -150,11 +150,11 @@
 	TO_DATE(REQUIRED_DATE, 'YYYY-MM-DD') END )
 	BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
 	</select>
+	<!-- 품목별 조달계획 디폴트 테이블 + ? 끝 -->
 
 	<select id="selectMrpListAsMrpGatheringNo" parameterType="String" resultMap="mrpList">
 	SELECT * FROM MRP WHERE MRP_GATHERING_NO = #{mrpGatheringNo}
 	</select>
-	<!-- 품목별 조달계획 디폴트 테이블 + ? 끝 -->
 
 
 
