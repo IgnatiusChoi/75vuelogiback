@@ -1,19 +1,19 @@
 package kr.co.seoulit.erp.logistic.production.servicefacade;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.seoulit.erp.logistic.production.dao.MpsDAO;
+import kr.co.seoulit.erp.logistic.production.domain.SalesPlan;
+import kr.co.seoulit.erp.logistic.production.repository.MpsRepository;
+import kr.co.seoulit.erp.logistic.production.repository.SalesPlanRepository;
 import kr.co.seoulit.erp.logistic.production.to.ContractDetailInMpsAvailableTO;
 
 import kr.co.seoulit.erp.logistic.production.to.MpsTO;
-import kr.co.seoulit.erp.logistic.sales.to.ContractDetailTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -21,11 +21,15 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
 
     private final MpsDAO mpsDAO;
     private final ModelMap modelMap;
+    private final SalesPlanRepository salesPlanRepository;
+    private final MpsRepository mpsRepository;
 
     @Autowired
-    public MpsServiceFacadeImpl(MpsDAO mpsDAO) {
+    public MpsServiceFacadeImpl(MpsDAO mpsDAO, SalesPlanRepository salesPlanRepository, MpsRepository mpsRepository) {
         this.mpsDAO = mpsDAO;
+        this.mpsRepository = mpsRepository;
         this.modelMap = new ModelMap();
+        this.salesPlanRepository = salesPlanRepository;
     }
 
     /*****************************
@@ -53,6 +57,20 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
          MPS 등록가능 수주 조회 끝
      *****************************/
 
+    /*****************************
+     MPS 등록가능 판매계획 조회(JPA)
+     *****************************/
+    @Transactional
+    public List<SalesPlan> searchSalesPlan(String startDate,
+                                           String endDate){
+
+        List<SalesPlan> salesPlanList = salesPlanRepository.findByDate(startDate, endDate);
+        return salesPlanList;
+    }
+    /*****************************
+     MPS 등록가능 판매계획 조회(JPA) 끝
+     *****************************/
+
 
     /*****************************
                 MPS 등록
@@ -74,43 +92,18 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
         return resultMap;
     }
 
-    public String getNewMpsNo(String mpsPlanDate) {
-
-        StringBuffer newEstimateNo = null;
-
-        List<MpsTO> mpsTOlist = mpsDAO.selectMpsCount(mpsPlanDate);
-        TreeSet<Integer> intSet = new TreeSet<>();
-        int i;
-        for (MpsTO bean : mpsTOlist) {
-            String mpsNo = bean.getMpsNo();
-
-            int no = Integer.parseInt(mpsNo.substring(mpsNo.length() - 2, mpsNo.length()));
-            intSet.add(no);
-        }
-        if (intSet.isEmpty()) {
-            i = 1;
-        } else {
-            i = intSet.pollLast() + 1;
-        }
-        newEstimateNo = new StringBuffer();
-        newEstimateNo.append("PS");
-        newEstimateNo.append(mpsPlanDate.replace("-", ""));
-        newEstimateNo.append(String.format("%02d", i));
-
-        return newEstimateNo.toString();
-    }
-    public void changeMpsStatusInContractDetail(String contractDetailNo, String mpsStatus) {
-
-        HashMap<String, String> param = new HashMap<>();
-        param.put("contractDetailNo",contractDetailNo);
-        param.put("mpsStatus", mpsStatus);
-
-        mpsDAO.changeMpsStatusOfContractDetail(param);
+    @Override
+    @Transactional
+    public void convertSalesPlanToMps(SalesPlan salesPlan) {
+        salesPlan.setPlanClassification("판매계획");
+        MpsTO mpsTO = new MpsTO(salesPlan);
+        String newMpsNo = getNewMpsNo(mpsTO.getMpsPlanDate());
+        mpsTO.setMpsNo(newMpsNo);
+        mpsRepository.save(mpsTO);
+        salesPlanRepository.changeMpsApplyStatus(salesPlan.getSalesPlanNo());
     }
 
-    /*****************************
-              MPS 등록 끝
-     *****************************/
+
 
     public HashMap<String, Object> batchMpsListProcess(MpsTO mpsTo) {
 
@@ -121,7 +114,6 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
 
             case "INSERT":
                 String newMpsNo = getNewMpsNo(mpsTo.getMpsPlanDate());
-                System.out.println("newMpsNo = " + newMpsNo);
 
                 // MPS TO 에 새로운 판매계획일련번호 세팅
                 mpsTo.setMpsNo(newMpsNo);
@@ -156,6 +148,42 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
         }
         return resultMap;
     }
+    public String getNewMpsNo(String mpsPlanDate) {
+
+        StringBuffer newEstimateNo = null;
+
+        List<MpsTO> mpsTOlist = mpsDAO.selectMpsCount(mpsPlanDate);
+        TreeSet<Integer> intSet = new TreeSet<>();
+        int i;
+        for (MpsTO bean : mpsTOlist) {
+            String mpsNo = bean.getMpsNo();
+
+            int no = Integer.parseInt(mpsNo.substring(mpsNo.length() - 2, mpsNo.length()));
+            intSet.add(no);
+        }
+        if (intSet.isEmpty()) {
+            i = 1;
+        } else {
+            i = intSet.pollLast() + 1;
+        }
+        newEstimateNo = new StringBuffer();
+        newEstimateNo.append("PS");
+        newEstimateNo.append(mpsPlanDate.replace("-", ""));
+        newEstimateNo.append(String.format("%02d", i));
+
+        return newEstimateNo.toString();
+    }
+    public void changeMpsStatusInContractDetail(String contractDetailNo, String mpsStatus) {
+
+        HashMap<String, String> param = new HashMap<>();
+        param.put("contractDetailNo",contractDetailNo);
+        param.put("mpsStatus", mpsStatus);
+
+        mpsDAO.changeMpsStatusOfContractDetail(param);
+    }
+    /*****************************
+            MPS 등록 끝
+     *****************************/
 
 
     /*****************************
@@ -168,5 +196,7 @@ public class MpsServiceFacadeImpl implements MpsServiceFacade{
         resultMap.put("result", result);
         return resultMap;
     }
+
+
 
 }

@@ -1,11 +1,20 @@
 package kr.co.seoulit.erp.logistic.production.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.seoulit.erp.logistic.production.domain.SalesPlan;
 
 import kr.co.seoulit.erp.logistic.production.servicefacade.MpsServiceFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +30,10 @@ import static kr.co.seoulit.erp.sys.to.response.Response.success;
 public class MpsController {
 
 	/**
-	 *
 	 * 75기 23.5.10. ~  1차 프로젝트
 	 * MPS/MRP 분리, 필드 주입 대신 생성자 주입
 	 * HttpServlet 제거, 스파게티 소스 의존성 제거, Controller에서의 비즈니스 로직 제거, ApplicationService 제거
-	 * JSON Type 응답, salesPlan으로 조회 로직 제거(판매계획은 향후 구현 필요)
-	 *
+	 * JSON Type 응답, salesPlan : JPA 적용
 	 */
 
 	private final MpsServiceFacade mpsSF;
@@ -36,7 +43,6 @@ public class MpsController {
 	public MpsController(MpsServiceFacade mpsSF) {
 		this.mpsSF = mpsSF;
 	}
-
 
 
 	/*****************************
@@ -55,19 +61,39 @@ public class MpsController {
 	}
 
 	/*****************************
-			    MPS 등록
+	  MPS 등록가능 판매계획 조회(JPA)
+	 *****************************/
+	@RequestMapping(value = "/searchSalesPlan", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<List<SalesPlan>> searchSalesPlan(@RequestParam String startDate,
+														   @RequestParam String endDate
+														   ) {
+		List<SalesPlan> salesPlans = mpsSF.searchSalesPlan(startDate, endDate);
+		return new ResponseEntity<>(salesPlans, HttpStatus.OK);
+	}
+
+
+	/*****************************
+	 			MPS 등록
 	 *****************************/
 	@RequestMapping(value = "/convertContractDetailToMps", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> convertContractDetailToMps(@RequestBody ContractDetailInMpsAvailableTO contract) {
 
-			HashMap<String, Object> resultMap = mpsSF.convertContractDetailToMps(contract);
+		HashMap<String, Object> resultMap = mpsSF.convertContractDetailToMps(contract);
 
-			return resultMap;
+		return resultMap;
+	}
+	@RequestMapping(value = "/convertSalesPlanToMps", method = RequestMethod.POST)
+	@ResponseBody
+	public void convertSalesPlanToMps(@RequestBody SalesPlan salesPlan) {
+		log.info("salesPlan = {}", salesPlan);
+		mpsSF.convertSalesPlanToMps(salesPlan);
 	}
 
+
 	/*****************************
-	     차트용 MPS 테이블 조회
+	 차트용 MPS 테이블 조회
 	 *****************************/
 	@RequestMapping(value = "/searchMpsList", method = RequestMethod.GET)
 	@ResponseBody
@@ -75,11 +101,6 @@ public class MpsController {
 		HashMap<String, Object> resultMap = mpsSF.searchMpsList();
 		return resultMap;
 	}
-
-
-	/**
-	 *  판매계획......??
-	 */
 
 
 
@@ -104,7 +125,7 @@ public class MpsController {
 	 *  DK-AP01	LN-01 	2일
 	 *  DK-AP01	JL-01 	2일
 	 *  DK-AP01	HA-01 	2일
-    **/
+	 **/
 
 
 }
