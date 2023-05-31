@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -21,7 +20,7 @@ public class ItemServiceFacadeImpl implements ItemServiceFacade{
     private ModelMap modelMap = new ModelMap();
 
     @Override
-    public Map<String, Object> searchItemList() {
+    public ModelMap searchItemList() {
         ArrayList<ItemTO> itemList=itemDAO.searchItemList();
         try{
             modelMap.put("gridRowJson", itemList);
@@ -36,7 +35,7 @@ public class ItemServiceFacadeImpl implements ItemServiceFacade{
     }
 
     @Override
-    public Map<String, Object> searchItemGroupList() {
+    public ModelMap searchItemGroupList() {
         ArrayList<ItemGroupTO> itemGroupList=itemDAO.searchItemGroupList();
         try{
             modelMap.put("gridRowJson", itemGroupList);
@@ -51,11 +50,8 @@ public class ItemServiceFacadeImpl implements ItemServiceFacade{
     }
 
     @Override
-    public Map<String, Object> batchListProcess(ItemTO batchList) {
-        System.out.println(batchList.getItemCode());
+    public void batchListProcess(ItemTO batchList) {
         String status=batchList.getStatus();
-        System.out.println(status);
-
         switch(status){
 
             case "INSERT":
@@ -69,15 +65,11 @@ public class ItemServiceFacadeImpl implements ItemServiceFacade{
             case "DELETE":
                 itemDAO.deleteItem(batchList);
         }
-        return null;
     }
 
     @Override
-    public Map<String, Object> itemGroupBatchListProcess(ItemGroupTO batchList) {
-        System.out.println(batchList.getItemGroupCode());
+    public void itemGroupBatchListProcess(ItemGroupTO batchList) {
         String status=batchList.getStatus();
-        System.out.println(status);
-
         switch(status){
 
             case "INSERT":
@@ -91,6 +83,5 @@ public class ItemServiceFacadeImpl implements ItemServiceFacade{
             case "DELETE":
                 itemDAO.deleteItemGroup(batchList);
         }
-        return null;
     }
 }
