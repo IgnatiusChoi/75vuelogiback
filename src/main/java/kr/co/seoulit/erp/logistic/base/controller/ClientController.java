@@ -1,196 +1,82 @@
 package kr.co.seoulit.erp.logistic.base.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import kr.co.seoulit.erp.logistic.base.domain.Client;
+import kr.co.seoulit.erp.logistic.base.domain.Finance;
 import kr.co.seoulit.erp.logistic.base.servicefacade.ClientServiceFacade;
-import kr.co.seoulit.erp.logistic.base.to.ClientTO;
 
-import kr.co.seoulit.erp.logistic.base.to.FinancialTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
+@Api(description = "거래처정보")
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/logi/*")
 public class ClientController {
+    /* 75기 최영현 작성 및 수정 : 1. JPA CRUD를 이용한 단순화 및 단순화에 따른 applicationservice 삭제
+     */
     @Autowired
     private ClientServiceFacade ClientSF;
 
-    private ModelMap modelMap = new ModelMap();
-
+    /*****************************
+     일반거래처
+     *****************************/
+    @ApiOperation(value = "일반거래처 조회")
     @RequestMapping(value = "/base/searchClientList", method = RequestMethod.GET)
     public ModelMap searchClientList(){
-        try {
-            ArrayList<ClientTO> clientInfo = ClientSF.searchClientList();
-            modelMap.put("clientInfo", clientInfo);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
+        return ClientSF.searchClientList();
     }
+    @ApiOperation(value = "일반거래처 상세조회")
     @RequestMapping(value = "/base/searchClientDetailList", method = RequestMethod.GET)
-    public ModelMap searchClientDetailList(@RequestParam String customerCode){
-        System.out.println("설마 범인은 너냐...?");
-        try {
-            ArrayList<ClientTO> clientDetailInfo = ClientSF.searchClientDetailList(customerCode);
-            modelMap.put("clientDetailInfo", clientDetailInfo);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
+    public ModelMap searchClientDetailList(@RequestParam @ApiParam(value = "일반거래처코드") String customerCode){
+        return ClientSF.searchClientDetailList(customerCode);
     }
+    @ApiOperation(value = "일반거래처 등록")
+    @PostMapping("/base/insertClient")
+    public void insertClient(@RequestBody @ApiParam(value = "일반거래처JSON")Client clientdata){
+        ClientSF.insertClient(clientdata);
+    }
+    @ApiOperation(value = "일반거래처 삭제")
+    @PostMapping("/base/deleteClient")
+    public void deleteClient(@RequestBody @ApiParam(value = "일반거래처JSON")Client clientdata){
+        ClientSF.deleteClient(clientdata);
+    }
+    @ApiOperation(value = "일반거래처 수정")
+    @PostMapping("/base/updateClient")
+    public void updateClient(@RequestBody @ApiParam(value = "일반거래처JSON")Client clientdata){
+        ClientSF.updateClient(clientdata);
+    }
+
+    /*****************************
+     금융거래처
+     *****************************/
+    @ApiOperation(value = "금융거래처 조회")
     @RequestMapping(value = "/base/searchFinanceList", method = RequestMethod.GET)
     public ModelMap searchFinanceList(){
-        try {
-            ArrayList<FinancialTO> financeInfo = ClientSF.searchFinanceList();
-            modelMap.put("financeInfo", financeInfo);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
+        return ClientSF.searchFinanceList();
     }
+    @ApiOperation(value = "금융거래처 상세조회")
     @RequestMapping(value = "/base/searchFinanceDetailList", method = RequestMethod.GET)
-    public ModelMap searchFinanceDetailList(@RequestParam String code){
-        System.out.println("여기로 오는거 맞는지 테스트중");
-        try {
-            ArrayList<FinancialTO> financedetailInfo = ClientSF.searchFinanceDetailList(code);
-            modelMap.put("financeDetailInfo", financedetailInfo);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
+    public ModelMap searchFinanceDetailList(@RequestParam @ApiParam(value = "금융거래처코드") String code){
+        return ClientSF.searchFinanceDetailList(code);
     }
-    @PostMapping("/base/insertClient")
-    public ModelMap insertClient(@RequestBody Map<String, Object> data){
-        ObjectMapper mapper = new ObjectMapper();
-        ClientTO clientdata=mapper.convertValue(data,ClientTO.class);
-        System.out.println(clientdata);
-        try {
-            ClientSF.insertClient(clientdata);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
-    }
-    @PostMapping("/base/deleteClient")
-    public ModelMap deleteClient(@RequestBody ClientTO data){
-        System.out.println(data);
-        try {
-            ClientSF.deleteClient(data);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
-    }
-    @PostMapping("/base/updateClient")
-    public ModelMap updateClient(@RequestBody Map<String, Object> data){
-        ObjectMapper mapper = new ObjectMapper();
-        ClientTO clientdata=mapper.convertValue(data,ClientTO.class);
-        System.out.println(clientdata);
-        try {
-            ClientSF.updateClient(clientdata);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
-    }
-
+    @ApiOperation(value = "금융거래처 등록")
     @PostMapping("/base/insertFinance")
-    public ModelMap insertFinance(@RequestBody Map<String, Object> data){
-        ObjectMapper mapper = new ObjectMapper();
-        FinancialTO clientdata=mapper.convertValue(data,FinancialTO.class);
-        System.out.println(clientdata);
-        try {
-            ClientSF.insertFinance(clientdata);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
+    public void insertFinance(@RequestBody @ApiParam(value = "금융거래처JSON")Finance clientdata){
+        ClientSF.insertFinance(clientdata);
     }
+    @ApiOperation(value = "금융거래처 삭제")
     @PostMapping("/base/deleteFinance")
-    public ModelMap deleteFinance(@RequestBody FinancialTO data){
-        System.out.println(data);
-        try {
-            ClientSF.deleteFinance(data);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
+    public void deleteFinance(@RequestBody @ApiParam(value = "금융거래처JSON")Finance clientdata){
+        ClientSF.deleteFinance(clientdata);
     }
+    @ApiOperation(value = "금융거래처 수정")
     @PostMapping("/base/updateFinance")
-    public ModelMap updateFinance(@RequestBody Map<String, Object> data){
-        ObjectMapper mapper = new ObjectMapper();
-        FinancialTO clientdata=mapper.convertValue(data,FinancialTO.class);
-        System.out.println(clientdata);
-        try {
-            ClientSF.updateFinance(clientdata);
-            modelMap.put("errorCode", 1);
-            modelMap.put("errorMsg", "성공");
-
-        } catch (Exception e2) {
-            e2.printStackTrace();
-            modelMap.put("errorCode", -2);
-            modelMap.put("errorMsg", e2.getMessage());
-
-        }
-        return modelMap;
+    public void updateFinance(@RequestBody @ApiParam(value = "금융거래처JSON")Finance clientdata){
+        ClientSF.updateFinance(clientdata);
     }
 }
