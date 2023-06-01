@@ -78,7 +78,7 @@
 	<parameterMap type="map" id="workOrderParameter">
 		<parameter property="mrpGatheringNo" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
 		<parameter property="workPlaceCode" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
-		<parameter property="productionProcess" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		<parameter property="productionProcessCode" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
 		<parameter property="ERROR_CODE" javaType="java.lang.Integer" jdbcType="DECIMAL" mode="OUT" />
 		<parameter property="ERROR_MSG" javaType="java.lang.String" jdbcType="VARCHAR" mode="OUT" />
 	</parameterMap>

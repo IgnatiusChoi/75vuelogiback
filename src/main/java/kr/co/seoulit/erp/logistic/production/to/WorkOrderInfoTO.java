@@ -1,10 +1,20 @@
 package kr.co.seoulit.erp.logistic.production.to;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import kr.co.seoulit.common.to.BaseTO;
+import kr.co.seoulit.erp.logistic.production.domain.SalesPlan;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
+
+@Entity
 @Data
-public class WorkOrderInfoTO {
+@EqualsAndHashCode(callSuper = false)
+@Table(name="workOrder")
+public class WorkOrderInfoTO extends BaseTO{
 
+	@Id
 	private String workOrderNo;
 	private String mrpNo;
 	private String mpsNo;
