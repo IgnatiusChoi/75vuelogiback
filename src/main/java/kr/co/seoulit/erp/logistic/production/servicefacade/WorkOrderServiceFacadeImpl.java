@@ -2,13 +2,19 @@ package kr.co.seoulit.erp.logistic.production.servicefacade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import kr.co.seoulit.erp.logistic.production.applicationservice.WorkOrderApplicationService;
 import kr.co.seoulit.erp.logistic.production.dao.WorkOrderDAO;
+import kr.co.seoulit.erp.logistic.production.domain.ProductionPerformance;
+import kr.co.seoulit.erp.logistic.production.domain.SalesPlan;
+import kr.co.seoulit.erp.logistic.production.domain.WorkOrderInfo;
+import kr.co.seoulit.erp.logistic.production.repository.WorkOrderRepository;
 import kr.co.seoulit.erp.logistic.production.to.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -17,6 +23,8 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
     @Autowired
     private WorkOrderDAO workOrderDAO;
     private WorkOrderApplicationService workOrderAS;
+    @Autowired
+    private WorkOrderRepository workOrderRepository;
 
     //작업지시 Tab -  작업지시 필요항목 조회
     @Override
@@ -61,27 +69,36 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
 
     //작업지시 Tab - 작업지시 모의전개 버튼 누른 후 - 실제 작업 지시 버튼
     @Override
-    public HashMap<String, Object> workOrder(String mrpGatheringNo, String workPlaceCode, String productionProcess) {
+    public HashMap<String, Object> workOrder(String mrpGatheringNo, String workPlaceCode, String productionProcessCode) {
 
         HashMap<String, Object> param = new HashMap<>();
         param.put("mrpGatheringNo", mrpGatheringNo);
         param.put("workPlaceCode", workPlaceCode);
-        param.put("productionProcess", productionProcess);
+        param.put("productionProcessCode", productionProcessCode);
 
         System.out.println("mrpGatheringNo: "+mrpGatheringNo);
         System.out.println("workPlaceCode: "+workPlaceCode);
-        System.out.println("productionProcess: "+productionProcess);
+        System.out.println("productionProcessCode: "+productionProcessCode);
 
         workOrderDAO.workOrder(param);
 
         return param;
     }
 
-    //작업지시현황 Tab - 작업지시현황조회
-    @Override
-    public ArrayList<WorkOrderInfoTO> getWorkOrderInfoListStatus() {
-        return workOrderDAO.selectWorkOrderInfoListStatus();
+    /*****************************
+     작업지시현황 Tab - 작업지시현황조회(JPA)
+     *****************************/
+    @Transactional
+    public List<WorkOrderInfo> getWorkOrderInfoListStatus() {
+        System.out.println("여기 SF impl");
+        List<WorkOrderInfo> workOrderInfoList = workOrderRepository.findAll();
+        return workOrderInfoList;
     }
+
+//    @Override
+//    public ArrayList<WorkOrderInfoTO> getWorkOrderInfoListStatus() {
+//        return workOrderDAO.selectWorkOrderInfoListStatus();
+//    }
 
     @Override
     public int editCellBlur(String workOrderNo, String actualCompletionAmount) {
@@ -102,12 +119,22 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
         return param;
     }
 
-    //생산실적관리 Tab - 생산실적관리조회
-    @Override
-    public ArrayList<ProductionPerformanceInfoTO> getProductionPerformanceInfoList() {
-
-        return workOrderDAO.selectProductionPerformanceInfoList();
-    }
+    /*****************************
+     생산실적관리 Tab - 생산실적관리조회(JPA)
+     *****************************/
+//    @Override
+//    public List<ProductionPerformance> getProductionPerformanceInfoList() {
+//        System.out.println("여기 SF impl");
+//        List<ProductionPerformance> ProductionPerformanceList = workOrderRepository.findAll();
+//        return ProductionPerformanceList;
+//    }
+//
+//
+//    @Override
+//    public ArrayList<ProductionPerformanceInfoTO> getProductionPerformanceInfoList() {
+//
+//        return workOrderDAO.selectProductionPerformanceInfoList();
+//    }
 
 
 
