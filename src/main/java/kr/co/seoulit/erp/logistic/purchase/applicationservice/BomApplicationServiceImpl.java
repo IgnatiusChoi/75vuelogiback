@@ -18,7 +18,7 @@ public class BomApplicationServiceImpl implements BomApplicationService {
 	private BomDAO bomDAO;
 
 	public ArrayList<BomDeployTO> getBomDeployList(String deployCondition, String itemCode,
-			String itemClassificationCondition) {
+												   String itemClassificationCondition) {
 
 		HashMap<String, String> param = new HashMap<>();
 		param.put("deployCondition", deployCondition);
@@ -54,29 +54,29 @@ public class BomApplicationServiceImpl implements BomApplicationService {
 
 			switch (status) {
 
-			case "INSERT":
+				case "INSERT":
 
-				bomDAO.insertBom(TO);
+					bomDAO.insertBom(TO);
 
-				insertCount++;
+					insertCount++;
 
-				break;
+					break;
 
-			case "UPDATE":
+				case "UPDATE":
 
-				bomDAO.updateBom(TO);
+					bomDAO.updateBom(TO);
 
-				updateCount++;
+					updateCount++;
 
-				break;
+					break;
 
-			case "DELETE":
+				case "DELETE":
 
-				bomDAO.deleteBom(TO);
+					bomDAO.deleteBom(TO);
 
-				deleteCount++;
+					deleteCount++;
 
-				break;
+					break;
 
 			}
 
@@ -87,6 +87,20 @@ public class BomApplicationServiceImpl implements BomApplicationService {
 		resultMap.put("DELETE", deleteCount);
 
 		return resultMap;
+	}
+
+	//dbs
+	public ArrayList<BomDeployTO> getBomDataList(String itemCode,
+												 String itemClassificationCondition) {
+
+		HashMap<String, String> param = new HashMap<>();
+		param.put("itemCode", itemCode);
+		param.put("itemClassificationCondition", itemClassificationCondition);
+		return bomDAO.selectBomDataList(param);
+	}
+
+	public HashMap<String, Object> batchBomList(ArrayList<BomDeployTO> customerList) {
+		return null;
 	}
 
 }

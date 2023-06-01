@@ -45,4 +45,7 @@ public interface PurchaseServiceFacade {
 	public ArrayList<OrderInfoTO> getOrderInfoList(String startDate,String endDate);
 
 	public void inspection(String orderNoList);
+
+	//dbs
+	public ArrayList<BomDeployTO> getBomDataList(String itemCode, String itemClassificationCondition);
 }
