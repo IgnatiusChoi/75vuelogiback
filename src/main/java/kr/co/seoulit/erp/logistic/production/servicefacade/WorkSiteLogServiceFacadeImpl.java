@@ -16,6 +16,8 @@ public class WorkSiteLogServiceFacadeImpl implements WorkSiteLogServiceFacade{
     private WorkSiteLogRepository workSiteLogRepository;
 
 
+
+    //작업장/작업장 로그 = 작업장 로그 조회(JPA)
     @Override
     public List<WorkSiteLog> getWorkSiteLog(String productionProcessCode, String workSiteName) {
         List<WorkSiteLog> workSiteCodeAndProductionProcessCode = workSiteLogRepository.findByWorkSiteNameAndProductionProcessCode(workSiteName, productionProcessCode);

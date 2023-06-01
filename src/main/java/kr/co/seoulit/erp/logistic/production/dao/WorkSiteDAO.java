@@ -12,11 +12,9 @@ import java.util.HashMap;
 @Mapper
 public interface WorkSiteDAO {
 
+    //작업장/작업장 로그 = 작업장 조회(Spring)
     public ArrayList<WorkSiteTO> selectWorkSiteList();
+
     public ArrayList<WorkSiteLogTO> selectProductionProcessCode(HashMap<String, String> map);
-
-//    public void insertWorkPlaceList(WorkSiteLogTO newWorkPlaceList);
-
-//    public void deleteWorkPlaceList(WorkSiteLogTO newWorkPlaceList);
 }
 

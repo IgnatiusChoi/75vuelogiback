@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import kr.co.seoulit.erp.logistic.production.applicationservice.WorkOrderApplicationService;
 import kr.co.seoulit.erp.logistic.production.dao.WorkOrderDAO;
-import kr.co.seoulit.erp.logistic.production.domain.ProductionPerformance;
-import kr.co.seoulit.erp.logistic.production.domain.SalesPlan;
 import kr.co.seoulit.erp.logistic.production.domain.WorkOrderInfo;
 import kr.co.seoulit.erp.logistic.production.repository.WorkOrderRepository;
 import kr.co.seoulit.erp.logistic.production.to.*;
@@ -22,7 +19,6 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
 
     @Autowired
     private WorkOrderDAO workOrderDAO;
-    private WorkOrderApplicationService workOrderAS;
     @Autowired
     private WorkOrderRepository workOrderRepository;
 
@@ -31,7 +27,6 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
     public HashMap<String, Object> getWorkOrderableMrpList() {
 
         HashMap<String, Object> result = new HashMap<>();
-
         HashMap<String, Object> map = new HashMap<>();
 
         workOrderDAO.getWorkOrderableMrpList(map);
@@ -56,13 +51,13 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
 
         workOrderDAO.getWorkOrderSimulationList(param);
 
-        System.out.println("모의전개 파람쓰: "+param);
+        System.out.println("작업지시 모의전개1 : "+param);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("result",param.get("result"));
         map.put("errorCode",param.get("ERROR_CODE"));
         map.put("errorMsg",param.get("ERROR_MSG"));
-        System.out.println("모의전개: "+map);
+        System.out.println("작업지시 모의전개2 : "+map);
 
         return param;
     }
@@ -76,29 +71,31 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
         param.put("workPlaceCode", workPlaceCode);
         param.put("productionProcessCode", productionProcessCode);
 
-        System.out.println("mrpGatheringNo: "+mrpGatheringNo);
-        System.out.println("workPlaceCode: "+workPlaceCode);
-        System.out.println("productionProcessCode: "+productionProcessCode);
+        System.out.println("S_mrpGatheringNo: "+mrpGatheringNo);
+        System.out.println("S_workPlaceCode: "+workPlaceCode);
+        System.out.println("S_productionProcessCode: "+productionProcessCode);
 
         workOrderDAO.workOrder(param);
 
         return param;
     }
 
-    /*****************************
+    /************************************
      작업지시현황 Tab - 작업지시현황조회(JPA)
-     *****************************/
+     ************************************/
     @Transactional
     public List<WorkOrderInfo> getWorkOrderInfoListStatus() {
-        System.out.println("여기 SF impl");
+        System.out.println("작업지시현황조회_ServiceFacadeImpl");
         List<WorkOrderInfo> workOrderInfoList = workOrderRepository.findAll();
         return workOrderInfoList;
     }
 
+//    작업지시현황 Tab - 작업지시현황조회(Spring)
 //    @Override
 //    public ArrayList<WorkOrderInfoTO> getWorkOrderInfoListStatus() {
 //        return workOrderDAO.selectWorkOrderInfoListStatus();
 //    }
+
 
     @Override
     public int editCellBlur(String workOrderNo, String actualCompletionAmount) {
@@ -113,6 +110,7 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
         HashMap<String, Object> param = new HashMap<>();
         param.put("workOrderNo", workOrderNo);
         param.put("actualCompletionAmount", actualCompletionAmount);
+        System.out.println("작업완료등록_ServiceFacadeImpl");
 
         workOrderDAO.workOrderCompletion(param);
 
@@ -129,7 +127,7 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
 //        return ProductionPerformanceList;
 //    }
 //
-//
+//생산실적관리 Tab - 생산실적관리조회(Spring)
 //    @Override
 //    public ArrayList<ProductionPerformanceInfoTO> getProductionPerformanceInfoList() {
 //
@@ -151,28 +149,20 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
 
 
 
-    @Override
-    public ArrayList<WorkOrderInfoTO> getWorkOrderInfoList() {
-
-        return workOrderAS.getWorkOrderInfoList();
-
-    }
-
-
-
-    @Override
-    public HashMap<String, Object> showWorkSiteSituation(String workSiteCourse, String workOrderNo,
-                                                         String itemClassIfication) {
-
-        return workOrderAS.showWorkSiteSituation(workSiteCourse, workOrderNo, itemClassIfication);
-
-    }
-
-    @Override
-    public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo) {
-
-        workOrderAS.workCompletion(workOrderInfo);
-
-    }
+//    @Override
+//    public ArrayList<WorkOrderInfoTO> getWorkOrderInfoList() {
+//        return workOrderAS.getWorkOrderInfoList();
+//    }
+//
+//    @Override
+//    public HashMap<String, Object> showWorkSiteSituation(String workSiteCourse, String workOrderNo,
+//                                                         String itemClassIfication) {
+//        return workOrderAS.showWorkSiteSituation(workSiteCourse, workOrderNo, itemClassIfication);
+//    }
+//
+//    @Override
+//    public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo) {
+//        workOrderAS.workCompletion(workOrderInfo);
+//    }
 }
 
