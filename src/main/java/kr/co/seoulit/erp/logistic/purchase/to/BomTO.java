@@ -13,5 +13,5 @@ public class BomTO extends BaseTO {
 	private int no;
 	private int netAmount;
 	private String description;
-
+	private String status;
 }
