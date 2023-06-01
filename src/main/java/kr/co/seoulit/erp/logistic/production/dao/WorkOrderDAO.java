@@ -14,10 +14,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface WorkOrderDAO {
 
-
-
-
-
 	//작업지시 Tab -  작업지시 필요항목 조회
 	public HashMap<String, Object> getWorkOrderableMrpList(HashMap<String, Object> result);
 
@@ -30,13 +26,14 @@ public interface WorkOrderDAO {
 	//작업지시현황 Tab - 작업지시현황조회
 	public ArrayList<WorkOrderInfoTO> selectWorkOrderInfoListStatus();
 
-	public int editCellBlur(@Param("workOrderNo") String workOrderNo, @Param("actualCompletionAmount") String actualCompletionAmount);
+	public int editCellBlur(@Param("workOrderNo") String workOrderNo,
+							@Param("actualCompletionAmount") String actualCompletionAmount);
 
 	//작업지시현황 Tab - 작업완료등록
 	public HashMap<String, Object> workOrderCompletion(HashMap<String, Object> param);
 
 	//생산실적관리 Tab - 생산실적관리조회
-	public ArrayList<ProductionPerformanceInfoTO> selectProductionPerformanceInfoList();
+	//public ArrayList<ProductionPerformanceInfoTO> selectProductionPerformanceInfoList();
 
 
 

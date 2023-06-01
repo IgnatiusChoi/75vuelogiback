@@ -3,7 +3,7 @@
 
 <mapper namespace="kr.co.seoulit.erp.logistic.production.dao.WorkOrderDAO">
 
-
+<!--	작업지시 Tab -  작업지시 필요항목 조회-->
 	<resultMap id="workOrderableMrpResult" type="kr.co.seoulit.erp.logistic.production.to.WorkOrderableMrpListTO">
 		<result property="mrpNo" column="MRP_NO"  />
 		<result property="mpsNo" column="MPS_NO"  />
@@ -36,7 +36,7 @@
 
 
 
-
+<!--	작업지시 Tab -  작업지시 모의전개-->
 	<resultMap id="workOrderSimulationResultList" type="workOrderSimulationTO">
 		<result property="mrpNo" column="MRP_NO"  />
 		<result property="mpsNo" column="MPS_NO"  />
@@ -74,7 +74,7 @@
 
 
 
-
+<!--	작업지시 Tab - 작업지시 모의전개 버튼 누른 후 - 실제 작업 지시 버튼-->
 	<parameterMap type="map" id="workOrderParameter">
 		<parameter property="mrpGatheringNo" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
 		<parameter property="workPlaceCode" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
@@ -97,7 +97,7 @@
 
 
 
-
+<!--	작업지시현황 Tab - 작업지시현황조회-->
 	<resultMap id="WorkOrderInfoListStatus" type="WorkOrderInfoTO">
 		<result property="workOrderNo" column="WORK_ORDER_NO"  />
 		<result property="mrpNo" column="MRP_NO"  />
@@ -195,7 +195,7 @@
 
 
 
-
+<!--	작업지시현황 Tab - 작업완료등록-->
 	<parameterMap type="map" id="workOrderCompletionParam">
 		<parameter property="workOrderNo" mode="IN"/>
 		<parameter property="actualCompletionAmount" mode="IN"/>

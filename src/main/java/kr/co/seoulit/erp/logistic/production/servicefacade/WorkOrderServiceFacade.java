@@ -19,11 +19,10 @@ public interface WorkOrderServiceFacade {
     //작업지시 Tab - 작업지시 모의전개 버튼 누른 후 - 실제 작업 지시 버튼
     public HashMap<String, Object> workOrder(String mrpGatheringNo, String workPlaceCode, String productionProcessCode);
 
-    /*****************************
+    /*************************************
      작업지시현황 Tab - 작업지시현황조회(JPA)
-     *****************************/
+     *************************************/
     public List<WorkOrderInfo> getWorkOrderInfoListStatus();
-
 
     public int editCellBlur(String workOrderNo, String actualCompletionAmount);
 
@@ -39,17 +38,9 @@ public interface WorkOrderServiceFacade {
 
 
 
-
-
-
-
-
-
-
-
-    public ArrayList<WorkOrderInfoTO> getWorkOrderInfoList();
-
-    public HashMap<String, Object> showWorkSiteSituation(String workSiteCourse, String workOrderNo,
-                                                         String itemClassIfication);
-    public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo);
+//    public ArrayList<WorkOrderInfoTO> getWorkOrderInfoList();
+//
+//    public HashMap<String, Object> showWorkSiteSituation(String workSiteCourse, String workOrderNo,
+//                                                         String itemClassIfication);
+//    public void workCompletion(HashMap<String, ArrayList<WorkSiteSimulationTO>> workOrderInfo);
 }

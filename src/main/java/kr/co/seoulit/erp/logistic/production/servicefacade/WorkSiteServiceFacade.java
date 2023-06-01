@@ -10,19 +10,13 @@ import java.util.List;
 
 public interface WorkSiteServiceFacade {
 
-
-    //public ArrayList<WorkSiteTO> getWorkSiteList();
-    /*****************************
+    /**********************************
      작업장/작업장 로그 = 작업장 조회(JPA)
-     *****************************/
+     **********************************/
     public List<WorkSite> getWorkSiteList();
 
+    //작업장/작업장 로그 = 작업장 조회(Spring)
+    //public ArrayList<WorkSiteTO> getWorkSiteList();
+
 //    public ArrayList<WorkSiteLogTO> getProductionProcessCode(HashMap<String, String> map);
-
-
-
-
-//    public void insertWorkPlaceList(WorkSiteLogTO newWorkPlaceList);
-//
-//    public void deleteWorkPlaceList(WorkSiteLogTO newWorkPlaceList);
 }

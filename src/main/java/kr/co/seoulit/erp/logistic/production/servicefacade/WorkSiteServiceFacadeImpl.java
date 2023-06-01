@@ -18,36 +18,28 @@ import java.util.List;
 public class WorkSiteServiceFacadeImpl implements kr.co.seoulit.erp.logistic.production.servicefacade.WorkSiteServiceFacade {
 
     @Autowired
-    private WorkSiteDAO workSiteDAO;
-    @Autowired
     private WorkSiteRepository workSiteRepository;
+//    @Autowired
+//    private WorkSiteDAO workSiteDAO;
 
-
-//    @Override
-//    public ArrayList<WorkSiteTO> getWorkSiteList() {
-//        return workSiteDAO.selectWorkSiteList();
-//    }
-    /*****************************
+    /**********************************
      작업장/작업장 로그 = 작업장 조회(JPA)
-     *****************************/
+     **********************************/
     @Override
     public List<WorkSite> getWorkSiteList() {
         List<WorkSite> workSiteList = workSiteRepository.findAll();
         return workSiteList;
     }
 
+    //작업장/작업장 로그 = 작업장 조회(Spring)
+    //    @Override
+    //    public ArrayList<WorkSiteTO> getWorkSiteList() {
+    //        return workSiteDAO.selectWorkSiteList();
+    //    }
+
+
 //    @Override
 //    public ArrayList<WorkSiteLogTO> getProductionProcessCode(HashMap<String, String> map) {
 //        return workSiteDAO.selectProductionProcessCode(map);
-//    }
-
-//    @Override
-//    public void insertWorkPlaceList(WorkSiteLogTO newWorkPlaceList) {
-//        workSiteDAO.insertWorkPlaceList(newWorkPlaceList);
-//    }
-//
-//    @Override
-//    public void deleteWorkPlaceList(WorkSiteLogTO newWorkPlaceList) {
-//        workSiteDAO.deleteWorkPlaceList(newWorkPlaceList);
 //    }
 }

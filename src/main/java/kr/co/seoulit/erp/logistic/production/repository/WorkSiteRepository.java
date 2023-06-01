@@ -15,8 +15,11 @@ import java.util.List;
 @Repository
 public interface WorkSiteRepository extends JpaRepository<WorkSite, String> {
 
-    @Query("select w.productionProcessCode, w.workSiteCode, w.workSiteName from WorkSite w")
-    public List<WorkSite> findList();
+    /**********************************
+     작업장/작업장 로그 = 작업장 조회(JPA)
+     **********************************/
+//    @Query("select w.productionProcessCode, w.workSiteCode, w.workSiteName from WorkSite w")
+//    public List<WorkSite> findList();
 }
 
 

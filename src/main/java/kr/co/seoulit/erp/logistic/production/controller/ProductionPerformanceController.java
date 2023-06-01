@@ -1,28 +1,19 @@
 package kr.co.seoulit.erp.logistic.production.controller;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.co.seoulit.erp.logistic.production.domain.ProductionPerformance;
-import kr.co.seoulit.erp.logistic.production.domain.SalesPlan;
-import kr.co.seoulit.erp.logistic.production.domain.WorkOrderInfo;
 import kr.co.seoulit.erp.logistic.production.servicefacade.ProductionPerformanceServiceFacade;
-import kr.co.seoulit.erp.logistic.production.servicefacade.WorkOrderServiceFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import kr.co.seoulit.erp.logistic.production.to.ProductionPerformanceInfoTO;
-import kr.co.seoulit.erp.logistic.production.to.WorkOrderInfoTO;
-import kr.co.seoulit.erp.logistic.production.to.WorkSiteSimulationTO;
 
-
+@Api(description = "작업지시/생산실적관리")
 @Slf4j
 @CrossOrigin("*")
 @RestController
@@ -31,21 +22,22 @@ public class ProductionPerformanceController {
 
     @Autowired
     private ProductionPerformanceServiceFacade ProductionPerformanceSF;
-    private ModelMap modelMap = new ModelMap();
 
-
-    /*****************************
-     생산실적관리 Tab - 생산실적관리조회(JPA)
-     *****************************/
+    /*************************************
+     생산실적관리 Tab - 생산실적조회(JPA)
+     *************************************/
+    @ApiOperation(value = "생산실적조회")
     @RequestMapping(value = "/getProductionPerformanceInfoList", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<ProductionPerformance>> getWorkOrderInfoListStatus() {
-        System.out.println("ProductionPerformanceController = " );
+        System.out.println("ProductionPerformanceController" );
         List<ProductionPerformance> ProductionPerformanceList = ProductionPerformanceSF.getProductionPerformanceInfoList();
-        System.out.println("ProductionPerformanceController = " );
         return new ResponseEntity<>(ProductionPerformanceList, HttpStatus.OK);
     }
 
+    /*************************************
+     생산실적관리 Tab - 생산실적관리조회(Spring)
+     *************************************/
 //    @RequestMapping(value = "/productionperformance/itemClassification", method = RequestMethod.GET)
 //    @ResponseBody
 //    public ResponseEntity<List<ProductionPerformance>> getItemClassifiction(@RequestParam String itemClassification) {
@@ -54,6 +46,4 @@ public class ProductionPerformanceController {
 //        System.out.println("ProductionPerformanceController = " );
 //        return new ResponseEntity<>(ProductionPerformanceList, HttpStatus.OK);
 //    }
-
-
 }
