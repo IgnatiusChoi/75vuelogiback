@@ -148,4 +148,11 @@ public class PurchaseServiceFacadeImpl implements PurchaseServiceFacade {
 		orderAS.updateOrderInfo(list);
 	}
 
+	//dbs
+	@Override
+	public ArrayList<BomDeployTO> getBomDataList(String itemCode,
+												 String itemClassificationCondition) {
+
+		return bomAS.getBomDataList(itemCode, itemClassificationCondition);
+	}
 }

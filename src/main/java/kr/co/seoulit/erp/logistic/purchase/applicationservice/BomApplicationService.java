@@ -10,12 +10,16 @@ import kr.co.seoulit.erp.logistic.purchase.to.BomTO;
 public interface BomApplicationService {
 
 	public ArrayList<BomDeployTO> getBomDeployList(String deployCondition, String itemCode,
-			String itemClassificationCondition);
+												   String itemClassificationCondition);
 
 	public ArrayList<BomInfoTO> getBomInfoList(String parentItemCode);
 
 	public ArrayList<BomInfoTO> getAllItemWithBomRegisterAvailable();
 
 	public HashMap<String, Object> batchBomListProcess(ArrayList<BomTO> batchBomList);
+
+	//dbs
+	public ArrayList<BomDeployTO> getBomDataList(String itemCode,
+												 String itemClassificationCondition);
 
 }

@@ -24,4 +24,7 @@ public interface BomDAO {
 
 	public ArrayList<BomDeployTO> selectBomDeployList(HashMap<String, String> param);
 
+	//dbs
+	public ArrayList<BomDeployTO> selectBomDataList(HashMap<String, String> param);
+
 }
