@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.seoulit.erp.logistic.sales.entity.SalesPlane;
 import kr.co.seoulit.erp.logistic.sales.to.ContractDetailTO;
 import kr.co.seoulit.erp.logistic.sales.to.ContractInfoTO;
 import kr.co.seoulit.erp.logistic.sales.to.ContractTO;
@@ -64,5 +65,11 @@ public interface SalesServiceFacade {
 
 	public void UpdateSalesPlanListProcess(SalesPlanTO salesPlanTOList);
 
+	public List<SalesPlane> findSalesPlan();
 
+	public SalesPlane salesplansave(SalesPlane salesPlan);
+
+	public void saelsplanupdate(SalesPlane salesPlan);
+
+	public void  deletesalesplan(String sales);
 }

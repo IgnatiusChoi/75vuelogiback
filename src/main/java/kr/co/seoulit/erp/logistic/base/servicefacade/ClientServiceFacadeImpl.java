@@ -115,6 +115,7 @@ public class ClientServiceFacadeImpl implements ClientServiceFacade{
     }
     @Transactional
     @Override
-    public void deleteFinance(Finance clientdata) { frepository.deleteByAccountAssociatesCode(clientdata.getAccountAssociatesCode());}
+    public void deleteFinance(Finance clientdata)
+    { frepository.deleteByAccountAssociatesCode(clientdata.getAccountAssociatesCode());}
 
 }
