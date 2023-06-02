@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kr.co.seoulit.erp.hr.company.to.CompanyTO;
-import kr.co.seoulit.erp.logistic.sales.entity.SalesPlan;
-import kr.co.seoulit.erp.logistic.sales.repository.SalesPlanRepository;
+import kr.co.seoulit.erp.logistic.sales.entity.SalesPlane;
+import kr.co.seoulit.erp.logistic.sales.repository.SalesPlaneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -24,8 +23,7 @@ import kr.co.seoulit.erp.logistic.sales.to.EstimateDetailTO;
 import kr.co.seoulit.erp.logistic.sales.to.EstimateTO;
 import kr.co.seoulit.erp.logistic.sales.to.SalesPlanTO;
 import kr.co.seoulit.erp.logistic.sales.to.logisticExelTO;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SalesServiceFacadeImpl implements SalesServiceFacade {
@@ -39,7 +37,7 @@ public class SalesServiceFacadeImpl implements SalesServiceFacade {
 	@Autowired
 	private DeliveryApplicationService deliveryAS;
 	@Autowired
-	private SalesPlanRepository salesPlanRepository;
+	private SalesPlaneRepository salesPlaneRepository;
 
 
 	@Override
@@ -184,22 +182,29 @@ public class SalesServiceFacadeImpl implements SalesServiceFacade {
 		salesPlanAS.UpdateSalesPlan(salesPlanTOList);
 	}
 
-	public List<SalesPlan> findSalesPlan() {
-		List<SalesPlan> all = salesPlanRepository.findAll();
+	public List<SalesPlane> findSalesPlan() {
+		List<SalesPlane> all = salesPlaneRepository.findAll();
 		return all;
 	}
+
 	@Override
-	public SalesPlan salesplansave(SalesPlan salesPlan) {
-		salesPlanRepository.save(salesPlan);
+	public SalesPlane salesplansave(SalesPlane salesPlan) {
+		salesPlaneRepository.save(salesPlan);
 		return salesPlan;
 	}
 
 	@Override
-	public ModelMap jpaupdatesalesplan(@RequestBody SalesPlanTO salesPlan){
+	public void saelsplanupdate(SalesPlane salesPlan) {
+		salesPlaneRepository.save(salesPlan);
+	}
 
-		return
+	@Override
+	public void  deletesalesplan(String sales){
+		salesPlaneRepository.deleteById(sales);
 	}
 }
+
+
 
 
 
