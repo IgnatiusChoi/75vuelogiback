@@ -111,6 +111,7 @@ public class WorkOrderServiceFacadeImpl implements WorkOrderServiceFacade {
         param.put("workOrderNo", workOrderNo);
         param.put("actualCompletionAmount", actualCompletionAmount);
         System.out.println("작업완료등록_ServiceFacadeImpl");
+        System.out.println(param);
 
         workOrderDAO.workOrderCompletion(param);
 

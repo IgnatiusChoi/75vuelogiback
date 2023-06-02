@@ -104,7 +104,7 @@ public class WorkOrderController {
 	@RequestMapping(value = "/getWorkOrderInfoListStatus", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<WorkOrderInfo>> getWorkOrderInfoListStatus() {
-		System.out.println("작업지시현황조회_WorkOrderContoller" );
+		System.out.println("작업지시현황조회_Contoller" );
 		List<WorkOrderInfo> workOrderInfoList = workOrderSF.getWorkOrderInfoListStatus();
 		return new ResponseEntity<>(workOrderInfoList, HttpStatus.OK);
 	}

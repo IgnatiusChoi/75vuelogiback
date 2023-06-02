@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.co.seoulit.erp.logistic.production.to.ProductionPerformanceInfoTO;
 import kr.co.seoulit.erp.logistic.production.to.WorkOrderInfoTO;
 import kr.co.seoulit.erp.logistic.production.to.WorkSiteLogTO;
 import org.apache.ibatis.annotations.Param;
