@@ -1,6 +1,7 @@
 package kr.co.seoulit.erp.logistic.production.servicefacade;
 
 import kr.co.seoulit.erp.logistic.production.domain.MrpGathering;
+import kr.co.seoulit.erp.logistic.production.domain.MrpGatheringDTO;
 import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
 import kr.co.seoulit.erp.logistic.production.to.MrpTO;
 import org.springframework.ui.ModelMap;
@@ -28,4 +29,7 @@ public interface MrpGatheringServiceFacade {
 
     public List<MrpGathering> searchMrpGatheringList(String dateSearchCondition, String startDate,
                                                      String endDate);
+
+    public List<MrpGatheringDTO> searchMrpGatheringCalendar(String month);
+
 }

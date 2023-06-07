@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.co.seoulit.erp.logistic.production.domain.MrpGathering;
+import kr.co.seoulit.erp.logistic.production.domain.MrpGatheringDTO;
 import kr.co.seoulit.erp.logistic.production.servicefacade.MrpGatheringServiceFacade;
 
 import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
@@ -19,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(description = "소요량 취합")
 @Slf4j
 @CrossOrigin("*")
 @RestController
@@ -35,6 +39,7 @@ public class MrpGatheringController {
     /*****************************
       품목별 조달계획 디폴트 테이블 + ?
      *****************************/
+    @ApiOperation(value = "품목별 조달계획 디폴트 테이블")
     @RequestMapping("/getMrpList")
     public ResponseEntity<HashMap<String,Object>> getMrpList(
                                @RequestParam(required = false) String mrpGatheringStatusCondition,
@@ -60,6 +65,7 @@ public class MrpGatheringController {
     /*****************************
        품목별 소요량 취합 실행 버튼
      *****************************/
+    @ApiOperation(value = "품목별 소요량 취합 실행 버튼")
     @RequestMapping(value = "/getMrpGatheringList")
     public ResponseEntity<HashMap<String,Object>> getMrpGatheringList(@RequestParam String mpsNoList) {
         HashMap<String, Object> mrpGathering = mrpGatheringSF.getMrpGathering(mpsNoList);
@@ -70,6 +76,7 @@ public class MrpGatheringController {
     /*****************************
            취합 결과 등록 버튼
      *****************************/
+    @ApiOperation(value = "취합 결과 등록 버튼")
     @RequestMapping(value = "/registerMrpGathering", method = RequestMethod.PUT)
     public ResponseEntity<HashMap<String, Object>> registerMrpGathering(@RequestBody(required = false) Map<String, Object> params) {
         String mrpGatheringRegisterDate = params.get("mrpGatheringRegisterDate").toString();
@@ -103,6 +110,7 @@ public class MrpGatheringController {
     /*****************************
      소요량 취합 조회 (JPA)
      *****************************/
+    @ApiOperation(value = "소요량 취합 조회 (JPA)")
     @RequestMapping(value = "/searchMrpGathering", method = RequestMethod.GET)
     public ResponseEntity<List<MrpGathering>> searchMrpGathering(@RequestParam String searchDateCondition,
                                                                  @RequestParam String startDate,
@@ -111,6 +119,18 @@ public class MrpGatheringController {
         List<MrpGathering> result = mrpGatheringSF.searchMrpGatheringList(searchDateCondition,
                 startDate, endDate);
 
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    /*****************************
+      소요량 취합 캘린더(JPA,MapStruct)
+     *****************************/
+    @RequestMapping(value = "/searchMrpGatheringCalendar", method = RequestMethod.GET)
+    public ResponseEntity<List<MrpGatheringDTO>> searchMrpGatheringCalendar(@RequestParam String month) {
+
+        System.out.println("month = " + month);
+        List<MrpGatheringDTO> result = mrpGatheringSF.searchMrpGatheringCalendar(month);
+        System.out.println("result = " + result);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
