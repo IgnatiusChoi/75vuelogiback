@@ -7,6 +7,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.JsonObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.co.seoulit.erp.logistic.sales.to.*;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSON;
@@ -26,7 +28,7 @@ import com.google.gson.GsonBuilder;
 
 import kr.co.seoulit.erp.logistic.sales.servicefacade.SalesServiceFacade;
 
-
+@Api(value = "수주관리")
 @Slf4j
 @CrossOrigin("*")
 @RestController
@@ -41,7 +43,8 @@ public class ContractController {
 	private static Gson gson = new GsonBuilder().serializeNulls().create();
 	private ModelMap modelMap = new ModelMap();
 
-	// ------------------- 수주조회
+
+	@ApiOperation(value = "수주조회")
 	@RequestMapping("/searchContract")
 	public ModelMap searchContract(@RequestParam String customerCode, @RequestParam String searchCondition,
 			@RequestParam String startDate, @RequestParam String endDate) {
@@ -67,8 +70,10 @@ public class ContractController {
 		return modelMap;
 	}
 
+	@ApiOperation(value = "수주상세 조회")
 	@RequestMapping("/searchContractDetail")
 	public ModelMap searchContractDetail(@RequestParam String contractNo) {
+		System.out.println("contractNo = " + contractNo);
 		System.out.println("controller -searchContractDetail() ");
 
 		ArrayList<ContractDetailTO> contractDetailTOList = salesSF.getContractDetailList(contractNo);
@@ -80,7 +85,8 @@ public class ContractController {
 		return modelMap;
 	}
 
-	/* 수주가능한 견적 조회 */
+
+	@ApiOperation(value = "수주로 등록 가능한 견적목록 검색 ")
 	@RequestMapping("/searchEstimateInContractAvailable")
 	public HashMap<String, Object> searchEstimateInContractAvailable(@RequestParam String startDate,
 			@RequestParam String endDate) {
@@ -96,7 +102,7 @@ public class ContractController {
 		return resultMap;
 	}
 
-	/* 수주등록 */
+	@ApiOperation(value = "수주등록")
 	@RequestMapping(value = "/addNewContract", method = RequestMethod.POST)
 	public HashMap<String, Object> addNewContract(@RequestBody Map<String, Object> paramList) {
 		HashMap<String, Object> map = new HashMap<>();
