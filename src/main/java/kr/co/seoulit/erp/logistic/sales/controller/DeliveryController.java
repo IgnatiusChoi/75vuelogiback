@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import kr.co.seoulit.erp.logistic.sales.servicefacade.SalesServiceFacade;
 import kr.co.seoulit.erp.logistic.sales.to.ContractInfoTO;
 import kr.co.seoulit.erp.logistic.sales.to.DeliveryInfoTO;
 
+@Api(value = "납품관리")
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/logi/sales/*", produces = "application/json")
@@ -24,6 +27,7 @@ public class DeliveryController {
 	private SalesServiceFacade salesSF;
 
 	private ModelMap modelMap = new ModelMap();
+
 
 	@RequestMapping("/searchDeliveryInfoList")
 	public ModelMap searchDeliveryInfoList(HttpServletRequest request, HttpServletResponse response) {
@@ -73,6 +77,7 @@ public class DeliveryController {
 		return modelMap;
 	}
 
+	@ApiOperation(value = "납품 관리 검색")
 	@RequestMapping("/searchDeliverableContractList")
 	public ModelMap searchDeliverableContractList(@RequestParam String startDate, @RequestParam String endDate,
 			@RequestParam String searchCondition, @RequestParam String customerCode) {
@@ -109,6 +114,8 @@ public class DeliveryController {
 
 
 	/********************* 납품 2020-12-03 이숭규 **********************/
+
+	@ApiOperation(value="납품")
 	@RequestMapping(value = "delivery",method = RequestMethod.POST)
 	public HashMap<String, String> deliver(@RequestBody DeliveryInfoTO contractDetailNo) {
 		System.out.println("들어온 파라메터"+contractDetailNo.getContractDetailNo());

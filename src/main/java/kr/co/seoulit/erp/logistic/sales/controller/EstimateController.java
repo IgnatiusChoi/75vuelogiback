@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ import kr.co.seoulit.erp.logistic.sales.to.EstimateDetailTO;
 import kr.co.seoulit.erp.logistic.sales.to.EstimateTO;
 import kr.co.seoulit.erp.logistic.sales.to.logisticExelTO;
 
+
+@Api(value ="견적관리")
 @SuppressWarnings({ "unused", "deprecation" })
 @RestController
 @CrossOrigin("*")
@@ -45,6 +49,7 @@ public class EstimateController {
 	private static Gson gson = new GsonBuilder().serializeNulls().create();
 //************************* 2020.08.27 63기 양지훈 수정 종료 *************************
 
+	@ApiOperation(value = "견적조회")
 	@RequestMapping("/sales/searchEstimates")
 	public ModelMap searchEstimateInfo(@RequestParam String startDate, @RequestParam String endDate,
 			@RequestParam String dateSearchCondition) {
@@ -92,6 +97,7 @@ public class EstimateController {
 		return modelMap;
 	}
 
+	@ApiOperation(value ="수주상세검색")
 // 酉곕떒�뿉 二쇱꽍 泥섎━ �릺�뼱�엳�쓬
 	@RequestMapping("/sales/searchEstimateDetail")
 	public ModelMap searchEstimateDetailInfo(@RequestParam String estimateNo) {
@@ -121,6 +127,7 @@ public class EstimateController {
 //					주석 내용들 UTF-8로 수정
 //					newEstimateInfo의 TYPE이 LinkedHashMap임; ObjectMapper를 사용해 TYPE을 EstimateTO로 변환;
 //					Data @RequestBody로 받아옴;
+	@ApiOperation(value="견적등록")
 	@PostMapping("/sales/addNewEstimates")
 	public ModelMap addNewEstimate(@RequestBody Map<String, Object> params) {
 

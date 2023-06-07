@@ -10,7 +10,7 @@ import kr.co.seoulit.erp.logistic.sales.to.ContractTO;
 import kr.co.seoulit.erp.logistic.sales.to.EstimateTO;
 
 @Mapper
-public interface ContractDAO {
+public interface 	ContractDAO {
 
 	public ArrayList<ContractInfoTO> selectContractListByCustomer(String customerCode);
 
