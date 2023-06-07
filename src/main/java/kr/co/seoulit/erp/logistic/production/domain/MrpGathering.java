@@ -5,19 +5,20 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
 @Getter
 @Setter
 @ToString
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn
 public class MrpGathering {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
     private String mrpGatheringNo;
     private String orderOrProductionStatus;
     private String itemCode;
@@ -30,5 +31,11 @@ public class MrpGathering {
     private String requestStatus;
     private String outsourcStatus;
 
-
+//    @OneToMany
+//    @JoinColumn(name = "mrpGatheringNo")
+//    private List<OrderRequired> orderRequired = new ArrayList<>();
+//
+//    @OneToMany
+//    @JoinColumn(name = "mrpGatheringNo")
+//    private List<WorkOrderable> workOrderable = new ArrayList<>();
 }

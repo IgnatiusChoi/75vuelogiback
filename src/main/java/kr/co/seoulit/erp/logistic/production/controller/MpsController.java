@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.co.seoulit.erp.logistic.production.domain.SalesPlan;
 
 import kr.co.seoulit.erp.logistic.production.servicefacade.MpsServiceFacade;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import kr.co.seoulit.erp.logistic.production.to.ContractDetailInMpsAvailableTO;
 
+@Api(description = "주생산계획(MPS)")
 @SuppressWarnings("unused")
 @Slf4j
 @CrossOrigin("*")
@@ -46,6 +45,7 @@ public class MpsController {
 	/*****************************
 		 MPS 등록가능 수주 조회
 	 *****************************/
+	@ApiOperation(value = "MPS 등록가능 수주 조회")
 	@RequestMapping("/searchContractDetailInMpsAvailable")
 	@ResponseBody
 	public Map<String, Object> searchContractDetailListInMpsAvailable(@RequestParam String startDate,
@@ -61,6 +61,7 @@ public class MpsController {
 	/*****************************
 	  MPS 등록가능 판매계획 조회(JPA)
 	 *****************************/
+	@ApiOperation(value = "MPS 등록가능 판매계획 조회(JPA)")
 	@RequestMapping(value = "/searchSalesPlan", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<SalesPlan>> searchSalesPlan(@RequestParam String startDate,
@@ -74,6 +75,7 @@ public class MpsController {
 	/*****************************
 	 			MPS 등록
 	 *****************************/
+	@ApiOperation(value = "MPS 등록")
 	@RequestMapping(value = "/convertContractDetailToMps", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> convertContractDetailToMps(@RequestBody ContractDetailInMpsAvailableTO contract) {
@@ -92,16 +94,13 @@ public class MpsController {
 	/*****************************
 	 차트용 MPS 테이블 조회
 	 *****************************/
+	@ApiOperation(value = "차트용 MPS 테이블 조회")
 	@RequestMapping(value = "/searchMpsList", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> searchMpsList() {
 		HashMap<String, Object> resultMap = mpsSF.searchMpsList();
 		return resultMap;
 	}
-
-
-
-
 
 }
 

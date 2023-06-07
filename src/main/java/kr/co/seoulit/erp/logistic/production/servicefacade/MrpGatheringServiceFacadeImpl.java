@@ -4,6 +4,8 @@ package kr.co.seoulit.erp.logistic.production.servicefacade;
 import kr.co.seoulit.erp.logistic.production.dao.MrpDAO;
 import kr.co.seoulit.erp.logistic.production.dao.MrpGatheringDAO;
 import kr.co.seoulit.erp.logistic.production.domain.MrpGathering;
+import kr.co.seoulit.erp.logistic.production.domain.MrpGatheringDTO;
+import kr.co.seoulit.erp.logistic.production.mapStruct.MrpGatheringMapper;
 import kr.co.seoulit.erp.logistic.production.repository.MrpGatheringRepository;
 import kr.co.seoulit.erp.logistic.production.to.MrpGatheringTO;
 import kr.co.seoulit.erp.logistic.production.to.MrpTO;
@@ -23,12 +25,14 @@ public class MrpGatheringServiceFacadeImpl implements MrpGatheringServiceFacade{
     private final MrpGatheringDAO mrpGatheringDAO;
     private final HashMap<String, Object> resultMap;
     private final MrpGatheringRepository mrpGatheringRepository;
+    private final MrpGatheringMapper mrpGatheringMapper;
 
-    public MrpGatheringServiceFacadeImpl(MrpDAO mrpDAO, MrpGatheringDAO mrpGatheringDAO, HashMap<String, Object> resultMap, MrpGatheringRepository mrpGatheringRepository) {
+    public MrpGatheringServiceFacadeImpl(MrpDAO mrpDAO, MrpGatheringDAO mrpGatheringDAO, HashMap<String, Object> resultMap, MrpGatheringRepository mrpGatheringRepository, MrpGatheringMapper mrpGatheringMapper) {
         this.mrpDAO = mrpDAO;
         this.mrpGatheringDAO = mrpGatheringDAO;
         this.resultMap = resultMap;
         this.mrpGatheringRepository = mrpGatheringRepository;
+        this.mrpGatheringMapper = mrpGatheringMapper;
     }
 
     /*****************************
@@ -161,6 +165,23 @@ public class MrpGatheringServiceFacadeImpl implements MrpGatheringServiceFacade{
 
         return mrpGatheringRepository.searchMrpGatheringList(dateSearchCondition, startDate, endDate);
     }
+
+
+    /*****************************
+     소요량 취합 조회 캘린더
+     *****************************/
+    @Override
+    public List<MrpGatheringDTO> searchMrpGatheringCalendar(String month) {
+
+        String transformedMonth = String.format("%02d", Integer.parseInt(month));
+
+        List<MrpGathering> mrpGathering = mrpGatheringRepository.searchMrpGatheringCalendar(transformedMonth);
+
+        List<MrpGatheringDTO> result = mrpGatheringMapper.toDtoList(mrpGathering);
+
+        return result;
+    }
+
 
 
 
